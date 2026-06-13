@@ -117,6 +117,89 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .sync-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;background:currentColor}
 .sync-status.syncing .sync-dot{animation:syncPulse .8s infinite}
 @keyframes syncPulse{0%,100%{opacity:1}50%{opacity:.2}}
+
+/* ═══ 手机端响应式适配 ═══ */
+@media(max-width:600px){
+  /* 基础布局：侧边栏和主区域各占全屏，通过 translateX 切换 */
+  .app{position:relative;overflow:hidden}
+  .sidebar{
+    position:fixed;inset:0;width:100% !important;
+    transform:translateX(0);transition:transform .3s cubic-bezier(.4,0,.2,1);
+    z-index:100;
+  }
+  .sidebar.mob-hidden{transform:translateX(-100%)}
+  .main{
+    position:fixed;inset:0;width:100%;
+    transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);
+    z-index:99;background:var(--cream);
+  }
+  .main.mob-visible{transform:translateX(0)}
+  #emptyState{left:0 !important}
+
+  /* 侧边栏顶部缩紧 */
+  .sidebar-header{padding:14px 16px 12px}
+  .sidebar-logo{display:none}
+  .sidebar-title{font-size:16px}
+  .sidebar-add-btn{font-size:12px;padding:6px 10px}
+
+  /* XP 面板缩紧 */
+  #xpPanel{padding:6px 14px 8px}
+
+  /* 底部 footer 改成固定底栏 */
+  .sidebar-footer{
+    padding:8px 14px 14px;
+    padding-bottom:max(14px, env(safe-area-inset-bottom));
+  }
+  .stat-val{font-size:15px}
+  .data-actions{gap:4px}
+  .data-btn{font-size:10px;padding:6px 0}
+
+  /* 主区域顶部：固定返回按钮 */
+  .mob-back-bar{
+    display:flex;align-items:center;gap:10px;
+    padding:10px 16px;padding-top:max(10px,env(safe-area-inset-top));
+    background:var(--navy);color:#fff;flex-shrink:0;
+    position:sticky;top:0;z-index:10;
+  }
+  .mob-back-btn{
+    background:rgba(255,255,255,.15);border:none;color:#fff;
+    padding:5px 10px 5px 8px;border-radius:20px;font-size:13px;
+    font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:4px;
+  }
+  .mob-back-title{font-size:14px;font-weight:600;flex:1;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+  /* 主区域 header 缩紧 */
+  .main-header{padding:12px 16px}
+  .main-course-title{font-size:18px;margin-bottom:8px}
+  .course-tabs{padding:0 16px;gap:2px}
+  .tab-btn{font-size:12px;padding:6px 10px}
+
+  /* 内容区域边距 */
+  .tab-content{padding:12px 12px}
+  .unit-header{padding:10px 12px}
+  .item-row{padding:8px 10px}
+
+  /* 课程列表卡片字体 */
+  .course-item{padding:10px 14px}
+  .ci-name{font-size:13px}
+
+  /* 弹窗全屏 */
+  .modal-overlay{align-items:flex-end;padding:0}
+  .modal{border-radius:20px 20px 0 0;max-height:90vh;width:100% !important;max-width:100% !important;}
+  .modal-body{padding:16px 18px}
+  .modal-header{padding:16px 18px 12px}
+  .modal-footer{padding:12px 18px;padding-bottom:max(12px,env(safe-area-inset-bottom))}
+
+  /* 隐藏非必要元素 */
+  .main-course-meta .time-track-wrap{display:none}
+
+  /* 课程卡片右侧操作按钮在手机上始终显示 */
+  .item-actions{opacity:1 !important}
+
+  /* PWA 横幅调整 */
+  .pwa-banner{padding:10px 14px;padding-bottom:max(10px,env(safe-area-inset-bottom))}
+}
 /* 同步设置 modal */
 .sync-section{background:var(--cream);border-radius:var(--radius);padding:12px 16px;margin-bottom:12px}
 .sync-section-title{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px}
@@ -1798,11 +1881,17 @@ function jumpToItem(courseId,unitId,itemId){
 }
 function renderMain(){
   const mainArea=document.getElementById('mainArea');
-  if(sidebarView==='overview'){renderOverview(mainArea);return;}
+  // 手机端返回按钮
+  const mobBack = window.innerWidth<=600
+    ? `<div class="mob-back-bar">
+        <button class="mob-back-btn" onclick="mobShowSidebar()">‹ 返回</button>
+        <span class="mob-back-title">${activeCourseId&&sidebarView!=='overview'?esc((courses.find(x=>x.id===activeCourseId)||{}).name||''):'总览'}</span>
+      </div>` : '';
+  if(sidebarView==='overview'){renderOverview(mainArea,mobBack);return;}
   const c=courses.find(x=>x.id===activeCourseId);
-  if(!c){mainArea.innerHTML='';return;}
+  if(!c){mainArea.innerHTML=mobBack;return;}
   const s=getCourseStats(c);
-  mainArea.innerHTML=`
+  mainArea.innerHTML=mobBack+`
     <div style="flex-shrink:0">
       <div class="main-header">
         <div class="breadcrumb">我的课程</div>
@@ -1848,7 +1937,7 @@ function renderMain(){
     </div>`;
   renderTab();
 }
-function renderOverview(mainArea){
+function renderOverview(mainArea, mobBack=''){
   const hmap=buildHeatmap(), weekHrs = calcWeeklyHours();
   const totalDone=courses.reduce((a,c)=>a+getCourseStats(c).done,0);
   const totalItems=courses.reduce((a,c)=>a+getCourseStats(c).total,0);
@@ -1899,7 +1988,7 @@ function renderOverview(mainArea){
     ${plan.length&&!budgetOver&&budgetLeft>0?`<div class="db-hint">今日推荐任务约需 <strong>${fitsTotal} min</strong>，${fitsTotal<=budgetLeft?'刚好能装下 ✓':`超出预算 ${fitsTotal-budgetLeft} min，可酌情减少`}</div>`:''}
   </div>`;
 
-  mainArea.innerHTML=`<div class="overview-container">
+  mainArea.innerHTML=mobBack+`<div class="overview-container">
     <div class="ov-title">学习总览</div>
     <div class="ov-sub">${today()} · ${courses.length} 门课程 · 总完成率 ${totalItems?Math.round(totalDone/totalItems*100):0}%</div>
     ${continueHtml}
@@ -3165,8 +3254,32 @@ function saveTimerEnd() {
 }
 
 // ═══ CRUD & UTILS ═══
-function setSidebarView(view,btn){sidebarView=view;document.querySelectorAll('.snav-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');if(view==='overview')activeCourseId=null;renderAll();}
-function selectCourse(id){activeCourseId=id;activeTab='content';sidebarView='courses';document.getElementById('snav_courses').classList.add('active');document.getElementById('snav_overview').classList.remove('active');document.getElementById('snav_search').classList.remove('active');renderAll();}
+function setSidebarView(view,btn){
+  sidebarView=view;
+  document.querySelectorAll('.snav-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  if(view==='overview')activeCourseId=null;
+  renderAll();
+  // 手机端：总览和搜索也切到主区域显示
+  if(window.innerWidth<=600 && (view==='overview'||view==='search')) mobShowMain();
+}
+function selectCourse(id){
+  activeCourseId=id;activeTab='content';sidebarView='courses';
+  document.getElementById('snav_courses').classList.add('active');
+  document.getElementById('snav_overview').classList.remove('active');
+  document.getElementById('snav_search').classList.remove('active');
+  renderAll();
+  // 手机端：滑到主区域
+  if(window.innerWidth <= 600) mobShowMain();
+}
+function mobShowMain(){
+  document.querySelector('.sidebar').classList.add('mob-hidden');
+  document.getElementById('mainArea').classList.add('mob-visible');
+}
+function mobShowSidebar(){
+  document.querySelector('.sidebar').classList.remove('mob-hidden');
+  document.getElementById('mainArea').classList.remove('mob-visible');
+}
 function switchTab(tab){activeTab=tab;renderMain();}
 function toggleUnit(uid){const c=courses.find(x=>x.id===activeCourseId);if(!c)return;const u=c.units.find(x=>x.id===uid);if(!u)return;u.open=u.open===false;saveData();renderAll();}
 function toggleReview(unitId, itemId){const c=courses.find(x=>x.id===activeCourseId);const u=c.units.find(x=>x.id===unitId);const item=u.items.find(x=>x.id===itemId);item.needReview = !item.needReview;saveData(); renderAll(); showToast(item.needReview ? '已加入待复习' : '已取消复习');}
