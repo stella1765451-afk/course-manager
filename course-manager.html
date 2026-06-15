@@ -517,6 +517,43 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
 .db-projected{position:absolute;top:-3px;width:2px;height:14px;background:rgba(27,45,91,.25);border-radius:1px;transform:translateX(-1px);transition:left .4s}
 .db-hint{font-size:11px;color:var(--text-muted);margin-top:2px}
 .db-hint strong{color:var(--navy)}
+/* ── Inbox 折叠区 ── */
+.inbox-section{border-top:1px solid rgba(255,255,255,.08);margin-top:4px}
+.inbox-toggle{display:flex;align-items:center;justify-content:space-between;padding:8px 18px;cursor:pointer;color:rgba(255,255,255,.35);font-size:11px;font-weight:500;user-select:none;transition:color .15s}
+.inbox-toggle:hover{color:rgba(255,255,255,.55)}
+.inbox-toggle .inbox-arrow{transition:transform .2s;font-size:9px}
+.inbox-toggle.open .inbox-arrow{transform:rotate(90deg)}
+.inbox-body{overflow:hidden;transition:max-height .25s ease}
+.inbox-item{padding:8px 18px 8px 28px;cursor:pointer;transition:background .12s;position:relative}
+.inbox-item:hover{background:rgba(255,255,255,.04)}
+.inbox-item-name{font-size:12px;color:rgba(255,255,255,.45);line-height:1.4}
+.inbox-item-meta{font-size:10px;color:rgba(255,255,255,.22);margin-top:2px}
+.inbox-item-actions{position:absolute;right:12px;top:50%;transform:translateY(-50%);display:none;gap:4px}
+.inbox-item:hover .inbox-item-actions{display:flex}
+.inbox-act-btn{background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.5);font-size:10px;padding:2px 7px;border-radius:4px;cursor:pointer;font-family:inherit;transition:all .12s}
+.inbox-act-btn:hover{background:rgba(255,255,255,.15);color:#fff}
+/* ── 每日仪表盘 ── */
+.dash-section{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;margin-bottom:16px}
+.dash-section-title{font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.dash-course-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--cream-dark);cursor:pointer;transition:background .12s}
+.dash-course-row:last-child{border-bottom:none;padding-bottom:0}
+.dash-course-row:hover{background:var(--cream)}
+.dash-course-name{font-size:13px;font-weight:600;color:var(--navy);min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dash-course-meta{font-size:11px;color:var(--text-muted);white-space:nowrap}
+.dash-course-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dash-today-tag{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:600;white-space:nowrap}
+.dash-tag-done{background:#EAF4F0;color:#2D7D52}
+.dash-tag-active{background:var(--amber-bg);color:var(--amber)}
+.dash-tag-idle{background:var(--cream-dark);color:var(--text-muted)}
+.dash-tag-warn{background:#FEE8EE;color:#C0392B}
+.checkin-modal-body{padding:20px}
+.checkin-q{font-size:15px;font-weight:600;color:var(--navy);margin-bottom:16px;line-height:1.5}
+.checkin-preview{background:var(--cream);border-radius:var(--radius);padding:12px 14px;margin-bottom:16px;font-size:12px;color:var(--text-secondary);line-height:1.8}
+.checkin-preview-row{display:flex;align-items:center;gap:8px;padding:2px 0}
+.checkin-preview-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.tomorrow-card{background:var(--navy);color:#fff;padding:12px 16px;border-radius:var(--radius);margin-top:12px;font-size:13px;cursor:pointer}
+.tomorrow-card-label{font-size:10px;opacity:.6;margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.tomorrow-card-title{font-weight:600;font-size:14px}
 
 /* ═══ v7.1: 搜索升级 ═══ */
 .sr-group-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.4);padding:6px 8px 2px;letter-spacing:.05em}
@@ -612,6 +649,13 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
       <button class="snav-btn" id="snav_search" onclick="setSidebarView('search',this)">搜索</button>
     </div>
     <div class="sidebar-courses" id="sidebarCourses"></div>
+    <div class="inbox-section" id="inboxSection">
+      <div class="inbox-toggle" id="inboxToggle" onclick="toggleInbox()">
+        <span>📥 Inbox <span id="inboxCount" style="opacity:.5"></span></span>
+        <span class="inbox-arrow">▶</span>
+      </div>
+      <div class="inbox-body" id="inboxBody" style="max-height:0"></div>
+    </div>
     <div class="sidebar-footer">
       <div class="stats-row" id="globalStats"></div>
       <div id="syncStatusBar" class="sync-status idle" onclick="openSyncModal()" title="云同步设置">
@@ -692,8 +736,13 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
     <div class="modal-body">
       <div class="form-group"><label class="form-label">课程名称</label><input class="form-input" id="cm_name" placeholder="例：游戏设计入门"></div>
       <div class="form-row"><div class="form-group"><label class="form-label">平台</label><select class="form-select" id="cm_platform"><option value="bilibili">B站 / bilibili</option><option value="baidu">百度云</option><option value="local">本地文件</option><option value="youtube">YouTube</option><option value="udemy">Udemy</option><option value="coursera">Coursera</option><option value="other">其他</option></select></div><div class="form-group"><label class="form-label">目标完成日期（可选）</label><input type="date" class="form-input" id="cm_deadline"></div></div>
+      <div class="form-group"><label class="form-label">课程类型</label><select class="form-select" id="cm_type"><option value="">通用</option><option value="pose">3D Pose / 动画摆姿</option><option value="painting">绘画 / 素描 / 色彩</option><option value="software">软件操作 / 3D工具</option><option value="design">设计 / 插画 / 创作</option></select><div class="form-hint">影响练习记录的复盘提示词和阶段标签</div></div>
       <div class="form-row"><div class="form-group" style="grid-column: span 2;"><label class="form-label">主链接（可选）</label><input class="form-input" id="cm_link" placeholder="课程主页 URL"></div></div>
       <div class="form-group"><label class="form-label">备注</label><input class="form-input" id="cm_desc" placeholder="简短描述"></div>
+      <div class="form-group" style="flex-direction:row;align-items:center;gap:10px;display:flex">
+        <input type="checkbox" id="cm_inbox" style="width:16px;height:16px;accent-color:var(--amber);cursor:pointer;flex-shrink:0">
+        <label for="cm_inbox" style="font-size:13px;color:var(--text-secondary);cursor:pointer;margin:0">存入 Inbox（以后要学，暂不开始）</label>
+      </div>
     </div>
     <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('courseModal')">取消</button><button class="btn btn-primary" onclick="saveCourse()">保存</button></div>
   </div>
@@ -770,7 +819,7 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
           </button>
           <button class="ai-provider-btn" data-val="qwen" onclick="selectAIProvider('qwen')" style="flex:1;padding:10px;border:2px solid var(--border);border-radius:var(--radius);background:#fff;cursor:pointer;font-family:inherit;transition:all .15s">
             <div style="font-size:13px;font-weight:600">千问</div>
-            <div style="font-size:11px;color:var(--text-muted);margin-top:2px">阿里云 · 国内稳定</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:2px">阿里云 · qwen3-6</div>
           </button>
         </div>
       </div>
@@ -998,6 +1047,29 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeModal('practiceLogModal')">取消</button>
       <button class="btn btn-primary" onclick="savePracticeLog()">保存记录</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 每日收工弹窗 ═══ -->
+<div class="modal-overlay hidden" id="wrapupModal">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-header">
+      <span class="modal-title">🌙 今日收工</span>
+      <button class="modal-close" onclick="closeModal('wrapupModal')">✕</button>
+    </div>
+    <div class="modal-body checkin-modal-body">
+      <div class="checkin-preview" id="wrapup_summary"></div>
+      <div class="checkin-q">今天最有收获的一件事是？</div>
+      <textarea class="form-textarea" id="wrapup_note" rows="3" placeholder="一句话就行，写给明天的自己..." style="margin-bottom:12px"></textarea>
+      <div class="tomorrow-card" id="wrapup_tomorrow" onclick="closeModal('wrapupModal')">
+        <div class="tomorrow-card-label">明天第一件事</div>
+        <div class="tomorrow-card-title" id="wrapup_next">—</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('wrapupModal')">跳过</button>
+      <button class="btn btn-primary" onclick="saveWrapup()">收工 ✓</button>
     </div>
   </div>
 </div>
@@ -1424,7 +1496,7 @@ function calcWeeklyHours(){
 
 function getTodaysPlan() {
   const plan = []; const seenItems = new Set();
-  courses.forEach(c => {
+  courses.filter(c=>!c.isInbox).forEach(c => {
     let itemsLeft = [];
     (c.units||[]).forEach(u => { (u.items||[]).forEach(item => {
         if(item.status !== 'done') itemsLeft.push({courseId: c.id, courseName: c.name, unitId: u.id, unitName: u.name, platform: c.platform, item: item});
@@ -1591,11 +1663,13 @@ function renderXPPanel() {
 function renderSidebar(){
   const el=document.getElementById('sidebarCourses');
   const empty=document.getElementById('emptyState');
-  if(!courses.length){el.innerHTML='';empty.style.display='flex';return;}
+  const activeCourses=courses.filter(c=>!c.isInbox);
+  const inboxCourses=courses.filter(c=>c.isInbox);
+  if(!courses.length){el.innerHTML='';empty.style.display='flex';renderInbox(inboxCourses);return;}
   empty.style.display='none';
-  if(sidebarView==='search'){renderSearchSidebar(el);return;}
-  if(sidebarView==='overview'){el.innerHTML='';updateGlobalStats();return;}
-  el.innerHTML=courses.map(c=>{
+  if(sidebarView==='search'){renderSearchSidebar(el);renderInbox(inboxCourses);return;}
+  if(sidebarView==='overview'){el.innerHTML='';updateGlobalStats();renderInbox(inboxCourses);return;}
+  el.innerHTML=activeCourses.map(c=>{
     const s=getCourseStats(c),isActive=c.id===activeCourseId;
     const tp = getTimeProgress(c);
     let timeTrackHtml = '';
@@ -1619,7 +1693,45 @@ function renderSidebar(){
       ${timeTrackHtml}
     </div>`;
   }).join('');
+  renderInbox(inboxCourses);
   updateGlobalStats();
+}
+
+let inboxOpen=false;
+function toggleInbox(){
+  inboxOpen=!inboxOpen;
+  const body=document.getElementById('inboxBody');
+  const toggle=document.getElementById('inboxToggle');
+  if(inboxOpen){body.style.maxHeight=body.scrollHeight+'px';toggle.classList.add('open');}
+  else{body.style.maxHeight='0';toggle.classList.remove('open');}
+}
+function renderInbox(inboxCourses){
+  const countEl=document.getElementById('inboxCount');
+  const body=document.getElementById('inboxBody');
+  const section=document.getElementById('inboxSection');
+  if(!inboxCourses||!inboxCourses.length){if(countEl)countEl.textContent='';if(section)section.style.display='none';return;}
+  if(section)section.style.display='';
+  if(countEl)countEl.textContent='('+inboxCourses.length+')';
+  if(body){
+    const typeLabel={pose:'Pose',painting:'绘画',software:'软件',design:'设计'};
+    body.innerHTML=inboxCourses.map(c=>`
+      <div class="inbox-item">
+        <div class="inbox-item-name" onclick="selectCourse(${c.id})">${esc(c.name)}</div>
+        <div class="inbox-item-meta">${c.courseType?typeLabel[c.courseType]||c.courseType:''}${c.desc?' · '+esc(c.desc):''}</div>
+        <div class="inbox-item-actions">
+          <button class="inbox-act-btn" onclick="activateFromInbox(${c.id})">启动</button>
+          <button class="inbox-act-btn" onclick="openEditCourse(${c.id})">编辑</button>
+          <button class="inbox-act-btn" onclick="confirmDeleteCourse(${c.id})" style="color:rgba(255,100,100,.6)">✕</button>
+        </div>
+      </div>`).join('');
+    if(inboxOpen)body.style.maxHeight=body.scrollHeight+'px';
+  }
+}
+function activateFromInbox(id){
+  const c=courses.find(x=>x.id===id);if(!c)return;
+  if(!confirm('将「'+c.name+'」移出 Inbox，正式开始学习？'))return;
+  c.isInbox=false;activeCourseId=c.id;
+  saveData();renderAll();showToast('「'+c.name+'」已开始 🚀');
 }
 
 function updateGlobalStats(){
@@ -1770,43 +1882,35 @@ function renderMain(){
 }
 
 function renderOverview(mainArea){
-  const hmap=buildHeatmap(), weekHrs = calcWeeklyHours();
-  const totalDone=courses.reduce((a,c)=>a+getCourseStats(c).done,0);
-  const totalItems=courses.reduce((a,c)=>a+getCourseStats(c).total,0);
-  const plan = getTodaysPlan(), revs = getReviewItems();
-  
-  // ── 每日预算计算 ──
-  const todayMins = hmap[today()]?.minutes || 0;
-  const budget = cfg.dailyBudgetMins || 90;
-  const budgetPct = Math.min(100, Math.round(todayMins/budget*100));
-  const budgetLeft = Math.max(0, budget - todayMins);
-  const budgetOver = todayMins > budget;
-  // 给今日推荐任务估算时长（用item.duration解析，没有就默认20min）
+  const hmap=buildHeatmap(), weekHrs=calcWeeklyHours();
+  const activeCourses=courses.filter(c=>!c.isInbox);
+  const totalDone=activeCourses.reduce((a,c)=>a+getCourseStats(c).done,0);
+  const totalItems=activeCourses.reduce((a,c)=>a+getCourseStats(c).total,0);
+  const plan=getTodaysPlan(), revs=getReviewItems();
+  const todayStr=today();
+
   function parseMins(dur){
     if(!dur)return 20;
     const h=dur.match(/(\d+)\s*小时/),m=dur.match(/(\d+)\s*分/);
     return (h?parseInt(h[1])*60:0)+(m?parseInt(m[1]):0)||(dur.match(/\d+/)?parseInt(dur.match(/\d+/)[0]):20);
   }
-  // 在预算范围内装入推荐任务
+
+  // ── 预算计算 ──
+  const todayMins=hmap[todayStr]?.minutes||0;
+  const budget=cfg.dailyBudgetMins||90;
+  const budgetPct=Math.min(100,Math.round(todayMins/budget*100));
+  const budgetLeft=Math.max(0,budget-todayMins);
+  const budgetOver=todayMins>budget;
   let planWithTime=[],cumMins=todayMins;
-  plan.forEach(n=>{
-    const est=parseMins(n.item.duration);
-    planWithTime.push({...n,estMins:est,fitsInBudget:cumMins+est<=budget*1.15}); // 15%弹性
-    cumMins+=est;
-  });
+  plan.forEach(n=>{const est=parseMins(n.item.duration);planWithTime.push({...n,estMins:est});cumMins+=est;});
   const fitsTotal=planWithTime.reduce((a,n)=>a+n.estMins,0);
+  const budgetBarColor=budgetOver?'var(--red)':budgetPct>75?'var(--amber)':'var(--green)';
 
-  let continueHtml = '';
-  if (cfg.lastStudied) {
-    const ls = cfg.lastStudied;
-    continueHtml = `<div class="continue-card" onclick="jumpToItem(${ls.courseId},${ls.unitId},${ls.itemId})">
-      <div><div style="font-size:12px;opacity:0.8;margin-bottom:4px">继续上次学习 · ${esc(ls.courseName)}</div><div style="font-size:16px;font-weight:600">${esc(ls.title)}</div></div>
-      <div style="background:rgba(255,255,255,0.15);padding:8px 16px;border-radius:20px;font-size:13px;font-weight:500">▶ 继续</div>
-    </div>`;
-  }
+  // ── 继续上次 ──
+  let continueHtml='';
+  if(cfg.lastStudied){const ls=cfg.lastStudied;continueHtml=`<div class="continue-card" onclick="jumpToItem(${ls.courseId},${ls.unitId},${ls.itemId})"><div><div style="font-size:12px;opacity:0.8;margin-bottom:4px">继续上次 · ${esc(ls.courseName)}</div><div style="font-size:16px;font-weight:600">${esc(ls.title)}</div></div><div style="background:rgba(255,255,255,0.15);padding:8px 16px;border-radius:20px;font-size:13px;font-weight:500">▶ 继续</div></div>`;}
 
-  // ── 每日预算条 HTML ──
-  const budgetBarColor = budgetOver?'var(--red)':budgetPct>75?'var(--amber)':'var(--green)';
+  // ── 专注进度条 ──
   const budgetHtml=`<div class="daily-budget-bar">
     <div class="db-header">
       <span class="db-title">⏱ 今日专注</span>
@@ -1819,44 +1923,91 @@ function renderOverview(mainArea){
       <div class="db-fill" style="width:${budgetPct}%;background:${budgetBarColor}"></div>
       ${plan.length?`<div class="db-projected" style="left:${Math.min(100,Math.round(Math.min(todayMins+fitsTotal,budget*1.3)/budget*100))}%;opacity:${budgetOver?0:1}" title="完成今日推荐后预计到达"></div>`:''}
     </div>
-    ${plan.length&&!budgetOver&&budgetLeft>0?`<div class="db-hint">今日推荐任务约需 <strong>${fitsTotal} min</strong>，${fitsTotal<=budgetLeft?'刚好能装下 ✓':`超出预算 ${fitsTotal-budgetLeft} min，可酌情减少`}</div>`:''}
+    ${plan.length&&!budgetOver&&budgetLeft>0?`<div class="db-hint">今日推荐约需 <strong>${fitsTotal} min</strong>，${fitsTotal<=budgetLeft?'刚好能装下 ✓':`超出预算 ${fitsTotal-budgetLeft} min`}</div>`:''}
   </div>`;
 
+  // ── 各课今日状态速览 ──
+  const courseStatusRows=activeCourses.map(c=>{
+    const todayLog=[];
+    let todayMinsCourse=0,hasActivity=false,lastDate='';
+    (c.units||[]).forEach(u=>(u.items||[]).forEach(item=>{
+      (item.studyLog||[]).forEach(l=>{if(l.date===todayStr){todayMinsCourse+=l.minutes||0;hasActivity=true;}});
+      (item.practiceLog||[]).forEach(l=>{if(l.date===todayStr){todayMinsCourse+=l.minutes||0;hasActivity=true;}});
+      (item.checkIns||[]).forEach(l=>{if(l.date===todayStr){todayMinsCourse+=l.minutes||0;hasActivity=true;}});
+    }));
+    // 最近学习日期
+    let latestDate='';
+    (c.units||[]).forEach(u=>(u.items||[]).forEach(item=>{
+      [...(item.studyLog||[]),...(item.practiceLog||[]),...(item.checkIns||[])].forEach(l=>{if(l.date>latestDate)latestDate=l.date;});
+    }));
+    const daysSince=latestDate?Math.floor((new Date(todayStr)-new Date(latestDate))/86400000):999;
+    const s=getCourseStats(c);
+    let tag,tagClass,dot;
+    if(hasActivity){tag=todayMinsCourse+'min ✓';tagClass='dash-tag-done';dot='#2D7D52';}
+    else if(daysSince===0){tag='今日已动';tagClass='dash-tag-active';dot='var(--amber)';}
+    else if(daysSince>=7){tag=daysSince+'天未动';tagClass='dash-tag-warn';dot='#C0392B';}
+    else{tag=daysSince===999?'未开始':`${daysSince}天前`;tagClass='dash-tag-idle';dot='#bbb';}
+    return`<div class="dash-course-row" onclick="selectCourse(${c.id})">
+      <div class="dash-course-dot" style="background:${dot}"></div>
+      <div class="dash-course-name">${esc(c.name)}</div>
+      <div class="dash-course-meta">${s.pct}%</div>
+      <div class="dash-today-tag ${tagClass}">${tag}</div>
+    </div>`;
+  }).join('');
+
+  // ── 今日推荐任务 ──
+  const planHtml=`<div class="dash-section">
+    <div class="dash-section-title">📍 今日推荐任务</div>
+    ${planWithTime.length?planWithTime.map((n,idx)=>`
+      <div class="item-row ${n.item.status}" style="padding:10px 0;${idx<planWithTime.length-1?'border-bottom:1px solid var(--cream-dark)':''}">
+        <div class="item-check ${n.item.status}" onclick="event.stopPropagation();toggleItem(${n.unitId},${n.item.id},event)" style="margin-right:12px;margin-top:2px">
+          <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div style="flex:1;cursor:pointer;min-width:0" onclick="jumpToItem(${n.courseId},${n.unitId},${n.item.id})">
+          <div class="ov-next-course">${esc(n.courseName)}</div>
+          <div style="font-size:13px;font-weight:500;color:var(--text-primary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(n.item.title)}</div>
+        </div>
+        <span style="font-size:11px;color:var(--text-muted);white-space:nowrap;margin:0 8px">~${n.estMins}min</span>
+        <button class="btn btn-ghost" style="font-size:11px;padding:4px 8px" onclick="jumpToItem(${n.courseId},${n.unitId},${n.item.id})">↗</button>
+      </div>`).join('')
+    :'<div style="padding:20px 0;text-align:center;color:var(--text-muted);font-size:13px">🎉 今日没有必须赶进度的任务</div>'}
+  </div>`;
+
+  // ── 收工按钮 ──
+  const wrapupBtn=todayMins>0?`<div style="text-align:right;margin-bottom:12px"><button class="btn btn-outline" onclick="openWrapup()" style="font-size:12px">🌙 今日收工</button></div>`:'';
+
+  // ── 待复习 ──
+  const revHtml=revs.length?`<div class="dash-section">
+    <div class="dash-section-title">🔁 待复习</div>
+    ${revs.map(n=>`<div class="dash-course-row" onclick="jumpToItem(${n.courseId},${n.unitId},${n.item.id})">
+      <div class="dash-course-dot" style="background:#7331B5"></div>
+      <div class="dash-course-name">${esc(n.item.title)}</div>
+      <div class="dash-course-meta">${esc(n.courseName)}</div>
+    </div>`).join('')}
+  </div>`:'';
+
+  const mobBack=window.innerWidth<=600?`<div class="mob-back-bar"><button class="mob-back-btn" onclick="mobShowSidebar()">‹ 返回</button></div>`:'';
+
   mainArea.innerHTML=`<div class="overview-container">
-    <div class="ov-title">学习总览</div>
-    <div class="ov-sub">${today()} · ${courses.length} 门课程 · 总完成率 ${totalItems?Math.round(totalDone/totalItems*100):0}%</div>
+    ${mobBack}
+    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px">
+      <div class="ov-title" style="margin-bottom:0">每日仪表盘</div>
+      <div style="font-size:12px;color:var(--text-muted)">${todayStr} · ${activeCourses.length} 门课</div>
+    </div>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px">总完成率 ${totalItems?Math.round(totalDone/totalItems*100):0}% · 本周 ${weekHrs}h</div>
     ${continueHtml}
     ${budgetHtml}
-    
-    <div class="ov-title" style="margin-bottom:12px">📍 今日推荐任务</div>
-    <div style="background:#fff; border:1px solid var(--border); border-radius:var(--radius-lg); padding:0 16px; margin-bottom:28px; overflow:hidden;">
-      ${planWithTime.length ? planWithTime.map((n, idx) => `
-        <div class="item-row ${n.item.status}" style="padding:12px 0; ${idx<planWithTime.length-1?'border-bottom:1px solid var(--cream-dark)':''}">
-          <div class="item-check ${n.item.status}" onclick="event.stopPropagation();toggleItem(${n.unitId},${n.item.id},event)" style="margin-right:12px;margin-top:4px">
-            <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div style="flex:1; cursor:pointer" onclick="jumpToItem(${n.courseId},${n.unitId},${n.item.id})">
-              <div class="ov-next-course">${esc(n.courseName)} · ${esc(n.unitName)}</div>
-              <div class="ov-next-item-title" style="font-size:14px; color:var(--text-primary); font-weight:500">${n.item.status==='doing'?'<span style="color:var(--amber)">[进行中]</span> ':''}${esc(n.item.title)}</div>
-          </div>
-          <span style="font-size:11px;color:var(--text-muted);margin-right:8px;white-space:nowrap">~${n.estMins}min</span>
-          <button class="btn btn-ghost" onclick="jumpToItem(${n.courseId},${n.unitId},${n.item.id})">去完成 ↗</button>
-        </div>
-      `).join('') : '<div style="padding:24px 0; text-align:center; color:var(--text-muted); font-size:13px">🎉 状态绝佳！今日没有必须要赶进度的任务。</div>'}
+    <div class="dash-section" style="margin-bottom:16px">
+      <div class="dash-section-title">📊 各课状态</div>
+      ${activeCourses.length?courseStatusRows:'<div style="color:var(--text-muted);font-size:13px;padding:8px 0">还没有进行中的课程</div>'}
     </div>
-
-    ${revs.length?`<div class="ov-title" style="margin-bottom:12px">🔁 待复习碎片</div>
-    <div class="ov-cards" style="margin-bottom:28px">
-        ${revs.map(n=>`<div class="ov-card" onclick="jumpToItem(${n.courseId},${n.unitId},${n.item.id})">
-          <div class="ov-next-course">${esc(n.courseName)} · ${esc(n.unitName)}</div>
-          <div class="ov-card-name" style="margin-top:4px">${esc(n.item.title)}</div>
-        </div>`).join('')}
-    </div>`:''}
-
-    <div class="heatmap-stats">
+    ${planHtml}
+    ${wrapupBtn}
+    ${revHtml}
+    <div class="heatmap-stats" style="margin-top:8px">
       <div class="hstat"><div class="hstat-val">${totalDone}</div><div class="hstat-label">完成数</div></div>
-      <div class="hstat"><div class="hstat-val">${weekHrs} <span style="font-size:14px;font-weight:400">h</span></div><div class="hstat-label">本周时长</div></div>
-      <div class="hstat"><div class="hstat-val">${Object.keys(hmap).length}</div><div class="hstat-label">学习天数</div></div>
+      <div class="hstat"><div class="hstat-val">${weekHrs}<span style="font-size:14px;font-weight:400">h</span></div><div class="hstat-label">本周</div></div>
+      <div class="hstat"><div class="hstat-val">${Object.keys(hmap).length}</div><div class="hstat-label">学习天</div></div>
       <div class="hstat"><div class="hstat-val">${revs.length}</div><div class="hstat-label">待复习</div></div>
     </div>
     ${renderHeatmapHTML(hmap)}
@@ -1866,9 +2017,48 @@ function renderOverview(mainArea){
 function updateDailyBudget(val){
   const v=Math.max(15,Math.min(480,parseInt(val)||90));
   cfg.dailyBudgetMins=v; saveCfg();
-  // 直接更新显示，不全量重渲
   const input=document.getElementById('db_input'); if(input)input.value=v;
   if(sidebarView==='overview') renderOverview(document.getElementById('mainArea'));
+}
+
+function openWrapup(){
+  const hmap=buildHeatmap();
+  const todayStr=today();
+  const todayMins=hmap[todayStr]?.minutes||0;
+  // 汇总今日学习内容
+  const rows=[];
+  const dotColors={video:'#2A57CF',practice:'#2D7D52',routine:'#D4870A',creation:'#7331B5',prep:'#C0392B'};
+  courses.filter(c=>!c.isInbox).forEach(c=>{
+    (c.units||[]).forEach(u=>(u.items||[]).forEach(item=>{
+      let mins=0;
+      [...(item.studyLog||[]),...(item.practiceLog||[]),...(item.checkIns||[])].forEach(l=>{if(l.date===todayStr)mins+=l.minutes||0;});
+      if(mins>0)rows.push({name:item.title,course:c.name,mins,type:item.type||'video'});
+    }));
+  });
+  const summaryEl=document.getElementById('wrapup_summary');
+  if(summaryEl){
+    summaryEl.innerHTML=rows.length
+      ?`<div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;font-weight:600">今日学习 · 共 ${todayMins} min</div>`
+       +rows.map(r=>`<div class="checkin-preview-row"><div class="checkin-preview-dot" style="background:${dotColors[r.type]||'#aaa'}"></div><span><strong>${esc(r.name)}</strong> · ${r.mins}min</span></div>`).join('')
+      :'<div style="color:var(--text-muted);font-size:13px">今天还没有学习记录</div>';
+  }
+  // 明天第一件事
+  const next=getNowItem();
+  const nextEl=document.getElementById('wrapup_next');
+  if(nextEl)nextEl.textContent=next?`${next.courseName} · ${next.item.title}`:'明天继续加油 💪';
+  document.getElementById('wrapup_note').value='';
+  openModal('wrapupModal');
+}
+function saveWrapup(){
+  const note=document.getElementById('wrapup_note').value.trim();
+  if(note){
+    // 存入cfg的日记条目
+    if(!cfg.dailyNotes)cfg.dailyNotes={};
+    cfg.dailyNotes[today()]=note;
+    saveCfg();
+  }
+  closeModal('wrapupModal');
+  showToast('收工 🌙 明天见');
 }
 
 function renderHeatmapHTML(hmap){
@@ -3154,14 +3344,8 @@ function initDrag(){
   });
 }
 
-function openAddCourse(){editingCourseId=null;document.getElementById('courseModalTitle').textContent='添加课程';['cm_name','cm_link','cm_desc','cm_deadline'].forEach(id=>document.getElementById(id).value='');document.getElementById('cm_platform').value='bilibili';openModal('courseModal');}
-function openEditCourse(id){const c=courses.find(x=>x.id===id);if(!c)return;editingCourseId=id;document.getElementById('courseModalTitle').textContent='编辑课程';document.getElementById('cm_name').value=c.name||'';document.getElementById('cm_platform').value=c.platform||'other';document.getElementById('cm_link').value=c.link||'';document.getElementById('cm_desc').value=c.desc||'';document.getElementById('cm_deadline').value=c.deadline||'';openModal('courseModal');}
-function saveCourse(){
-  const name=document.getElementById('cm_name').value.trim();if(!name){alert('请输入课程名称');return;}
-  if(editingCourseId){const c=courses.find(x=>x.id===editingCourseId);c.name=name;c.platform=document.getElementById('cm_platform').value;c.link=document.getElementById('cm_link').value.trim();c.desc=document.getElementById('cm_desc').value.trim();c.deadline=document.getElementById('cm_deadline').value;}
-  else{const c={id:genId(),name,platform:document.getElementById('cm_platform').value,link:document.getElementById('cm_link').value.trim(),desc:document.getElementById('cm_desc').value.trim(),deadline:document.getElementById('cm_deadline').value,units:[],createdAt:today()};courses.push(c);activeCourseId=c.id;}
-  saveData();closeModal('courseModal');renderAll();showToast('课程已保存');
-}
+function openAddCourse(){editingCourseId=null;document.getElementById('courseModalTitle').textContent='添加课程';['cm_name','cm_link','cm_desc','cm_deadline'].forEach(id=>document.getElementById(id).value='');document.getElementById('cm_platform').value='bilibili';document.getElementById('cm_type').value='';document.getElementById('cm_inbox').checked=false;openModal('courseModal');}
+function openEditCourse(id){const c=courses.find(x=>x.id===id);if(!c)return;editingCourseId=id;document.getElementById('courseModalTitle').textContent='编辑课程';document.getElementById('cm_name').value=c.name||'';document.getElementById('cm_platform').value=c.platform||'other';document.getElementById('cm_type').value=c.courseType||'';document.getElementById('cm_inbox').checked=!!c.isInbox;document.getElementById('cm_link').value=c.link||'';document.getElementById('cm_desc').value=c.desc||'';document.getElementById('cm_deadline').value=c.deadline||'';openModal('courseModal');}
 function confirmDeleteCourse(id){const c=courses.find(x=>x.id===id);if(!confirm('确认删除「'+c.name+'」？'))return;courses=courses.filter(x=>x.id!==id);if(activeCourseId===id)activeCourseId=courses[0]?.id||null;saveData();renderAll();showToast('已删除');}
 
 function openAddUnit(){editingUnitId=null;document.getElementById('unitModalTitle').textContent='添加单元';document.getElementById('um_name').value='';document.getElementById('um_deleteBtn').style.display='none';openModal('unitModal');}
@@ -3409,7 +3593,7 @@ async function testAPIKey(provider) {
     } else {
       const r=await fetch('https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',{
         method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
-        body:JSON.stringify({model:'qwen-turbo',messages:[{role:'user',content:'回复数字1'}],max_tokens:5})
+        body:JSON.stringify({model:'qwen3-6',messages:[{role:'user',content:'回复数字1'}],max_tokens:5})
       });
       const d=await r.json();
       if(d.error) errMsg=d.error.message;
@@ -3740,7 +3924,7 @@ async function aiGenerateOutline(){
     } else {
       const res=await fetch('https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',{
         method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
-        body:JSON.stringify({model:'qwen-turbo',messages:[{role:'user',content:prompt}]})
+        body:JSON.stringify({model:'qwen3-6',messages:[{role:'user',content:prompt}]})
       });
       const data=await res.json();
       if(data.error) throw new Error(data.error.message);
@@ -4180,7 +4364,7 @@ async function callAI(prompt) {
   } else {
     const r=await fetch('https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',{
       method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
-      body:JSON.stringify({model:'qwen-turbo',max_tokens:300,messages:[{role:'user',content:prompt}]})
+      body:JSON.stringify({model:'qwen3-6',max_tokens:300,messages:[{role:'user',content:prompt}]})
     });
     const d=await r.json();
     if(d.error) throw new Error(d.error.message);
@@ -4443,7 +4627,6 @@ function getLastStudyDate(course) {
 // ─────────────────────────────────────────
 
 // 重写 toggleItem 加空完成检测
-const _origToggleItem = toggleItem;
 function toggleItem(unitId, itemId, e){
   const c=courses.find(x=>x.id===activeCourseId); if(!c) return;
   const u=c.units.find(x=>x.id===unitId); if(!u) return;
@@ -4466,17 +4649,18 @@ function toggleItem(unitId, itemId, e){
   saveCfg(); saveData(); renderAll();
 }
 
-// 重写 saveCourse 加新坑检测
-const _origSaveCourse = saveCourse;
+// 重写 saveCourse 加新坑检测（合并版，第一个定义已删除）
 function saveCourse(){
   const name=document.getElementById('cm_name').value.trim(); if(!name){alert('请输入课程名称');return;}
   const isNew = !editingCourseId;
-  // 风险五：新坑检测（仅新建时）
-  if(isNew && checkNewCourseTrap()) return; // 已显示警告卡片，暂停新建
+  const courseType=document.getElementById('cm_type').value;
+  const isInbox=document.getElementById('cm_inbox').checked;
+  // 风险五：新坑检测（仅新建且非Inbox时）
+  if(isNew && !isInbox && checkNewCourseTrap()) return;
 
-  if(editingCourseId){const c=courses.find(x=>x.id===editingCourseId);c.name=name;c.platform=document.getElementById('cm_platform').value;c.link=document.getElementById('cm_link').value.trim();c.desc=document.getElementById('cm_desc').value.trim();c.deadline=document.getElementById('cm_deadline').value;}
-  else{const c={id:genId(),name,platform:document.getElementById('cm_platform').value,link:document.getElementById('cm_link').value.trim(),desc:document.getElementById('cm_desc').value.trim(),deadline:document.getElementById('cm_deadline').value,units:[],createdAt:today()};courses.push(c);activeCourseId=c.id;}
-  saveData();closeModal('courseModal');renderAll();showToast('课程已保存');
+  if(editingCourseId){const c=courses.find(x=>x.id===editingCourseId);c.name=name;c.platform=document.getElementById('cm_platform').value;c.courseType=courseType;c.isInbox=isInbox;c.link=document.getElementById('cm_link').value.trim();c.desc=document.getElementById('cm_desc').value.trim();c.deadline=document.getElementById('cm_deadline').value;}
+  else{const c={id:genId(),name,platform:document.getElementById('cm_platform').value,courseType,isInbox,link:document.getElementById('cm_link').value.trim(),desc:document.getElementById('cm_desc').value.trim(),deadline:document.getElementById('cm_deadline').value,units:[],createdAt:today()};courses.push(c);if(!isInbox)activeCourseId=c.id;}
+  saveData();closeModal('courseModal');renderAll();showToast(isInbox?'已加入 Inbox':'课程已保存');
 }
 
 // ─────────────────────────────────────────
