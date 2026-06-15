@@ -20,9 +20,7 @@
   --cream:#F9F7F3;--cream-dark:#F0EDE6;
   --border:#E0DCD4;--border-light:#EAE7E0;
   --text-primary:#1A1917;--text-secondary:#5A5750;--text-muted:#9A9790;
-  --green:var(--green);--green-bg:var(--green-bg);
-  --red:var(--red);--red-bg:var(--red-bg);--red-light:var(--red-light);
-  --indigo:var(--indigo);--indigo-light:var(--indigo-light);--indigo-dark:var(--indigo-dark);--indigo-bg:var(--indigo-bg);
+  --green:#2D7D52;--red:#C0392B;
   --sidebar-w:280px;--radius:8px;--radius-lg:12px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -62,7 +60,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .now-actions{display:flex;gap:8px}
 /* 情绪历史小徽章 */
 .mood-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
-.mood-blocked{background:var(--red)}.mood-slow{background:#D4870A}.mood-good{background:var(--green)}.mood-fire{background:#2A4080}
+.mood-blocked{background:#C0392B}.mood-slow{background:#D4870A}.mood-good{background:#2D7D52}.mood-fire{background:#2A4080}
 .sidebar-nav{padding:8px 10px 4px;display:flex;gap:4px}
 .snav-btn{flex:1;padding:5px 0;background:rgba(255,255,255,.06);border:none;border-radius:6px;color:rgba(255,255,255,.5);font-size:11px;font-family:inherit;cursor:pointer;transition:all .15s;font-weight:500}
 .snav-btn.active{background:rgba(255,255,255,.15);color:#fff}
@@ -117,135 +115,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .sync-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;background:currentColor}
 .sync-status.syncing .sync-dot{animation:syncPulse .8s infinite}
 @keyframes syncPulse{0%,100%{opacity:1}50%{opacity:.2}}
-
-/* ═══ 手机端响应式适配 ═══ */
-@media(max-width:600px){
-  /* 基础布局：侧边栏和主区域各占全屏，通过 translateX 切换 */
-  .app{position:relative;overflow:hidden}
-  .sidebar{
-    position:fixed;inset:0;width:100% !important;
-    transform:translateX(0);transition:transform .3s cubic-bezier(.4,0,.2,1);
-    z-index:100;
-  }
-  .sidebar.mob-hidden{transform:translateX(-100%)}
-  .main{
-    position:fixed;inset:0;width:100%;
-    transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);
-    z-index:99;background:var(--cream);
-  }
-  .main.mob-visible{transform:translateX(0)}
-  #emptyState{left:0 !important}
-
-  /* 侧边栏顶部缩紧 */
-  .sidebar-header{padding:14px 16px 12px}
-  .sidebar-logo{display:none}
-  .sidebar-title{font-size:16px}
-  .sidebar-add-btn{font-size:12px;padding:6px 10px}
-
-  /* XP 面板缩紧 */
-  #xpPanel{padding:6px 14px 8px}
-
-  /* 底部 footer 改成固定底栏 */
-  .sidebar-footer{
-    padding:8px 14px 14px;
-    padding-bottom:max(14px, env(safe-area-inset-bottom));
-  }
-  .stat-val{font-size:15px}
-  .data-actions{gap:4px}
-  .data-btn{font-size:10px;padding:6px 0}
-
-  /* 主区域顶部：固定返回按钮 */
-  .mob-back-bar{
-    display:flex;align-items:center;gap:10px;
-    padding:10px 16px;padding-top:max(10px,env(safe-area-inset-top));
-    background:var(--navy);color:#fff;flex-shrink:0;
-    position:sticky;top:0;z-index:10;
-  }
-  .mob-back-btn{
-    background:rgba(255,255,255,.15);border:none;color:#fff;
-    padding:5px 10px 5px 8px;border-radius:20px;font-size:13px;
-    font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:4px;
-  }
-  .mob-back-title{font-size:14px;font-weight:600;flex:1;
-    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
-  /* 主区域 header 缩紧 */
-  .main-header{padding:12px 16px}
-  .main-course-title{font-size:18px;margin-bottom:8px}
-  .course-tabs{padding:0 16px;gap:2px}
-  .tab-btn{font-size:12px;padding:6px 10px}
-
-  /* 内容区域边距 */
-  .tab-content{padding:12px 12px}
-  .unit-header{padding:10px 12px}
-  .item-row{padding:8px 10px}
-
-  /* 课程列表卡片字体 */
-  .course-item{padding:10px 14px}
-  .ci-name{font-size:13px}
-
-  /* 弹窗全屏 */
-  .modal-overlay{align-items:flex-end;padding:0}
-  .modal{border-radius:20px 20px 0 0;max-height:90vh;width:100% !important;max-width:100% !important;}
-  .modal-body{padding:16px 18px}
-  .modal-header{padding:16px 18px 12px}
-  .modal-footer{padding:12px 18px;padding-bottom:max(12px,env(safe-area-inset-bottom))}
-
-  /* 隐藏非必要元素 */
-  .main-course-meta .time-track-wrap{display:none}
-
-  /* 课程卡片右侧操作按钮在手机上始终显示 */
-  .item-actions{opacity:1 !important}
-
-  /* PWA 横幅调整 */
-  .pwa-banner{padding:10px 14px;padding-bottom:max(10px,env(safe-area-inset-bottom))}
-}
 /* 同步设置 modal */
 .sync-section{background:var(--cream);border-radius:var(--radius);padding:12px 16px;margin-bottom:12px}
 .sync-section-title{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px}
 .sync-step{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--text-secondary);margin-bottom:5px;line-height:1.5}
 .sync-step-num{width:18px;height:18px;border-radius:50%;background:var(--navy);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-
-/* ═══ 观察周期视图 ═══ */
-.cycle-section{margin-bottom:28px}
-.cycle-header{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
-.cycle-title{font-size:13px;font-weight:700;color:var(--navy)}
-.cycle-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:10px}
-.cycle-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;position:relative;transition:border-color .15s}
-.cycle-card.current{border-color:var(--amber);background:var(--amber-bg)}
-.cycle-card.stagnant{border-color:var(--red);background:#FFF5F5}
-.cycle-card-label{font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
-.cycle-card.current .cycle-card-label{color:var(--amber)}
-.cycle-card.stagnant .cycle-card-label{color:var(--red)}
-.cycle-stat{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
-.cycle-stat-val{font-size:18px;font-weight:700;color:var(--text-primary)}
-.cycle-stat-label{font-size:10px;color:var(--text-muted)}
-.cycle-delta{font-size:10px;font-weight:600;padding:1px 5px;border-radius:6px;margin-left:4px}
-.cycle-delta.up{color:var(--green);background:var(--green-bg)}
-.cycle-delta.down{color:var(--red);background:var(--red-bg)}
-.cycle-delta.flat{color:var(--text-muted);background:var(--cream-dark)}
-.cycle-bar-wrap{margin-top:8px}
-.cycle-bar-track{height:4px;background:var(--cream-dark);border-radius:2px;overflow:hidden;margin-top:3px}
-.cycle-bar-fill{height:100%;border-radius:2px;background:var(--amber);transition:width .4s}
-.cycle-card.stagnant .cycle-bar-fill{background:var(--red)}
-.cycle-alert{display:flex;align-items:flex-start;gap:8px;padding:10px 14px;background:#FFF5F5;border:1px solid #FCC;border-radius:var(--radius);font-size:12px;color:#8B2020;margin-top:8px;line-height:1.5}
-
-/* ═══ 自测历史可视化 ═══ */
-.selftest-history{display:flex;align-items:center;gap:3px;margin-top:6px;flex-wrap:wrap}
-.st-dot{width:14px;height:14px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;flex-shrink:0;cursor:default;position:relative}
-.st-dot.A{background:var(--green)}
-.st-dot.B{background:var(--amber)}
-.st-dot.C{background:var(--red)}
-.st-dot.none{background:var(--cream-dark)}
-.st-dot-label{font-size:10px;color:var(--text-muted);margin-left:2px}
-.st-trend-good{font-size:10px;color:var(--green);font-weight:600;padding:1px 6px;background:var(--green-bg);border-radius:6px}
-.st-trend-bad{font-size:10px;color:var(--red);font-weight:600;padding:1px 6px;background:var(--red-bg);border-radius:6px}
-
-/* ═══ Prep AI辅助 ═══ */
-.prep-ai-btn{display:flex;align-items:center;gap:6px;padding:7px 14px;background:linear-gradient(135deg,var(--indigo),var(--indigo-light));color:#fff;border:none;border-radius:var(--radius);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap}
-.prep-ai-btn:hover{opacity:.9;transform:translateY(-1px)}
-.prep-ai-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.prep-ai-status{font-size:11px;color:var(--text-muted);padding:6px 10px;background:var(--cream);border-radius:var(--radius);margin-top:6px;display:none;line-height:1.5}
 /* ═══ PWA 安装横幅 ═══ */
 .pwa-banner{position:fixed;bottom:0;left:0;right:0;background:var(--navy);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:12px;z-index:9000;transform:translateY(110%);transition:transform .4s cubic-bezier(.34,1.56,.64,1);box-shadow:0 -4px 24px rgba(0,0,0,.3)}
 .pwa-banner.show{transform:translateY(0)}
@@ -258,22 +132,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .pwa-install-btn:hover{background:var(--amber-light)}
 .pwa-dismiss-btn{background:none;border:none;color:rgba(255,255,255,.4);font-size:20px;cursor:pointer;padding:0 2px;line-height:1;flex-shrink:0}
 .pwa-dismiss-btn:hover{color:rgba(255,255,255,.8)}
-
-/* ═══ 练习记录增强（ADHD优化）═══ */
-.review-prompts{background:linear-gradient(135deg,var(--indigo-bg),#E0E7FF);border-radius:var(--radius);padding:10px 14px;margin-bottom:8px}
-.review-prompts-label{font-size:10px;font-weight:700;color:var(--indigo);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
-.review-prompt-item{font-size:12px;color:var(--indigo-dark);line-height:1.6;padding:3px 6px;border-radius:4px;cursor:pointer;transition:background .12s;display:block;width:100%}
-.review-prompt-item:hover{background:rgba(99,102,241,.12)}
-.review-prompt-item::before{content:'→ ';opacity:.5}
-.quick-fill-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-.quick-fill-tag{font-size:11px;padding:4px 10px;border:1.5px solid var(--border);border-radius:20px;background:#fff;color:var(--text-secondary);cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
-.quick-fill-tag:hover{border-color:var(--amber);color:var(--amber);background:var(--amber-bg)}
-#masteryUpToast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.5);opacity:0;background:linear-gradient(135deg,var(--green),#3DAA6E);color:#fff;padding:28px 44px;border-radius:24px;box-shadow:0 20px 60px rgba(45,125,82,.5);text-align:center;pointer-events:none;z-index:10001;transition:all .45s cubic-bezier(.175,.885,.32,1.275)}
-#masteryUpToast.show{transform:translate(-50%,-50%) scale(1);opacity:1}
-.mu-icon{font-size:44px;margin-bottom:8px}
-.mu-title{font-size:22px;font-weight:800;margin-bottom:4px;text-shadow:0 2px 4px rgba(0,0,0,.15)}
-.mu-sub{font-size:14px;opacity:.85;margin-bottom:10px}
-.mu-badge{display:inline-block;background:rgba(255,255,255,.2);padding:4px 16px;border-radius:20px;font-size:13px;font-weight:600}
 .main{flex:1;overflow-y:auto;display:flex;flex-direction:column;position:relative;}
 .main::-webkit-scrollbar{width:4px}
 .main::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
@@ -283,9 +141,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .main-course-title{font-size:22px;font-weight:700;color:var(--navy);letter-spacing:-.02em;line-height:1.2;margin-bottom:10px}
 .header-meta{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .platform-badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 9px;border-radius:20px;font-weight:500}
-.platform-bilibili{background:var(--red-light);color:#C44E74}
+.platform-bilibili{background:#FEE8EE;color:#C44E74}
 .platform-baidu{background:#E8F0FE;color:#2A57CF}
-.platform-local{background:#EAF4EF;color:var(--green)}
+.platform-local{background:#EAF4EF;color:#2D7D52}
 .platform-youtube{background:#FEECE8;color:#C44423}
 .platform-udemy{background:#F4EEF9;color:#7331B5}
 .platform-coursera{background:#EBF3FF;color:#1A56D4}
@@ -342,7 +200,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 
 /* ====== ADHD Focus Spotlight (Start Hack) ====== */
 .item-row.is-timing {
-    background: #FFFBF0;
+    background: #FFFBF0; 
     border-radius: var(--radius);
     box-shadow: 0 0 0 1px var(--amber-light), 0 4px 15px rgba(212,135,10,0.15);
     transform: scale(1.01);
@@ -379,7 +237,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .item-link.link-embed:hover{background:#FDEBC8;transform:translateY(-1px);box-shadow:0 2px 5px rgba(212,135,10,0.1)}
 .item-link.link-baidu{background:#E8F0FE;color:#2A57CF;border:1px solid #D2E3FC}
 .item-link.link-baidu:hover{background:#D2E3FC;transform:translateY(-1px)}
-.item-link.link-local{background:#EAF4EF;color:var(--green);border:1px solid #CEEAD9}
+.item-link.link-local{background:#EAF4EF;color:#2D7D52;border:1px solid #CEEAD9}
 .item-link.link-local:hover{background:#CEEAD9;transform:translateY(-1px)}
 .item-link-add{background:#f5f4f1;color:var(--text-muted);border:1px dashed #dcdcdc;font-weight:400}
 .item-link-add:hover{background:var(--cream-dark);color:var(--text-secondary)}
@@ -430,48 +288,48 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .type-quiz{background:#E8FFF2;color:#1A7A45}
 .type-link{background:var(--cream-dark);color:var(--text-secondary)}
 .type-practice{background:#FFF8E8;color:#9A6200;border:1px solid #FDEBC8}
-.type-routine{background:var(--green-bg);color:#1E6B48;border:1px solid #C3E4D8}
-.type-prep{background:var(--indigo-bg);color:var(--indigo-dark);border:1px solid #C7D2FE}
+.type-routine{background:#EAF4F0;color:#1E6B48;border:1px solid #C3E4D8}
+.type-prep{background:#EEF2FF;color:#3730A3;border:1px solid #C7D2FE}
 
 /* ═══ PREP ITEM (课前预习) ═══ */
 .prep-item-card{background:#fff;border:1.5px solid #C7D2FE;border-radius:var(--radius-lg);margin-bottom:6px;overflow:hidden;transition:border-color .15s}
-.prep-item-card:hover{border-color:var(--indigo-light)}
+.prep-item-card:hover{border-color:#818CF8}
 .prep-item-card.done-all{border-color:#C3E4D8;background:#FAFFFE}
 .prep-card-header{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer}
 .prep-card-title{font-size:13px;font-weight:700;color:var(--navy);flex:1}
 .prep-card-chips{display:flex;gap:5px;flex-wrap:wrap}
 .prep-chip{font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;white-space:nowrap}
-.prep-chip.filled{background:var(--indigo-bg);color:var(--indigo-dark)}
+.prep-chip.filled{background:#EEF2FF;color:#3730A3}
 .prep-chip.empty{background:var(--cream-dark);color:var(--text-muted)}
-.prep-card-btn{font-size:12px;padding:4px 12px;border:1.5px solid var(--indigo-light);border-radius:20px;background:#fff;color:var(--indigo-dark);cursor:pointer;font-family:inherit;font-weight:600;transition:all .15s;white-space:nowrap}
-.prep-card-btn:hover{background:var(--indigo-bg)}
+.prep-card-btn{font-size:12px;padding:4px 12px;border:1.5px solid #818CF8;border-radius:20px;background:#fff;color:#3730A3;cursor:pointer;font-family:inherit;font-weight:600;transition:all .15s;white-space:nowrap}
+.prep-card-btn:hover{background:#EEF2FF}
 .prep-card-edit-btn{font-size:12px;padding:4px 8px;border:none;background:none;color:var(--text-muted);cursor:pointer;font-family:inherit}
-.prep-summary-strip{padding:8px 16px 12px;display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--indigo-bg)}
+.prep-summary-strip{padding:8px 16px 12px;display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid #EEF2FF}
 .prep-summary-block{flex:1;min-width:0}
-.prep-summary-label{font-size:10px;font-weight:700;color:var(--indigo);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.prep-summary-label{font-size:10px;font-weight:700;color:#6366F1;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
 .prep-summary-text{font-size:12px;color:var(--text-secondary);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
 /* Prep modal */
 .prep-section{margin-bottom:16px}
-.prep-section-label{font-size:11px;font-weight:700;color:var(--indigo);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.prep-section-label{font-size:11px;font-weight:700;color:#6366F1;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;display:flex;align-items:center;gap:6px}
 .prep-section-desc{font-size:11px;color:var(--text-muted);margin-left:auto;font-weight:400;letter-spacing:0;text-transform:none}
 .prep-textarea{width:100%;border:1.5px solid var(--border);border-radius:var(--radius);padding:10px 12px;font-size:13px;font-family:inherit;resize:vertical;min-height:80px;background:#FAFAFE;line-height:1.6;color:var(--text-primary);transition:border .15s}
-.prep-textarea:focus{outline:none;border-color:var(--indigo-light);background:#fff}
-.convert-btn{display:flex;align-items:center;gap:6px;padding:9px 18px;background:linear-gradient(135deg,var(--indigo),var(--indigo-light));color:#fff;border:none;border-radius:var(--radius);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;box-shadow:0 2px 8px rgba(99,102,241,.3)}
+.prep-textarea:focus{outline:none;border-color:#818CF8;background:#fff}
+.convert-btn{display:flex;align-items:center;gap:6px;padding:9px 18px;background:linear-gradient(135deg,#6366F1,#818CF8);color:#fff;border:none;border-radius:var(--radius);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;box-shadow:0 2px 8px rgba(99,102,241,.3)}
 .convert-btn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(99,102,241,.4)}
-.convert-preview{background:var(--indigo-bg);border-radius:var(--radius);padding:10px 14px;margin-top:8px;font-size:12px;color:var(--indigo-dark);line-height:1.7}
+.convert-preview{background:#EEF2FF;border-radius:var(--radius);padding:10px 14px;margin-top:8px;font-size:12px;color:#3730A3;line-height:1.7}
 .convert-preview-item{display:flex;align-items:center;gap:6px;padding:2px 0}
 .convert-preview-item::before{content:'🎯';font-size:11px}
 
 /* Prep panel in practice tab */
-.prep-panel{background:linear-gradient(135deg,var(--indigo-bg) 0%,#E0E7FF 100%);border:1.5px solid #C7D2FE;border-radius:var(--radius-lg);padding:16px 20px;margin-bottom:16px}
-.prep-panel-title{font-size:12px;font-weight:700;color:var(--indigo-dark);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.prep-panel-item{background:#fff;border-radius:8px;padding:10px 14px;margin-bottom:8px;border-left:3px solid var(--indigo-light);cursor:pointer;transition:box-shadow .15s}
+.prep-panel{background:linear-gradient(135deg,#EEF2FF 0%,#E0E7FF 100%);border:1.5px solid #C7D2FE;border-radius:var(--radius-lg);padding:16px 20px;margin-bottom:16px}
+.prep-panel-title{font-size:12px;font-weight:700;color:#3730A3;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.prep-panel-item{background:#fff;border-radius:8px;padding:10px 14px;margin-bottom:8px;border-left:3px solid #818CF8;cursor:pointer;transition:box-shadow .15s}
 .prep-panel-item:hover{box-shadow:0 2px 8px rgba(99,102,241,.15)}
 .prep-panel-item-title{font-size:12px;font-weight:600;color:var(--navy);margin-bottom:4px}
 .prep-panel-gap-list{display:flex;flex-direction:column;gap:4px}
 .prep-gap-pill{font-size:11px;color:var(--text-secondary);padding:3px 8px;background:#F5F3FF;border-radius:6px;display:flex;align-items:center;justify-content:space-between;gap:8px}
-.prep-gap-convert{font-size:10px;color:var(--indigo);font-weight:600;cursor:pointer;white-space:nowrap;border:none;background:none;font-family:inherit;padding:0}
+.prep-gap-convert{font-size:10px;color:#6366F1;font-weight:600;cursor:pointer;white-space:nowrap;border:none;background:none;font-family:inherit;padding:0}
 
 /* ═══ MASTERY SYSTEM ═══ */
 .mastery-bar{display:inline-flex;align-items:center;gap:3px;cursor:pointer;padding:2px 6px;border-radius:10px;background:var(--cream-dark);transition:background .15s}
@@ -501,11 +359,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .plog-artifact:hover{background:#D8E4FB}
 
 /* Routine Checkin */
-.routine-streak{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--green);font-weight:600;background:var(--green-bg);padding:2px 8px;border-radius:10px}
-.routine-today-done{background:var(--green-bg);color:var(--green)}
+.routine-streak{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--green);font-weight:600;background:#EAF4F0;padding:2px 8px;border-radius:10px}
+.routine-today-done{background:#EAF4F0;color:var(--green)}
 .btn-checkin{background:var(--green);color:#fff;border:none;padding:3px 10px;border-radius:12px;font-size:11px;cursor:pointer;font-weight:600;font-family:inherit;transition:all .15s}
 .btn-checkin:hover{background:#1E6B48;transform:scale(1.05)}
-.btn-checkin.done-today{background:var(--green-bg);color:var(--green);border:1px solid #C3E4D8;cursor:default}
+.btn-checkin.done-today{background:#EAF4F0;color:var(--green);border:1px solid #C3E4D8;cursor:default}
 .routine-dots{display:flex;gap:3px;margin-top:4px}
 .rd{width:10px;height:10px;border-radius:50%;background:#EDECEA}
 .rd.done{background:var(--green)}
@@ -528,7 +386,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .mt-0{background:#f0ede6;color:#9A9790}
 .mt-1{background:#FFF8E8;color:#9A6200}
 .mt-2{background:var(--amber-bg);color:var(--amber)}
-.mt-3{background:var(--green-bg);color:var(--green)}
+.mt-3{background:#EAF4F0;color:var(--green)}
 .mt-4{background:#EEF4FF;color:#2A4080}
 .routine-wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-bottom:28px}
 .routine-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px}
@@ -667,10 +525,17 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
 .plm-cycle-btn,.plm-dim-btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 10px;border-radius:8px;border:2px solid #ddd;background:#f8f7f5;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit;color:var(--text-secondary);min-width:64px}
 .plm-cycle-btn span,.plm-dim-btn span{font-size:10px;font-weight:400;color:var(--text-muted)}
 .plm-cycle-btn.active,.plm-dim-btn.active{border-color:var(--navy);background:#EEF4FF;color:var(--navy);transform:scale(1.05)}
-.plm-cycle-btn[data-val="try"].active{border-color:var(--red);background:#FEF0EE;color:var(--red)}
+.lighting-check-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--text-primary);cursor:pointer;padding:2px 0}
+.lighting-check-item input[type=checkbox]{margin-top:2px;accent-color:var(--amber);width:14px;height:14px;cursor:pointer;flex-shrink:0}
+.lighting-check-item.checked label{text-decoration:line-through;color:var(--text-muted)}
+.plm-cycle-btn[data-val="try"].active{border-color:#C0392B;background:#FEF0EE;color:#C0392B}
 .plm-cycle-btn[data-val="analyze"].active{border-color:#D4870A;background:#FEF3DC;color:#9A6200}
-.plm-cycle-btn[data-val="method"].active{border-color:var(--green);background:var(--green-bg);color:var(--green)}
+.plm-cycle-btn[data-val="method"].active{border-color:#2D7D52;background:#EAF4F0;color:#2D7D52}
 .plm-cycle-btn[data-val="drill"].active{border-color:#2A57CF;background:#EEF4FF;color:#2A57CF}
+.plm-cycle-btn[data-val="lv1"].active{border-color:#C0392B;background:#FEF0EE;color:#C0392B}
+.plm-cycle-btn[data-val="lv2"].active{border-color:#D4870A;background:#FEF3DC;color:#9A6200}
+.plm-cycle-btn[data-val="lv3"].active{border-color:#2D7D52;background:#EAF4F0;color:#2D7D52}
+.plm-cycle-btn[data-val="lv4"].active{border-color:#2A57CF;background:#EEF4FF;color:#2A57CF}
 /* ═══ v7.2: 学习定位 Banner ═══ */
 .learner-banner{background:linear-gradient(135deg,#F0F4FF 0%,#F8F5FF 100%);border:1px solid #D4DEFF;border-radius:var(--radius-lg);padding:12px 16px;margin-bottom:16px}
 .lb-btn{padding:4px 14px;border-radius:20px;border:1.5px solid var(--border);background:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;color:var(--text-secondary);transition:all .15s}
@@ -691,12 +556,12 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
 .creation-stages-row{display:flex;align-items:center;flex-wrap:wrap;gap:2px;margin-bottom:6px}
 .creation-stage{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 8px;border-radius:6px;border:1.5px solid var(--border);background:#fff;cursor:pointer;transition:all .15s;min-width:48px}
 .creation-stage:hover:not(.locked){border-color:var(--amber);background:var(--amber-bg)}
-.creation-stage.done{background:var(--green-bg);border-color:var(--green)}
+.creation-stage.done{background:#EAF4F0;border-color:#2D7D52}
 .creation-stage.locked{opacity:.45;cursor:not-allowed}
 .cs-dot{width:18px;height:18px;border-radius:50%;background:var(--cream-dark);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--text-muted)}
-.creation-stage.done .cs-dot{background:var(--green);color:#fff}
+.creation-stage.done .cs-dot{background:#2D7D52;color:#fff}
 .cs-label{font-size:11px;font-weight:600;color:var(--text-secondary)}
-.creation-stage.done .cs-label{color:var(--green)}
+.creation-stage.done .cs-label{color:#2D7D52}
 .cs-date{font-size:9px;color:var(--text-muted)}
 .cs-link{font-size:10px;color:var(--navy-dim);text-decoration:none}
 .cs-arrow{font-size:12px;color:var(--cream-dark);padding:0 2px;align-self:center}
@@ -717,7 +582,7 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
 .selftest-answer-area{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px;font-family:inherit;min-height:100px;resize:vertical;transition:border .15s;color:var(--text-primary)}
 .selftest-answer-area:focus{outline:none;border-color:var(--amber);box-shadow:0 0 0 3px rgba(212,135,10,.1)}
 .selftest-verdict{padding:12px 14px;border-radius:var(--radius);margin-top:12px;font-size:13px;line-height:1.7}
-.selftest-verdict.good{background:var(--green-bg);border-left:3px solid var(--green)}
+.selftest-verdict.good{background:#EAF4F0;border-left:3px solid var(--green)}
 .selftest-verdict.partial{background:#FEF3DC;border-left:3px solid var(--amber)}
 .selftest-verdict.retry{background:#FEF0EE;border-left:3px solid var(--red)}
 .selftest-mastery-hint{font-size:11px;color:var(--text-muted);margin-top:10px;padding-top:10px;border-top:1px solid var(--cream-dark)}
@@ -797,14 +662,6 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
   <div class="achieve-combo" id="achieveCombo">今日连击: 3 🔥</div>
 </div>
 
-<!-- 掌握度升档庆祝 -->
-<div id="masteryUpToast">
-  <div class="mu-icon" id="muIcon">🏆</div>
-  <div class="mu-title" id="muTitle">掌握度提升！</div>
-  <div class="mu-sub" id="muSub">你真的在进步</div>
-  <div class="mu-badge" id="muBadge">能跟 → 能做</div>
-</div>
-
 <div class="modal-overlay hidden" id="playerModal" style="padding: 20px;">
   <div class="modal modal-player">
     <div class="modal-header">
@@ -834,11 +691,7 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
   <div class="modal"><div class="modal-header"><span class="modal-title" id="courseModalTitle">添加课程</span><button class="modal-close" onclick="closeModal('courseModal')">✕</button></div>
     <div class="modal-body">
       <div class="form-group"><label class="form-label">课程名称</label><input class="form-input" id="cm_name" placeholder="例：游戏设计入门"></div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">平台</label><select class="form-select" id="cm_platform"><option value="bilibili">B站 / bilibili</option><option value="baidu">百度云</option><option value="local">本地文件</option><option value="youtube">YouTube</option><option value="udemy">Udemy</option><option value="coursera">Coursera</option><option value="other">其他</option></select></div>
-        <div class="form-group"><label class="form-label">课程类型 <span style="font-size:10px;color:var(--text-muted);font-weight:400">（决定复盘提示词）</span></label><select class="form-select" id="cm_courseType"><option value="">自动识别</option><option value="pose">🎭 3D Pose / 动画摆姿</option><option value="painting">🎨 绘画 / 素描 / 色彩</option><option value="software">🖥 软件操作 / 3D工具</option><option value="design">✏️ 设计 / 概念创作</option><option value="general">📚 通用课程</option></select></div>
-      </div>
-      <div class="form-row"><div class="form-group" style="grid-column: span 2;"><label class="form-label">目标完成日期（可选）</label><input type="date" class="form-input" id="cm_deadline"></div></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">平台</label><select class="form-select" id="cm_platform"><option value="bilibili">B站 / bilibili</option><option value="baidu">百度云</option><option value="local">本地文件</option><option value="youtube">YouTube</option><option value="udemy">Udemy</option><option value="coursera">Coursera</option><option value="other">其他</option></select></div><div class="form-group"><label class="form-label">目标完成日期（可选）</label><input type="date" class="form-input" id="cm_deadline"></div></div>
       <div class="form-row"><div class="form-group" style="grid-column: span 2;"><label class="form-label">主链接（可选）</label><input class="form-input" id="cm_link" placeholder="课程主页 URL"></div></div>
       <div class="form-group"><label class="form-label">备注</label><input class="form-input" id="cm_desc" placeholder="简短描述"></div>
     </div>
@@ -1100,7 +953,7 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
           <button class="plm-mastery-btn" data-val="0" onclick="selectMastery(0)" style="padding:6px 14px;border-radius:8px;border:2px solid #ddd;background:#f0ede6;color:#9A9790;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit"><div>—</div><div style="font-size:10px;font-weight:400;margin-top:2px">未开始</div></button>
           <button class="plm-mastery-btn" data-val="1" onclick="selectMastery(1)" style="padding:6px 14px;border-radius:8px;border:2px solid #ddd;background:#FFF8E8;color:#9A6200;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit"><div>认识</div><div style="font-size:10px;font-weight:400;margin-top:2px">知道了，跟练过</div></button>
           <button class="plm-mastery-btn" data-val="2" onclick="selectMastery(2)" style="padding:6px 14px;border-radius:8px;border:2px solid #ddd;background:#FEF3DC;color:#D4870A;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit"><div>能跟</div><div style="font-size:10px;font-weight:400;margin-top:2px">对着参考能完成</div></button>
-          <button class="plm-mastery-btn" data-val="3" onclick="selectMastery(3)" style="padding:6px 14px;border-radius:8px;border:2px solid #ddd;background:var(--green-bg);color:var(--green);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit"><div>能做</div><div style="font-size:10px;font-weight:400;margin-top:2px">独立完成基础版</div></button>
+          <button class="plm-mastery-btn" data-val="3" onclick="selectMastery(3)" style="padding:6px 14px;border-radius:8px;border:2px solid #ddd;background:#EAF4F0;color:#2D7D52;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit"><div>能做</div><div style="font-size:10px;font-weight:400;margin-top:2px">独立完成基础版</div></button>
           <button class="plm-mastery-btn" data-val="4" onclick="selectMastery(4)" style="padding:6px 14px;border-radius:8px;border:2px solid #ddd;background:#EEF4FF;color:#2A4080;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit"><div>掌握</div><div style="font-size:10px;font-weight:400;margin-top:2px">有判断，能变体</div></button>
         </div>
       </div>
@@ -1129,20 +982,13 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
         <div class="form-group"><label class="form-label">练习时长（分钟）</label><input type="number" class="form-input" id="plm_minutes" min="1" placeholder="30"></div>
         <div class="form-group"><label class="form-label">日期</label><input type="date" class="form-input" id="plm_date"></div>
       </div>
-      <div class="form-group">
-        <label class="form-label" style="display:flex;justify-content:space-between;align-items:center">
-          <span>复盘感悟</span>
-          <span style="font-size:10px;color:var(--text-muted);font-weight:400">点提示填空，或自由写</span>
-        </label>
-        <div id="plm_review_prompts" class="review-prompts" style="display:none"></div>
-        <div class="quick-fill-row">
-          <button class="quick-fill-tag" onclick="quickFill('卡在了＿＿')">卡在了＿＿</button>
-          <button class="quick-fill-tag" onclick="quickFill('比上次好的是＿＿')">比上次好的是＿＿</button>
-          <button class="quick-fill-tag" onclick="quickFill('下次先试＿＿')">下次先试＿＿</button>
-          <button class="quick-fill-tag" onclick="quickFill('今天发现＿＿')">今天发现＿＿</button>
-        </div>
-        <textarea class="form-textarea" id="plm_reflection" rows="3" placeholder="点上方提示快速填写，或直接写…"></textarea>
+      <!-- 打光检查清单（仅打光类技能显示） -->
+      <div id="plm_lighting_checklist" style="display:none;margin-bottom:12px">
+        <label class="form-label" style="margin-bottom:6px">💡 打光要素确认</label>
+        <div id="plm_lighting_items" style="display:flex;flex-direction:column;gap:5px;background:#FFFBF0;border:1px solid #FAD1B8;border-radius:8px;padding:10px 12px"></div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:5px">勾完再写复盘，防止假掌握</div>
       </div>
+      <div class="form-group"><label class="form-label">复盘感悟（支持 Markdown）</label><textarea class="form-textarea" id="plm_reflection" rows="4" placeholder="这次练了什么？遇到什么卡点？有什么新发现？"></textarea></div>
       <div class="form-group">
         <label class="form-label">作品链接（可选，多条换行）</label>
         <textarea class="form-textarea" id="plm_artifacts" rows="3" placeholder="每行一条，格式：标签|链接或路径&#10;例：第1稿|https://...&#10;参考图|/Users/me/ref.jpg"></textarea>
@@ -1228,11 +1074,9 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
   <div class="modal modal-lg" style="max-width:600px">
     <div class="modal-header">
       <span class="modal-title" id="prm_title">📋 课前预习</span>
-      <button class="prep-ai-btn" id="prm_ai_btn" onclick="prepAIAnalyze()" title="用 AI 自动生成三段分析">✨ AI 分析</button>
       <button class="modal-close" onclick="closeModal('prepModal')">✕</button>
     </div>
     <div class="modal-body">
-      <div id="prm_ai_status" class="prep-ai-status"></div>
       <div class="prep-section">
         <div class="prep-section-label">🗺 本周地图 <span class="prep-section-desc">核心概念 + 和上周的连接</span></div>
         <textarea class="prep-textarea" id="prm_map" placeholder="把 prompt 1 的输出贴在这里" rows="5"></textarea>
@@ -1368,7 +1212,7 @@ function playIgnition() {
 
 // Particle System
 function spawnParticles(x, y) {
-  const colors = ['#D4870A', '#F0A830', 'var(--green)', 'var(--red)', '#2A57CF'];
+  const colors = ['#D4870A', '#F0A830', '#2D7D52', '#C0392B', '#2A57CF'];
   for(let i=0; i<15; i++) {
     let p = document.createElement('div');
     p.className = 'particle';
@@ -1421,6 +1265,7 @@ function getLevelTitle(lv) {
   if(lv < LEVEL_TITLES.length) return LEVEL_TITLES[lv];
   return LEVEL_TITLES[LEVEL_TITLES.length - 1];
 }
+
 function checkLevelUp() {
   const xpRequired = cfg.level * 100;
   if(cfg.xp >= xpRequired) {
@@ -1452,6 +1297,7 @@ function triggerAchievement(xpGain) {
   toast.classList.add('show');
   setTimeout(()=>toast.classList.remove('show'), 2000);
 }
+
 function loadData(){
   try{const r=localStorage.getItem(SK);if(r)courses=JSON.parse(r);}catch(e){courses=[];}
   try{const r=localStorage.getItem(SK_CFG);if(r)cfg=Object.assign(cfg,JSON.parse(r));}catch(e){}
@@ -1514,29 +1360,6 @@ function saveData(){
   } catch(e){}
 }
 function saveCfg(){localStorage.setItem(SK_CFG,JSON.stringify(cfg));}
-// ── context helpers ──
-function getCtx(unitId, itemId) {
-  const c = courses.find(x=>x.id===activeCourseId); if(!c) return {};
-  if(unitId===undefined) return {c};
-  const u = c.units.find(x=>x.id===unitId); if(!u) return {c};
-  if(itemId===undefined) return {c, u};
-  const item = u.items.find(x=>x.id===itemId);
-  return {c, u, item};
-}
-function mkPractice(title) {
-  return {id:genId(), title:title.trim(), type:'practice',
-    status:'todo', duration:'', link:'', note:'',
-    studyLog:[], needReview:false, moodLog:[],
-    masteryLevel:0, masteryHistory:[], practiceLog:[], referenceLinks:[], substeps:[]};
-}
-function itemRowOpen(item, unitId, icon) {
-  return `<div class="item-row todo" id="item_${item.id}">
-    <div class="item-connector"></div>
-    <input class="item-bulk-cb" type="checkbox" id="icb_${item.id}" data-uid="${unitId}" onclick="event.stopPropagation();updateBulkCount()">
-    <div class="item-main">
-      <span class="item-icon">${icon}</span>`;
-}
-
 function genId(){return Date.now()+Math.floor(Math.random()*9999);}
 function today(){return new Date().toISOString().slice(0,10);}
 
@@ -1598,6 +1421,7 @@ function calcWeeklyHours(){
   }
   return (mins/60).toFixed(1);
 }
+
 function getTodaysPlan() {
   const plan = []; const seenItems = new Set();
   courses.forEach(c => {
@@ -1618,6 +1442,7 @@ function getTodaysPlan() {
   });
   return plan;
 }
+
 function getReviewItems(){
   const revs=[];
   courses.forEach(c=>(c.units||[]).forEach(u=>(u.items||[]).forEach(item=>{
@@ -1642,6 +1467,7 @@ function getTimeProgress(course) {
   const status = timePct - taskPct; // >0 落后, <0 超前
   return { timePct, taskPct, daysLeft, status };
 }
+
 function getLastMood(item) {
   if(!item.moodLog || !item.moodLog.length) return null;
   return item.moodLog[item.moodLog.length-1].mood;
@@ -1722,6 +1548,7 @@ function parseArtifacts(raw) {
     return {label:'作品', value: line};
   }).filter(Boolean);
 }
+
 function getEmbedUrl(url) {
   if(!url) return null;
   try {
@@ -1733,6 +1560,7 @@ function getEmbedUrl(url) {
   } catch(e){}
   return null;
 }
+
 function isBaiduLink(url) {
   if(!url) return false;
   return /pan\.baidu\.com|yun\.baidu\.com|eyun\.baidu\.com|wangpan\.baidu\.com|nd\.baidu\.com/i.test(url);
@@ -1747,6 +1575,7 @@ function getLinkType(url) {
 
 // ═══ RENDER ═══
 function renderAll(){renderSidebar();renderXPPanel();renderMain();}
+
 function renderXPPanel() {
   const el = document.getElementById('xpPanel');
   if(!el) return;
@@ -1758,6 +1587,7 @@ function renderXPPanel() {
     <div class="lvl-bar"><div class="lvl-fill" style="width:${pct}%"></div></div>
   `;
 }
+
 function renderSidebar(){
   const el=document.getElementById('sidebarCourses');
   const empty=document.getElementById('emptyState');
@@ -1791,6 +1621,7 @@ function renderSidebar(){
   }).join('');
   updateGlobalStats();
 }
+
 function updateGlobalStats(){
   const totalDone=courses.reduce((a,c)=>a+getCourseStats(c).done,0);
   const totalItems=courses.reduce((a,c)=>a+getCourseStats(c).total,0);
@@ -1799,11 +1630,13 @@ function updateGlobalStats(){
     <div class="stat-item"><div class="stat-val">${totalDone}</div><div class="stat-label">已完成</div></div>
     <div class="stat-item"><div class="stat-val">${totalItems?Math.round(totalDone/totalItems*100):0}%</div><div class="stat-label">完成率</div></div>`;
 }
+
 function renderSearchSidebar(el){
   el.innerHTML=`<div class="sidebar-search-wrap"><input class="sidebar-search-input" id="sidebarSearchInput" placeholder="🔍 搜索..." value="${esc(searchQuery)}" oninput="doSearch(this.value)"></div><div id="searchResults" style="overflow-y:auto;flex:1;padding:0 4px"></div>`;
   if(searchQuery)doSearch(searchQuery);
   setTimeout(()=>{const i=document.getElementById('sidebarSearchInput');if(i)i.focus();},50);
 }
+
 function doSearch(q){
   searchQuery=q; const el=document.getElementById('searchResults'); if(!el)return;
   if(!q.trim()){el.innerHTML=''; return;}
@@ -1829,6 +1662,7 @@ function doSearch(q){
   })));
   const groups=Object.values(byCoursre);
   if(!groups.length){el.innerHTML=`<div style="padding:12px;font-size:12px;color:rgba(255,255,255,.3)">无结果</div>`;return;}
+
   const totalCount=groups.reduce((a,g)=>a+g.items.length,0);
   // AI关联分析按钮（跨课程≥2组才显示）
   const aiBtn=groups.length>=2?`<div style="padding:6px 12px 8px">
@@ -1852,6 +1686,7 @@ function doSearch(q){
     </div>`).join('');
 }
 function hlSearch(text,q){if(!q||!text)return esc(text||'');const re=new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');return esc(text).replace(re,'<mark>$1</mark>');}
+
 async function runSearchRelation(q){
   const btn=document.getElementById('srRelBtn'), res=document.getElementById('srRelResult');
   if(!btn||!res)return;
@@ -1869,6 +1704,7 @@ async function runSearchRelation(q){
     btn.textContent='✨ 已分析';
   }catch(e){btn.disabled=false;btn.textContent=`✨ 这 ${q} 有关联吗？`;}
 }
+
 function jumpToItem(courseId,unitId,itemId){
   activeCourseId=courseId;activeTab='content';
   setSidebarView('courses',document.getElementById('snav_courses'));
@@ -1879,19 +1715,14 @@ function jumpToItem(courseId,unitId,itemId){
     if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.style.background='var(--amber-bg)';setTimeout(()=>el.style.background='',1600);}
   },250);
 }
+
 function renderMain(){
   const mainArea=document.getElementById('mainArea');
-  // 手机端返回按钮
-  const mobBack = window.innerWidth<=600
-    ? `<div class="mob-back-bar">
-        <button class="mob-back-btn" onclick="mobShowSidebar()">‹ 返回</button>
-        <span class="mob-back-title">${activeCourseId&&sidebarView!=='overview'?esc((courses.find(x=>x.id===activeCourseId)||{}).name||''):'总览'}</span>
-      </div>` : '';
-  if(sidebarView==='overview'){renderOverview(mainArea,mobBack);return;}
+  if(sidebarView==='overview'){renderOverview(mainArea);return;}
   const c=courses.find(x=>x.id===activeCourseId);
-  if(!c){mainArea.innerHTML=mobBack;return;}
+  if(!c){mainArea.innerHTML='';return;}
   const s=getCourseStats(c);
-  mainArea.innerHTML=mobBack+`
+  mainArea.innerHTML=`
     <div style="flex-shrink:0">
       <div class="main-header">
         <div class="breadcrumb">我的课程</div>
@@ -1937,11 +1768,13 @@ function renderMain(){
     </div>`;
   renderTab();
 }
-function renderOverview(mainArea, mobBack=''){
+
+function renderOverview(mainArea){
   const hmap=buildHeatmap(), weekHrs = calcWeeklyHours();
   const totalDone=courses.reduce((a,c)=>a+getCourseStats(c).done,0);
   const totalItems=courses.reduce((a,c)=>a+getCourseStats(c).total,0);
   const plan = getTodaysPlan(), revs = getReviewItems();
+  
   // ── 每日预算计算 ──
   const todayMins = hmap[today()]?.minutes || 0;
   const budget = cfg.dailyBudgetMins || 90;
@@ -1971,6 +1804,7 @@ function renderOverview(mainArea, mobBack=''){
       <div style="background:rgba(255,255,255,0.15);padding:8px 16px;border-radius:20px;font-size:13px;font-weight:500">▶ 继续</div>
     </div>`;
   }
+
   // ── 每日预算条 HTML ──
   const budgetBarColor = budgetOver?'var(--red)':budgetPct>75?'var(--amber)':'var(--green)';
   const budgetHtml=`<div class="daily-budget-bar">
@@ -1988,7 +1822,7 @@ function renderOverview(mainArea, mobBack=''){
     ${plan.length&&!budgetOver&&budgetLeft>0?`<div class="db-hint">今日推荐任务约需 <strong>${fitsTotal} min</strong>，${fitsTotal<=budgetLeft?'刚好能装下 ✓':`超出预算 ${fitsTotal-budgetLeft} min，可酌情减少`}</div>`:''}
   </div>`;
 
-  mainArea.innerHTML=mobBack+`<div class="overview-container">
+  mainArea.innerHTML=`<div class="overview-container">
     <div class="ov-title">学习总览</div>
     <div class="ov-sub">${today()} · ${courses.length} 门课程 · 总完成率 ${totalItems?Math.round(totalDone/totalItems*100):0}%</div>
     ${continueHtml}
@@ -2025,10 +1859,10 @@ function renderOverview(mainArea, mobBack=''){
       <div class="hstat"><div class="hstat-val">${Object.keys(hmap).length}</div><div class="hstat-label">学习天数</div></div>
       <div class="hstat"><div class="hstat-val">${revs.length}</div><div class="hstat-label">待复习</div></div>
     </div>
-    ${renderCycleView()}
     ${renderHeatmapHTML(hmap)}
   </div>`;
 }
+
 function updateDailyBudget(val){
   const v=Math.max(15,Math.min(480,parseInt(val)||90));
   cfg.dailyBudgetMins=v; saveCfg();
@@ -2036,6 +1870,7 @@ function updateDailyBudget(val){
   const input=document.getElementById('db_input'); if(input)input.value=v;
   if(sidebarView==='overview') renderOverview(document.getElementById('mainArea'));
 }
+
 function renderHeatmapHTML(hmap){
   const d0=new Date();d0.setHours(0,0,0,0);
   const start=new Date(d0);start.setDate(start.getDate()-90);
@@ -2050,6 +1885,7 @@ function renderHeatmapHTML(hmap){
   }
   return`<div style="margin-bottom:24px"><div style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:12px">近 90 天专注热力图</div><div class="heatmap-grid">${cols.join('')}</div></div>`;
 }
+
 function renderTab(){
   const el=document.getElementById('tabContent');if(!el)return;
   if(activeTab==='content')renderContentTab(el);
@@ -2058,12 +1894,14 @@ function renderTab(){
   else if(activeTab==='practice')renderPracticeTab(el);
   else renderHeatmapTab(el);
 }
+
 function renderContentTab(el){
   const c=courses.find(x=>x.id===activeCourseId);if(!c)return;
   if(!(c.units||[]).length){el.innerHTML=`<div class="units-container"><div class="empty-state" style="padding:40px 0"><div class="empty-title">还没有单元</div></div></div>`;return;}
   el.innerHTML=`<div class="units-container">${renderUnits(c)}</div>`;
   initDrag();
 }
+
 const TI={video:'📹',reading:'📄',assignment:'✏️',quiz:'✅',note:'📝',link:'🔗',practice:'🎯',routine:'🔄',creation:'🖼️',prep:'📋'};
 const TL={video:'视频',reading:'阅读',assignment:'作业',quiz:'测验',note:'笔记',link:'链接',practice:'练习项目',routine:'打卡练习',creation:'创作作品',prep:'课前预习'};
 
@@ -2087,6 +1925,7 @@ function renderUnits(c){
     </div>`;
   }).join('');
 }
+
 // ── 创作作品：五阶流程 ──
 const CREATION_STAGES = [
   {key:'sketch',   label:'草图',   desc:'构成草图 / 线稿'},
@@ -2098,6 +1937,7 @@ const CREATION_STAGES = [
 function initCreationStages(){
   return CREATION_STAGES.map(s=>({key:s.key,label:s.label,done:false,doneDate:'',link:''}));
 }
+
 function renderCreationItem(item, unitId, courseId){
   const stages = item.stages || initCreationStages();
   const doneCount = stages.filter(s=>s.done).length;
@@ -2154,8 +1994,11 @@ function renderCreationItem(item, unitId, courseId){
     </div>`:''}
   </div>`;
 }
+
 function toggleCreationStage(unitId, itemId, stageIdx){
-  const {c,u,item} = getCtx(unitId,itemId); if(!item) return;
+  const c=courses.find(x=>x.id===activeCourseId); if(!c) return;
+  const u=c.units.find(x=>x.id===unitId); if(!u) return;
+  const item=u.items.find(x=>x.id===itemId); if(!item) return;
   if(!item.stages) item.stages=initCreationStages();
   const s=item.stages[stageIdx];
   s.done=!s.done;
@@ -2167,8 +2010,10 @@ function toggleCreationStage(unitId, itemId, stageIdx){
   saveData(); renderAll();
   if(s.done) triggerAchievement(s.doneDate===today()?15:10);
 }
+
 function openCreationStageLink(unitId, itemId){
-  const {c,u} = getCtx(unitId); if(!u) return;
+  const c=courses.find(x=>x.id===activeCourseId); if(!c) return;
+  const u=c.units.find(x=>x.id===unitId); if(!u) return;
   const item=u.items.find(x=>x.id===itemId); if(!item||!item.stages) return;
   const stages=item.stages;
   const doneStages=stages.filter(s=>s.done);
@@ -2183,6 +2028,7 @@ function openCreationStageLink(unitId, itemId){
   saveData(); renderAll();
   showToast('✓ 链接已保存');
 }
+
 function renderItem(item,unitId,courseId){
   if(item.type==='practice') return renderPracticeItem(item,unitId,courseId);
   if(item.type==='routine')  return renderRoutineItem(item,unitId,courseId);
@@ -2278,6 +2124,7 @@ function renderItem(item,unitId,courseId){
     </div>`:''}
   </div>`;
 }
+
 // ── practice 条目渲染 ──
 function renderMasteryBar(level, unitId, itemId) {
   const labels = MASTERY_LABELS;
@@ -2286,6 +2133,7 @@ function renderMasteryBar(level, unitId, itemId) {
     ${pips}<span class="mastery-label">${labels[level]}</span>
   </span>`;
 }
+
 function renderPracticeItem(item, unitId, courseId) {
   const log = item.practiceLog || [];
   const totalMins = log.reduce((a,b)=>a+(b.minutes||0), 0) + (item.studyLog||[]).reduce((a,b)=>a+b.minutes, 0);
@@ -2304,6 +2152,7 @@ function renderPracticeItem(item, unitId, courseId) {
   else if(linkType==='external'){linkEl=`<a class="item-link" href="${esc(item.link)}" target="_blank">🔗 参考资料</a>`;}
   else if(linkType==='baidu'){linkEl=`<a class="item-link link-baidu" href="${esc(item.link)}" target="_blank">☁️ 参考资料</a>`;}
   else if(linkType==='local'){linkEl=`<a class="item-link link-local" href="#" onclick="showLocalHint('${esc(item.link).replace(/'/g,"\\'")}');return false;">📁 参考资料</a>`;}
+
   const logHtml = logOpen && log.length ? `<div class="practice-log-panel open">${log.slice().reverse().map(e=>{
     const mTag = e.masteryAfter !== undefined ? `<span class="plog-mastery">${MASTERY_LABELS[e.masteryAfter]}</span>` : '';
     const artHtml = (e.artifacts||[]).map(a=>{
@@ -2347,6 +2196,7 @@ function renderPracticeItem(item, unitId, courseId) {
     ${logHtml}
   </div>`;
 }
+
 // ── routine 条目渲染 ──
 function renderRoutineItem(item, unitId, courseId) {
   const checkIns = item.checkIns || [];
@@ -2364,7 +2214,11 @@ function renderRoutineItem(item, unitId, courseId) {
     return `<span class="rd ${done?'done':''} ${isT?'today':''}" title="${ds}${done?' ✓':''}"></span>`;
   }).join('');
   const targetStr = rc.targetCount ? ` / ${rc.targetCount}` : '';
-  return itemRowOpen(item,unitId,"🔄") + `
+  return`<div class="item-row todo" id="item_${item.id}">
+    <div class="item-connector"></div>
+    <input class="item-bulk-cb" type="checkbox" id="icb_${item.id}" data-uid="${unitId}" onclick="event.stopPropagation();updateBulkCount()">
+    <div class="item-main">
+      <span class="item-icon">🔄</span>
       <div class="item-content">
         <div class="item-title">
           <span>${esc(item.title)}</span>
@@ -2384,6 +2238,7 @@ function renderRoutineItem(item, unitId, courseId) {
     </div>
   </div>`;
 }
+
 // ── 课前预习条目渲染 ──
 function renderPrepItem(item, unitId, courseId) {
   const hasMap   = !!(item.prepMap   && item.prepMap.trim());
@@ -2407,7 +2262,11 @@ function renderPrepItem(item, unitId, courseId) {
       ${hasTraps ? `<div class="prep-summary-block"><div class="prep-summary-label">🪤 考核陷阱</div><div class="prep-summary-text">${esc(trapsPreview)}</div></div>` : ''}
     </div>` : '';
 
-  return itemRowOpen(item,unitId,"📋") + `
+  return `<div class="item-row todo" id="item_${item.id}">
+    <div class="item-connector"></div>
+    <input class="item-bulk-cb" type="checkbox" id="icb_${item.id}" data-uid="${unitId}" onclick="event.stopPropagation();updateBulkCount()">
+    <div class="item-main">
+      <span class="item-icon">📋</span>
       <div class="item-content">
         <div class="item-title">
           <span>${esc(item.title)}</span>
@@ -2424,13 +2283,14 @@ function renderPrepItem(item, unitId, courseId) {
         <button class="prep-card-btn" onclick="event.stopPropagation();openPrepModal(${unitId},${item.id})">
           ${filledCount===0?'填写分析':'编辑'}
         </button>
-        ${hasGaps?`<button class="prep-card-btn" style="background:var(--indigo-bg)" onclick="event.stopPropagation();openPrepModalAndConvert(${unitId},${item.id})" title="把盲点转为练习条目">🎯 转练习</button>`:''}
+        ${hasGaps?`<button class="prep-card-btn" style="background:#EEF2FF" onclick="event.stopPropagation();openPrepModalAndConvert(${unitId},${item.id})" title="把盲点转为练习条目">🎯 转练习</button>`:''}
         <button class="btn btn-ghost" onclick="openEditItem(${unitId},${item.id})" title="编辑">✏</button>
       </div>
     </div>
     ${summaryHtml}
   </div>`;
 }
+
 function inlineEditLink(unitId,itemId,spanEl){
   const c=courses.find(x=>x.id===activeCourseId);const u=c&&c.units.find(x=>x.id===unitId);const item=u&&u.items.find(x=>x.id===itemId);if(!item)return;
   const input=document.createElement('input');input.className='item-link-edit';input.placeholder='粘贴链接...';input.value=item.link||'';
@@ -2438,6 +2298,7 @@ function inlineEditLink(unitId,itemId,spanEl){
   function commit(){item.link=input.value.trim();saveData();renderAll();}
   input.addEventListener('blur',commit);input.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key==='Escape')input.blur();});
 }
+
 function renderNotesTab(el){
   const notes=getAllNotes();
   if(!notes.length){el.innerHTML=`<div class="notes-container"><div class="empty-state" style="padding:40px 0"><div class="empty-title">还没有笔记</div></div></div>`;return;}
@@ -2446,6 +2307,7 @@ function renderNotesTab(el){
     <div class="markdown-body" style="font-size:13px;color:var(--text-secondary);line-height:1.6">${marked.parse(n.note)}</div>
   </div>`).join('')}</div>`;
 }
+
 function renderAssignmentsTab(el){
   const list=getAllAssignments();
   if(!list.length){
@@ -2469,6 +2331,7 @@ function renderAssignmentsTab(el){
     </div>
   `).join('')}</div>`;
 }
+
 function renderHeatmapTab(el){
   const hmap=buildHeatmap(),total=Object.values(hmap).reduce((a,v)=>a+v.minutes,0);
   el.innerHTML=`<div class="heatmap-container">
@@ -2489,12 +2352,14 @@ function getPrepItems(courseId) {
   }));
   return result;
 }
+
 function renderPracticeTab(el) {
   const practices = getPracticeItems(activeCourseId);
   const routines  = getRoutineItems(activeCourseId);
   const preps     = getPrepItems(activeCourseId);
 
   let html = '<div class="practice-tab-container">';
+
   // ── 课前预习面板 ──
   if(preps.length > 0) {
     const latestPrep = preps[preps.length-1];
@@ -2511,14 +2376,14 @@ function renderPracticeTab(el) {
     html += `<div class="prep-panel">
       <div class="prep-panel-title">
         📋 课前分析 · ${esc(latestPrep.title)}
-        <span style="font-size:11px;font-weight:400;color:var(--indigo);margin-left:auto;cursor:pointer" onclick="openPrepModal(${latestPrep.unitId},${latestPrep.id})">编辑 →</span>
+        <span style="font-size:11px;font-weight:400;color:#6366F1;margin-left:auto;cursor:pointer" onclick="openPrepModal(${latestPrep.unitId},${latestPrep.id})">编辑 →</span>
       </div>
       ${hasMap ? `<div class="prep-panel-item" onclick="openPrepModal(${latestPrep.unitId},${latestPrep.id})">
         <div class="prep-panel-item-title">🗺 本周地图</div>
         <div style="font-size:12px;color:var(--text-secondary);line-height:1.6">${esc(latestPrep.prepMap.trim().slice(0,180))}${latestPrep.prepMap.length>180?'…':''}</div>
       </div>` : ''}
       ${gapLines.length ? `<div class="prep-panel-item">
-        <div class="prep-panel-item-title" style="margin-bottom:6px">🕳 我的盲点 ${pendingGaps.length>0?`<span style="font-size:10px;color:var(--indigo);font-weight:600;margin-left:6px">${pendingGaps.length} 个待转练习</span>`:'<span style="font-size:10px;color:var(--green);font-weight:600;margin-left:6px">全部已建练习 ✓</span>'}</div>
+        <div class="prep-panel-item-title" style="margin-bottom:6px">🕳 我的盲点 ${pendingGaps.length>0?`<span style="font-size:10px;color:#6366F1;font-weight:600;margin-left:6px">${pendingGaps.length} 个待转练习</span>`:'<span style="font-size:10px;color:var(--green);font-weight:600;margin-left:6px">全部已建练习 ✓</span>'}</div>
         <div class="prep-gap-list">${gapLines.map(g=>{
           const isDone = practiceSet.has(g);
           return `<div class="prep-gap-pill">
@@ -2534,6 +2399,7 @@ function renderPracticeTab(el) {
       </div>` : ''}
     </div>`;
   }
+
   // ── v7.2：学习定位 Banner + 能力维度分布 ──
   const allLogs = practices.flatMap(p=>(p.practiceLog||[]).filter(l=>l.cycleStage||l.dimFocus));
   if(allLogs.length || !cfg.learnerType) {
@@ -2557,10 +2423,14 @@ function renderPracticeTab(el) {
 
   // 能力维度分布（有记录才显示）
   if(allLogs.length >= 3) {
-    const DIM_INFO = {shape:{label:'型/结构',color:'#4A6FA5'},value:{label:'明度/体积',color:'#4A4A4A'},color:{label:'色彩',color:'#C87D1A'},compose:{label:'构成',color:'var(--green)'}};
-    const CYCLE_INFO = {try:{label:'尝试',color:'var(--red)'},analyze:{label:'分析',color:'#F0A830'},method:{label:'方法',color:'var(--green)'},drill:{label:'量化',color:'#2A57CF'}};
+    const DIM_INFO = {shape:{label:'型/结构',color:'#4A6FA5'},value:{label:'明度/体积',color:'#4A4A4A'},color:{label:'色彩',color:'#C87D1A'},compose:{label:'构成',color:'#2D7D52'}};
+    const isPoseCourse = (courses.find(x=>x.id===activeCourseId)?.courseType||'') === 'pose';
+    const CYCLE_INFO = isPoseCourse
+      ? {lv1:{label:'Lv1 极限夸张',color:'#C0392B'},lv2:{label:'Lv2 多视角',color:'#F0A830'},lv3:{label:'Lv3 不对称',color:'#2D7D52'},lv4:{label:'Lv4 游戏状态',color:'#2A57CF'}}
+      : {try:{label:'尝试',color:'#C0392B'},analyze:{label:'分析',color:'#F0A830'},method:{label:'方法',color:'#2D7D52'},drill:{label:'量化',color:'#2A57CF'}};
     const dimCounts={shape:0,value:0,color:0,compose:0};
-    const cycleCounts={try:0,analyze:0,method:0,drill:0};
+    const cycleKeys = Object.keys(CYCLE_INFO);
+    const cycleCounts = Object.fromEntries(cycleKeys.map(k=>[k,0]));
     allLogs.forEach(l=>{if(l.dimFocus&&dimCounts[l.dimFocus]!==undefined)dimCounts[l.dimFocus]++;if(l.cycleStage&&cycleCounts[l.cycleStage]!==undefined)cycleCounts[l.cycleStage]++;});
     const dimTotal=Object.values(dimCounts).reduce((a,b)=>a+b,0)||1;
     const cycleTotal=Object.values(cycleCounts).reduce((a,b)=>a+b,0)||1;
@@ -2577,7 +2447,7 @@ function renderPracticeTab(el) {
           </div>
         </div>
         <div class="dim-section">
-          <div class="dim-label">循环阶段分布</div>
+          <div class="dim-label">${isPoseCourse?'Pose练习阶段分布':'循环阶段分布'}</div>
           <div class="dim-bars">${Object.entries(cycleCounts).map(([k,v])=>`
             <div class="dim-bar-row">
               <span class="dim-bar-name">${CYCLE_INFO[k].label}</span>
@@ -2588,17 +2458,22 @@ function renderPracticeTab(el) {
         </div>
       </div>
       ${(()=>{
-        // 找最少练的维度（有记录的前提下）
         const minDim = Object.entries(dimCounts).sort((a,b)=>a[1]-b[1])[0];
         const maxCycle = Object.entries(cycleCounts).sort((a,b)=>b[1]-a[1])[0];
         const hints=[];
         if(minDim[1]<2&&dimTotal>4) hints.push(`「${DIM_INFO[minDim[0]].label}」练得少，这可能是你的短板`);
-        if(maxCycle[0]==='drill'&&cycleCounts.analyze<2) hints.push('量化练得多但分析少，注意观察"为什么好"');
-        if(maxCycle[0]==='try'&&cycleCounts.method<1) hints.push('还在尝试阶段，找到方法后加速很快');
+        if(isPoseCourse) {
+          if(maxCycle[0]==='lv1'&&cycleCounts.lv2<2) hints.push('还停在夸张化阶段，试着加入多视角检查');
+          if(cycleCounts.lv4<1&&cycleTotal>4) hints.push('还没练过游戏特定状态（Idle/蓄力/击中），可以开始了');
+        } else {
+          if(maxCycle[0]==='drill'&&cycleCounts.analyze<2) hints.push('量化练得多但分析少，注意观察"为什么好"');
+          if(maxCycle[0]==='try'&&cycleCounts.method<1) hints.push('还在尝试阶段，找到方法后加速很快');
+        }
         return hints.length ? `<div class="dim-insight">💡 ${hints[0]}</div>` : '';
       })()}
     </div>`;
   }
+
   // ── v7：卡点分析区（连续两次以上「卡住了」的技能）──
   const stuckItems = practices.filter(p => {
     const ml = p.moodLog || [];
@@ -2626,6 +2501,7 @@ function renderPracticeTab(el) {
       }).join('')}
     </div>`;
   }
+
   // ── 掌握度总览 ──
   if(practices.length) {
     html += `<div class="section-title">🎯 练习项目 · 掌握进度</div>`;
@@ -2653,10 +2529,10 @@ function renderPracticeTab(el) {
           <span class="mastery-tag ${tagClass}">${MASTERY_LABELS[lvl]}</span>
         </div>
         ${log.length>=2?`<div style="margin-top:10px">${renderMasterySparkline(p.masteryHistory||[],log)}</div>`:''}
-        ${renderSelfTestHistory(log)}
       </div>`;
     }).join('');
   }
+
   // ── 打卡练习 ──
   if(routines.length) {
     html += `<div class="section-title" style="margin-top:28px">🔄 打卡练习 · 本周状态</div>`;
@@ -2702,6 +2578,7 @@ function renderPracticeTab(el) {
   html += '</div>';
   el.innerHTML = html;
 }
+
 function renderMasterySparkline(masteryHistory, practiceLog) {
   // 合并 masteryHistory 里的评级点，显示一条折线文字时间轴
   const points = masteryHistory.slice(-8);
@@ -2718,7 +2595,9 @@ function renderMasterySparkline(masteryHistory, practiceLog) {
 
 // ═══ 子步骤 ═══
 function toggleSubstep(unitId, itemId, stepIdx, e) {
-  const {c,u,item} = getCtx(unitId,itemId); if(!item) return;
+  const c=courses.find(x=>x.id===activeCourseId);if(!c)return;
+  const u=c.units.find(x=>x.id===unitId);if(!u)return;
+  const item=u.items.find(x=>x.id===itemId);if(!item)return;
   const step = item.substeps[stepIdx]; if(!step)return;
   step.done = !step.done;
   if(step.done) {
@@ -2751,7 +2630,7 @@ function openNowModal() {
     openModal('nowModal'); return;
   }
   const reasonMap = {timing:'⏱ 计时进行中',doing:'🔄 进行中',deadline:'⚡ Deadline最紧',next:'▶ 接下来',review:'🔁 待复习'};
-  const reasonColor = {timing:'#2A4080',doing:'#D4870A',deadline:'var(--red)',next:'var(--green)',review:'#7331B5'};
+  const reasonColor = {timing:'#2A4080',doing:'#D4870A',deadline:'#C0392B',next:'#2D7D52',review:'#7331B5'};
   const item = target.item;
   const lastMood = getLastMood(item);
   const moodAlert = lastMood==='blocked' ? `<div style="padding:10px 16px;background:#FFF8E8;font-size:12px;color:#9A6200;border-bottom:1px solid var(--border)">⚡ 上次在这里卡住了——要不要先定5分钟热身？</div>` : '';
@@ -2778,7 +2657,7 @@ function openNowModal() {
   body.innerHTML=`
     ${moodAlert}
     <div class="now-item">
-      <span class="now-badge" style="background:${reasonColor[target.reason]||'var(--green)'}22;color:${reasonColor[target.reason]||'var(--green)'}">${reasonMap[target.reason]||'▶'}</span>
+      <span class="now-badge" style="background:${reasonColor[target.reason]||'#2D7D52'}22;color:${reasonColor[target.reason]||'#2D7D52'}">${reasonMap[target.reason]||'▶'}</span>
       <div class="now-course">${esc(target.courseName)} · ${esc(target.unitName)}</div>
       <div class="now-title">${esc(item.title)}</div>
       ${item.duration?`<div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">⏱ ${esc(item.duration)}</div>`:''}
@@ -2791,6 +2670,7 @@ function openNowModal() {
     </div>`;
   openModal('nowModal');
 }
+
 function confirmTimerStartFor(courseId, unitId, itemId) {
   timerPendingCourseId=courseId; timerPendingUnitId=unitId; timerPendingItemId=itemId;
   const c=courses.find(x=>x.id===courseId);
@@ -2802,8 +2682,24 @@ function confirmTimerStartFor(courseId, unitId, itemId) {
   timerTarget=0;
   openModal('timerStartModal');
 }
+// Pose课程专用阶段定义
+const POSE_CYCLE_BTNS = [
+  {val:'lv1', emoji:'🔴', label:'Lv1 极限夸张', desc:'照片还原+夸张30~50%'},
+  {val:'lv2', emoji:'🟡', label:'Lv2 多视角',   desc:'360°旋转检查空间感'},
+  {val:'lv3', emoji:'🟢', label:'Lv3 不对称',   desc:'打破对称·肩胯扭转'},
+  {val:'lv4', emoji:'🔵', label:'Lv4 游戏状态', desc:'Idle/蓄力/击中/收招'},
+];
+const DEFAULT_CYCLE_BTNS = [
+  {val:'try',     emoji:'🔴', label:'尝试', desc:'第一次摸这个'},
+  {val:'analyze', emoji:'🟡', label:'分析', desc:'找到问题在哪'},
+  {val:'method',  emoji:'🟢', label:'方法', desc:'用方法在解决'},
+  {val:'drill',   emoji:'🔵', label:'量化', desc:'反复练成本能'},
+];
+
 function openPracticeLog(unitId, itemId) {
-  const {c,u,item} = getCtx(unitId,itemId); if(!item) return;
+  const c=courses.find(x=>x.id===activeCourseId); if(!c) return;
+  const u=c.units.find(x=>x.id===unitId); if(!u) return;
+  const item=u.items.find(x=>x.id===itemId); if(!item) return;
   plmUnitId=unitId; plmItemId=itemId;
   plmSelectedMastery = item.masteryLevel || 0;
   plmSelectedCycle = null; plmSelectedDim = null;
@@ -2812,84 +2708,80 @@ function openPracticeLog(unitId, itemId) {
   document.getElementById('plm_date').value = today();
   document.getElementById('plm_reflection').value = '';
   document.getElementById('plm_artifacts').value = '';
-  document.querySelectorAll('.plm-cycle-btn,.plm-dim-btn').forEach(b=>{b.classList.remove('active');});
+
+  // 根据课程类型动态渲染循环阶段按钮
+  const isPose = (c.courseType || '') === 'pose';
+  const cycleDefs = isPose ? POSE_CYCLE_BTNS : DEFAULT_CYCLE_BTNS;
+  const cycleLabel = isPose ? '本次练习阶段（Pose五阶段法）' : '本次处于哪个循环阶段？';
+  document.querySelector('label[for="plm_cycle_group"]') &&
+    (document.querySelector('label[for="plm_cycle_group"]').textContent = cycleLabel);
+  // 更新label文字
+  const cycleWrap = document.getElementById('plm_cycle_btns');
+  const cycleParent = cycleWrap ? cycleWrap.closest('.form-group') : null;
+  if(cycleParent) {
+    const lbl = cycleParent.querySelector('.form-label');
+    if(lbl) lbl.textContent = cycleLabel;
+  }
+  if(cycleWrap) {
+    cycleWrap.innerHTML = cycleDefs.map(d=>
+      `<button class="plm-cycle-btn" data-val="${d.val}" onclick="selectCycle('${d.val}')">${d.emoji} ${d.label}<span>${d.desc}</span></button>`
+    ).join('');
+  }
+
+  // 重置维度按钮样式
+  document.querySelectorAll('.plm-dim-btn').forEach(b=>b.classList.remove('active'));
+  // 预选上次的循环阶段（如有）
   const lastLog = (item.practiceLog||[]).slice(-1)[0];
   if(lastLog?.cycleStage) selectCycle(lastLog.cycleStage);
   selectMastery(item.masteryLevel || 0);
-  // ── 注入课程类型感知的复盘提示词 ──
-  const prompts = getReviewPrompts(c, item);
-  const promptEl = document.getElementById('plm_review_prompts');
-  if(prompts.length && promptEl) {
-    promptEl.style.display = '';
-    promptEl.innerHTML = `<div class="review-prompts-label">💡 这次练完，回答其中一个就够了</div>` +
-      prompts.map(p=>`<button class="review-prompt-item" onclick="quickFill(${JSON.stringify(p)})">${p}</button>`).join('');
-  } else if(promptEl) {
-    promptEl.style.display = 'none';
+
+  // 打光检查清单：software类课程 + 技能名含打光关键词时显示
+  const lightingKeywords = ['打光','灯光','lighting','light','三点光','主光','轮廓光','辅光','布光','氛围光'];
+  const titleLower = item.title.toLowerCase();
+  const isLightingSkill = (c.courseType === 'software' || c.courseType === '') &&
+    lightingKeywords.some(k => titleLower.includes(k));
+  const checklistEl = document.getElementById('plm_lighting_checklist');
+  const checklistItems = document.getElementById('plm_lighting_items');
+  if(isLightingSkill && checklistEl && checklistItems) {
+    // 判断是剑三还是Blender
+    const cNameLower = c.name.toLowerCase();
+    const isBlender = cNameLower.includes('blender') || titleLower.includes('blender');
+    const isJian3 = cNameLower.includes('剑') || cNameLower.includes('movieeditor') || cNameLower.includes('剑网') || cNameLower.includes('movie');
+    const checks = isBlender ? [
+      '主光（Key）方向和软硬度和参考图一致',
+      '辅光（Fill）明显弱于主光，暗部有细节',
+      '轮廓光把主体从背景中"抠"出来了',
+      '色温有冷暖对比，不是全白/全暖',
+      '用 Clay Render（纯灰模）检查过光影结构',
+      '切换 Flat Color 看过剪影，主体轮廓清晰',
+    ] : isJian3 ? [
+      '主光角度、色温符合目标氛围（正午/夕阳/月光）',
+      '辅光亮度低于主光，阴影面有层次',
+      '轮廓光勾出人物边缘，有空间深度感',
+      '色彩有冷暖对比（如橙色主光+蓝紫轮廓光）',
+      '只有主光开了阴影，辅光/轮廓光无阴影',
+      '用纯色/剪影模式检查过人物和背景的分离感',
+    ] : [
+      '主光位置和强度合理',
+      '辅光明显弱于主光（30~50%）',
+      '轮廓光把人物从背景中抠出来了',
+      '色彩有冷暖对比',
+      '用纯色/剪影模式检查过剪影质量',
+    ];
+    checklistItems.innerHTML = checks.map((text, i) =>
+      `<div class="lighting-check-item" id="lci_${i}">
+        <input type="checkbox" id="lc_${i}" onchange="toggleLightingCheck(${i})">
+        <label for="lc_${i}" style="cursor:pointer;line-height:1.5">${text}</label>
+      </div>`
+    ).join('');
+    checklistEl.style.display = 'block';
+  } else {
+    if(checklistEl) checklistEl.style.display = 'none';
   }
 
   openModal('practiceLogModal');
 }
-function getReviewPrompts(course, item) {
-  const name  = course.name  || '';
-  const title = item.title   || '';
 
-  // 优先用用户明确设置的 courseType，fallback 到名称关键词匹配
-  let type = course.courseType || '';
-  if(!type) {
-    if(/pose|3d.*pose|摆姿|pose.*设计/i.test(name))         type = 'pose';
-    else if(/cascadeur|cascade/i.test(name))                 type = 'software';
-    else if(/animcraft|3ds\s*max|maya|blender|软件|工具/i.test(name)) type = 'software';
-    else if(/绘画|素描|色彩|设计基础|美术/i.test(name))     type = 'painting';
-    else if(/设计|创作|插画/i.test(name))                    type = 'design';
-  }
-
-  if(type === 'pose') return [
-    `今天摆的 Pose，从剪影轮廓能看出动作意图吗？`,
-    `重心放对了吗？哪条腿/哪个部位撑住了重量？`,
-    `不看参考，你现在能独立摆出这个 Pose 的基本形态吗？`,
-  ];
-  if(type === 'software') return [
-    `不打开教程视频，你能独立完成今天操作的主要步骤吗？`,
-    `今天哪一步最容易出错？下次要怎么规避？`,
-    `用一句话解释今天学的这个功能/操作是干什么的。`,
-  ];
-  if(type === 'painting') {
-    const isValue  = /明度|素描|黑白|体积|光影|结构/i.test(title);
-    const isColor  = /色彩|色稿|光色|质感|颜色/i.test(title);
-    const isShape  = /形状|线|草图|构思|内容|概括/i.test(title);
-    if(isValue) return [
-      `黑白灰三个大区分清楚了吗？手机缩到邮票大小，明度关系还清晰吗？`,
-      `哪个形体最"飘"，没有实感？为什么会飘？`,
-      `体积感最好的区域是哪里？你是怎么做到的？`,
-    ];
-    if(isColor) return [
-      `受光面和暗面的冷暖关系对了吗？说说你的判断依据。`,
-      `整体色调统一吗？有没有一块颜色特别跳出来、不融合？`,
-      `这张画面想要什么色彩情绪？现在画出来的和你想要的一致吗？`,
-    ];
-    if(isShape) return [
-      `形状有没有设计感？还是只是如实描摹？`,
-      `草图的视觉焦点在哪？有没有一个区域明显更重要？`,
-      `这次的构思，如果讲给别人听，你能用一句话说清楚画面想表达什么吗？`,
-    ];
-    return [
-      `这次练了什么，和上次相比有什么具体变化？`,
-      `画面里哪个区域现在最弱？下次重点攻它。`,
-      `如果老师来点评，他最可能指出什么问题？`,
-    ];
-  }
-  if(type === 'design') return [
-    `这个设计解决了什么问题？视觉上能传达出来吗？`,
-    `最让你不满意的一处是哪里？是技术问题还是想法问题？`,
-    `如果要让这个设计更有力量，你会改变哪一个决策？`,
-  ];
-  // 通用兜底
-  return [
-    `这次哪里做得比上次好，哪里还是一样的卡点？`,
-    `如果只改一件事，你会改什么？`,
-    `这个技能，你现在能独立完成到什么程度？`,
-  ];
-}
 function selectMastery(val) {
   plmSelectedMastery = val;
   document.querySelectorAll('.plm-mastery-btn').forEach(btn => {
@@ -2907,41 +2799,17 @@ function selectDim(val) {
   plmSelectedDim = val;
   document.querySelectorAll('.plm-dim-btn').forEach(b=>b.classList.toggle('active',b.dataset.val===val));
 }
-// ── 快捷填空 ──
-function quickFill(template) {
-  const ta = document.getElementById('plm_reflection');
-  if(!ta) return;
-  const cur = ta.value.trim();
-  // 如果已有内容，换行追加；否则直接设置
-  ta.value = cur ? cur + '\n' + template : template;
-  ta.focus();
-  // 把光标放到末尾
-  ta.selectionStart = ta.selectionEnd = ta.value.length;
-}
-// ── 掌握度升档庆祝 ──
-const MASTERY_UP_MSGS = {
-  1: { icon:'💡', title:'开始认识了', sub:'跟练过一次，种子种下了' },
-  2: { icon:'🔑', title:'能跟上了！', sub:'对着参考能完成，很好的开始' },
-  3: { icon:'⚡', title:'能独立做了！', sub:'这是真正的进步，不是假掌握' },
-  4: { icon:'🏆', title:'掌握了！', sub:'有判断，能变体——这才是你的了' },
-};
-function triggerMasteryUp(prevLevel, newLevel, skillTitle) {
-  const msg = MASTERY_UP_MSGS[newLevel];
-  if(!msg) return;
-  const toast = document.getElementById('masteryUpToast');
-  document.getElementById('muIcon').textContent = msg.icon;
-  document.getElementById('muTitle').textContent = msg.title;
-  document.getElementById('muSub').textContent = skillTitle.slice(0, 20) + (skillTitle.length>20?'…':'');
-  document.getElementById('muBadge').textContent = `${MASTERY_LABELS[prevLevel]} → ${MASTERY_LABELS[newLevel]}`;
-  toast.classList.add('show');
-  spawnParticles(window.innerWidth/2, window.innerHeight/3);
-  setTimeout(()=>toast.classList.remove('show'), 2800);
+function toggleLightingCheck(idx) {
+  const item = document.getElementById(`lci_${idx}`);
+  const cb = document.getElementById(`lc_${idx}`);
+  if(item && cb) item.classList.toggle('checked', cb.checked);
 }
 function setLearnerType(type) {
-  cfg.learnerType = cfg.learnerType===type ? null : type;
+  cfg.learnerType = cfg.learnerType===type ? null : type; // 再点一次取消选中
   saveCfg(); renderAll();
   showToast(type==='advanced'?'已设置为高阶组':type==='beginner'?'已设置为低阶组':'已清除定位');
 }
+
 function savePracticeLog() {
   const minsVal = parseInt(document.getElementById('plm_minutes').value);
   if(!minsVal || minsVal < 1) { showToast('请填写练习时长'); return; }
@@ -2980,29 +2848,12 @@ function savePracticeLog() {
   lastRealActivityTime = Date.now(); // 重置回避检测
   saveCfg(); saveData();
   closeModal('practiceLogModal');
-
-  const didLevelUp = newLevel > prevLevel;
-  const totalLogs = item.practiceLog.length;
-
-  // 掌握度升档 → 专属庆祝动画（优先于普通成就toast）
-  if(didLevelUp) {
-    setTimeout(()=>triggerMasteryUp(prevLevel, newLevel, item.title), 200);
-  } else {
-    // 普通完成 → 成就toast，带练习次数
-    triggerAchievement(minsVal * 2);
-  }
-
-  // 练习次数里程碑提示
-  const milestones = [3, 5, 10, 20, 30, 50];
-  if(milestones.includes(totalLogs)) {
-    setTimeout(()=>showToast(`🔥 「${item.title.slice(0,12)}」已练 ${totalLogs} 次！`), didLevelUp?3200:500);
-  } else {
-    setTimeout(()=>showToast(`✓ 第 ${totalLogs} 次练习已记录${didLevelUp?' · 掌握度提升🎉':''}`), didLevelUp?3200:300);
-  }
-
+  triggerAchievement(minsVal * 2 + (newLevel > prevLevel ? 30 : 0));
   renderAll();
+  showToast(`✓ 练习已记录${newLevel>prevLevel?' · 掌握度提升！':''}`);
 
   // 风险二：掌握度校准（升到3档以上且记录不足3次）
+  const totalLogs = item.practiceLog.length;
   if(newLevel >= 3 && totalLogs < 3) {
     setTimeout(()=>checkMasteryCalibration(item, newLevel, totalLogs), 500);
   }
@@ -3011,6 +2862,7 @@ function savePracticeLog() {
     setTimeout(()=>triggerAIFeedback(item, entry, prevLevel, newLevel), 600);
   }
 }
+
 function togglePracticeLogPanel(itemId) {
   const c=courses.find(x=>x.id===activeCourseId); if(!c) return;
   for(const u of c.units) {
@@ -3019,8 +2871,11 @@ function togglePracticeLogPanel(itemId) {
   }
   renderTab();
 }
+
 function openCheckin(unitId, itemId) {
-  const {c,u,item} = getCtx(unitId,itemId); if(!item) return;
+  const c=courses.find(x=>x.id===activeCourseId); if(!c) return;
+  const u=c.units.find(x=>x.id===unitId); if(!u) return;
+  const item=u.items.find(x=>x.id===itemId); if(!item) return;
   if(isCheckedInToday(item.checkIns||[])) { showToast('今天已经打卡了 ✓'); return; }
   chkUnitId=unitId; chkItemId=itemId;
   document.getElementById('chk_title').textContent = `打卡：${item.title}`;
@@ -3030,6 +2885,7 @@ function openCheckin(unitId, itemId) {
   document.getElementById('chk_artifacts').value = '';
   openModal('checkinModal');
 }
+
 function saveCheckin() {
   lastRealActivityTime = Date.now(); // v6：记录真实学习时间，供回避检测使用
   const minsVal = parseInt(document.getElementById('chk_minutes').value) || 0;
@@ -3055,6 +2911,7 @@ function saveCheckin() {
   renderAll();
   showToast(`✓ 打卡成功${streak>=2?' · 🔥连续'+streak+'天':''}`)
 }
+
 // ─── itemModal type切换处理 ───
 function onItemTypeChange(type) {
   document.getElementById('im_routine_config').style.display = (type==='routine') ? '' : 'none';
@@ -3119,7 +2976,9 @@ function insertTimestampTo(elemId, usePlayerTime = false) {
 
 // ═══ CORE GAMIFIED INTERACTIONS ═══
 function toggleItem(unitId, itemId, e){
-  const {c,u,item} = getCtx(unitId,itemId); if(!item) return;
+  const c=courses.find(x=>x.id===activeCourseId);if(!c)return;
+  const u=c.units.find(x=>x.id===unitId);if(!u)return;
+  const item=u.items.find(x=>x.id===itemId);if(!item)return;
   
   if(item.status === 'todo') { item.status = 'doing'; }
   else if(item.status === 'doing') { 
@@ -3134,6 +2993,7 @@ function toggleItem(unitId, itemId, e){
   cfg.lastStudied = {courseId: c.id, courseName: c.name, unitId: u.id, itemId: item.id, title: item.title};
   saveCfg(); saveData(); renderAll();
 }
+
 function toggleTimer(courseId, unitId, itemId) {
   if(activeTimer && activeTimer.itemId === itemId) {
     // 结束计时 → 打开结束弹窗
@@ -3170,6 +3030,7 @@ function toggleTimer(courseId, unitId, itemId) {
     openModal('timerStartModal');
   }
 }
+
 function setDurPreset(mins) {
   timerTarget = mins;
   document.getElementById('tsm_custom').value = mins>0?mins:'';
@@ -3181,6 +3042,7 @@ function setDurPreset(mins) {
     b.style.color        = active?'var(--amber)':'var(--text-primary)';
   });
 }
+
 function confirmTimerStart() {
   const custom = parseInt(document.getElementById('tsm_custom').value)||0;
   timerTarget = custom > 0 ? custom : timerTarget;
@@ -3214,6 +3076,7 @@ function confirmTimerStart() {
   }, 1000);
   renderAll();
 }
+
 function selectMood(val) {
   temSelectedMood = val;
   document.querySelectorAll('.mood-btn').forEach(b=>{
@@ -3222,6 +3085,7 @@ function selectMood(val) {
     b.style.transform   = active ? 'scale(1.05)' : 'scale(1)';
   });
 }
+
 function saveTimerEnd() {
   lastRealActivityTime = Date.now();
   const mins = parseInt(document.getElementById('tem_minutes').value)||0;
@@ -3254,37 +3118,14 @@ function saveTimerEnd() {
 }
 
 // ═══ CRUD & UTILS ═══
-function setSidebarView(view,btn){
-  sidebarView=view;
-  document.querySelectorAll('.snav-btn').forEach(b=>b.classList.remove('active'));
-  if(btn)btn.classList.add('active');
-  if(view==='overview')activeCourseId=null;
-  renderAll();
-  // 手机端：总览和搜索也切到主区域显示
-  if(window.innerWidth<=600 && (view==='overview'||view==='search')) mobShowMain();
-}
-function selectCourse(id){
-  activeCourseId=id;activeTab='content';sidebarView='courses';
-  document.getElementById('snav_courses').classList.add('active');
-  document.getElementById('snav_overview').classList.remove('active');
-  document.getElementById('snav_search').classList.remove('active');
-  renderAll();
-  // 手机端：滑到主区域
-  if(window.innerWidth <= 600) mobShowMain();
-}
-function mobShowMain(){
-  document.querySelector('.sidebar').classList.add('mob-hidden');
-  document.getElementById('mainArea').classList.add('mob-visible');
-}
-function mobShowSidebar(){
-  document.querySelector('.sidebar').classList.remove('mob-hidden');
-  document.getElementById('mainArea').classList.remove('mob-visible');
-}
+function setSidebarView(view,btn){sidebarView=view;document.querySelectorAll('.snav-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');if(view==='overview')activeCourseId=null;renderAll();}
+function selectCourse(id){activeCourseId=id;activeTab='content';sidebarView='courses';document.getElementById('snav_courses').classList.add('active');document.getElementById('snav_overview').classList.remove('active');document.getElementById('snav_search').classList.remove('active');renderAll();}
 function switchTab(tab){activeTab=tab;renderMain();}
 function toggleUnit(uid){const c=courses.find(x=>x.id===activeCourseId);if(!c)return;const u=c.units.find(x=>x.id===uid);if(!u)return;u.open=u.open===false;saveData();renderAll();}
 function toggleReview(unitId, itemId){const c=courses.find(x=>x.id===activeCourseId);const u=c.units.find(x=>x.id===unitId);const item=u.items.find(x=>x.id===itemId);item.needReview = !item.needReview;saveData(); renderAll(); showToast(item.needReview ? '已加入待复习' : '已取消复习');}
 function showLocalHint(path){alert('本地路径：\n'+path+'\n\n请手动打开。');}
 function isLocalPath(s){return s&&(s.startsWith('/')||s.startsWith('~')||/^[A-Z]:\\/i.test(s));}
+
 // ── 笔记抽屉展开/关闭 ──
 function toggleNoteDrawer(itemId) {
   const drawer = document.getElementById('notedrawer_'+itemId);
@@ -3294,6 +3135,7 @@ function toggleNoteDrawer(itemId) {
   pill.classList.toggle('open', isOpen);
   pill.textContent = isOpen ? '📝 收起' : '📝 笔记';
 }
+
 function initDrag(){
   document.querySelectorAll('.unit-block').forEach(el=>{
     el.addEventListener('dragstart',e=>{dragUnitId=+el.dataset.uid;el.style.opacity='.4';e.dataTransfer.effectAllowed='move';});
@@ -3311,13 +3153,22 @@ function initDrag(){
     });
   });
 }
-function openAddCourse(){editingCourseId=null;document.getElementById('courseModalTitle').textContent='添加课程';['cm_name','cm_link','cm_desc','cm_deadline'].forEach(id=>document.getElementById(id).value='');document.getElementById('cm_platform').value='bilibili';document.getElementById('cm_courseType').value='';openModal('courseModal');}
-function openEditCourse(id){const c=courses.find(x=>x.id===id);if(!c)return;editingCourseId=id;document.getElementById('courseModalTitle').textContent='编辑课程';document.getElementById('cm_name').value=c.name||'';document.getElementById('cm_platform').value=c.platform||'other';document.getElementById('cm_courseType').value=c.courseType||'';document.getElementById('cm_link').value=c.link||'';document.getElementById('cm_desc').value=c.desc||'';document.getElementById('cm_deadline').value=c.deadline||'';openModal('courseModal');}
+
+function openAddCourse(){editingCourseId=null;document.getElementById('courseModalTitle').textContent='添加课程';['cm_name','cm_link','cm_desc','cm_deadline'].forEach(id=>document.getElementById(id).value='');document.getElementById('cm_platform').value='bilibili';openModal('courseModal');}
+function openEditCourse(id){const c=courses.find(x=>x.id===id);if(!c)return;editingCourseId=id;document.getElementById('courseModalTitle').textContent='编辑课程';document.getElementById('cm_name').value=c.name||'';document.getElementById('cm_platform').value=c.platform||'other';document.getElementById('cm_link').value=c.link||'';document.getElementById('cm_desc').value=c.desc||'';document.getElementById('cm_deadline').value=c.deadline||'';openModal('courseModal');}
+function saveCourse(){
+  const name=document.getElementById('cm_name').value.trim();if(!name){alert('请输入课程名称');return;}
+  if(editingCourseId){const c=courses.find(x=>x.id===editingCourseId);c.name=name;c.platform=document.getElementById('cm_platform').value;c.link=document.getElementById('cm_link').value.trim();c.desc=document.getElementById('cm_desc').value.trim();c.deadline=document.getElementById('cm_deadline').value;}
+  else{const c={id:genId(),name,platform:document.getElementById('cm_platform').value,link:document.getElementById('cm_link').value.trim(),desc:document.getElementById('cm_desc').value.trim(),deadline:document.getElementById('cm_deadline').value,units:[],createdAt:today()};courses.push(c);activeCourseId=c.id;}
+  saveData();closeModal('courseModal');renderAll();showToast('课程已保存');
+}
 function confirmDeleteCourse(id){const c=courses.find(x=>x.id===id);if(!confirm('确认删除「'+c.name+'」？'))return;courses=courses.filter(x=>x.id!==id);if(activeCourseId===id)activeCourseId=courses[0]?.id||null;saveData();renderAll();showToast('已删除');}
+
 function openAddUnit(){editingUnitId=null;document.getElementById('unitModalTitle').textContent='添加单元';document.getElementById('um_name').value='';document.getElementById('um_deleteBtn').style.display='none';openModal('unitModal');}
 function openEditUnit(uid){const c=courses.find(x=>x.id===activeCourseId);const u=c.units.find(x=>x.id===uid);editingUnitId=uid;document.getElementById('unitModalTitle').textContent='编辑单元';document.getElementById('um_name').value=u.name;document.getElementById('um_deleteBtn').style.display='';openModal('unitModal');}
 function saveUnit(){const name=document.getElementById('um_name').value.trim();if(!name)return;const c=courses.find(x=>x.id===activeCourseId);if(!c)return;if(editingUnitId){c.units.find(x=>x.id===editingUnitId).name=name;}else{c.units.push({id:genId(),name,items:[],open:true});}saveData();closeModal('unitModal');renderMain();}
 function deleteUnit(){const c=courses.find(x=>x.id===activeCourseId);const u=c.units.find(x=>x.id===editingUnitId);if(!confirm('删除？'))return;c.units=c.units.filter(x=>x.id!==editingUnitId);saveData();closeModal('unitModal');renderAll();}
+
 function openAddItem(unitId){
   editingItemId=null;editingItemUnitId=unitId;
   document.getElementById('itemModalTitle').textContent='添加内容';
@@ -3388,6 +3239,7 @@ function getSubstepFieldValues() {
   const list = document.getElementById('im_substeps_list'); if(!list)return[];
   return [...list.querySelectorAll('input')].map((inp,i)=>({text:inp.value.trim(),done:false})).filter(s=>s.text);
 }
+
 function saveItem(){
   const title=document.getElementById('im_title').value.trim();if(!title)return;
   const c=courses.find(x=>x.id===activeCourseId);const u=c.units.find(x=>x.id===editingItemUnitId);
@@ -3521,6 +3373,7 @@ function bulkDelete(){
   renderAll();
   showToast(`🗑 已删除 ${totalItems} 条内容${unitMsg}`);
 }
+
 function openSettings(){
   document.getElementById('st_gemini').value=cfg.geminiKey||'';
   document.getElementById('st_qwen').value=cfg.qwenKey||'';
@@ -3546,7 +3399,7 @@ async function testAPIKey(provider) {
   try {
     let ok=false, errMsg='';
     if(provider==='gemini'){
-      const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,{
+      const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${key}`,{
         method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({contents:[{parts:[{text:'回复数字1'}]}]})
       });
@@ -3562,7 +3415,7 @@ async function testAPIKey(provider) {
       if(d.error) errMsg=d.error.message;
       else ok=true;
     }
-    if(ok){ res.style.background='var(--green-bg)';res.style.color='var(--green)';res.textContent='✓ 连接成功，Key 有效'; }
+    if(ok){ res.style.background='#EAF4F0';res.style.color='var(--green)';res.textContent='✓ 连接成功，Key 有效'; }
     else   { res.style.background='#FEF0EE';res.style.color='var(--red)';res.textContent='连接失败：'+errMsg; }
   } catch(e){ res.style.background='#FEF0EE';res.style.color='var(--red)';res.textContent='网络错误：'+e.message; }
 }
@@ -3696,7 +3549,7 @@ function showSyncResult(type, msg) {
   const el = document.getElementById('sy_result');
   if(!el) return;
   el.style.display = 'block';
-  el.style.background = type==='ok' ? 'var(--green-bg)' : '#FEF0EE';
+  el.style.background = type==='ok' ? '#EAF4F0' : '#FEF0EE';
   el.style.color = type==='ok' ? 'var(--green)' : 'var(--red)';
   el.textContent = msg;
 }
@@ -3737,7 +3590,6 @@ function normalizeType(t){
   if(tl==='链接'||tl==='link') return 'link';
   if(tl==='练习项目'||tl==='practice') return 'practice';
   if(tl==='打卡'||tl==='打卡练习'||tl==='routine') return 'routine';
-  if(tl==='创作作品'||tl==='creation') return 'creation';
   if(tl==='课前预习'||tl==='预习'||tl==='prep') return 'prep';
   return 'video';
 }
@@ -3764,20 +3616,16 @@ function parseTextImport(text){
       const title=(titleEnd>0?content.slice(0,titleEnd):content).trim();
       let typeExplicit=false,type='video',duration='',link='';
       brackets.forEach(b=>{
-        const norm = normalizeType(b);
-        const bl   = b.toLowerCase().trim();
-        // 所有 normalizeType 能识别的类型关键词都算明确类型标签
-        const knownTypes = ['视频','video','阅读','阅读资料','reading',
-          '作业','assignment','测验','quiz','链接','link',
-          '练习项目','practice','打卡','打卡练习','routine',
-          '创作作品','creation','课前预习','预习','prep'];
-        if(knownTypes.includes(bl)){
-          type = norm; typeExplicit = true;
-        } else if(b.startsWith('http')||b.startsWith('/')||b.startsWith('~')){
-          link = b;
-        } else {
-          duration = b;
-        }
+        const norm=normalizeType(b);
+        if(norm!=='video'||b.toLowerCase()==='视频'||b.toLowerCase()==='video'){
+          // 明确的类型标签
+          const bl=b.toLowerCase();
+          if(['视频','video','阅读','阅读资料','reading','作业','练习','assignment','测验','quiz','链接','link'].includes(bl)){
+            type=norm; typeExplicit=true;
+          } else if(b.startsWith('http')||b.startsWith('/')||b.startsWith('~')) link=b;
+          else duration=b;
+        } else if(b.startsWith('http')||b.startsWith('/')||b.startsWith('~')) link=b;
+        else duration=b;
       });
       if(!typeExplicit){const g=guessTypeFromTitle(title);if(g)type=g;}
       cur.items.push({id:genId(),title,type,duration,link,note:'',status:'todo',studyLog:[],needReview:false});
@@ -3863,6 +3711,7 @@ async function aiGenerateOutline(){
   const provider=document.getElementById('aiProviderSelect').value;
   const key = provider==='gemini' ? cfg.geminiKey : cfg.qwenKey;
   if(!key){alert('请先在设置中填写 '+(provider==='gemini'?'Gemini':'千问')+' API Key');openSettings();return;}
+  
   const btn=document.getElementById('aiGenerateBtn');
   const statusEl=document.getElementById('aiStatusMsg');
   btn.disabled=true; btn.textContent='⏳ 生成中...';
@@ -3881,7 +3730,7 @@ async function aiGenerateOutline(){
   try{
     let text='';
     if(provider==='gemini'){
-      const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,{
+      const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${key}`,{
         method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})
       });
@@ -3912,11 +3761,20 @@ async function aiGenerateOutline(){
     btn.disabled=false; btn.textContent='✨ 生成大纲';
   }
 }
-// ── v7 NEW: 自测 (AI Self-Test) ──
-// ── 课前预习 PREP MODAL ──
+// ═══════════════════════════════════════════════
+// ═══ v7 NEW: 自测 (AI Self-Test)           ═══
+// ═══════════════════════════════════════════════
+
+// ═══════════════════════════════════════════════
+// ═══ 课前预习 PREP MODAL                    ═══
+// ═══════════════════════════════════════════════
+
 let prepModalUnitId = null, prepModalItemId = null;
+
 function openPrepModal(unitId, itemId) {
-  const {c,u,item} = getCtx(unitId,itemId); if(!item) return;
+  const c = courses.find(x=>x.id===activeCourseId); if(!c) return;
+  const u = c.units.find(x=>x.id===unitId); if(!u) return;
+  const item = u.items.find(x=>x.id===itemId); if(!item) return;
   prepModalUnitId = unitId; prepModalItemId = itemId;
   document.getElementById('prm_title').textContent = `📋 ${item.title}`;
   document.getElementById('prm_map').value   = item.prepMap   || '';
@@ -3925,6 +3783,7 @@ function openPrepModal(unitId, itemId) {
   renderConvertPreview();
   openModal('prepModal');
 }
+
 function openPrepModalAndConvert(unitId, itemId) {
   openPrepModal(unitId, itemId);
   // Scroll to gaps section after modal opens
@@ -3933,11 +3792,13 @@ function openPrepModalAndConvert(unitId, itemId) {
     if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
   }, 200);
 }
+
 function getGapLines() {
   const raw = (document.getElementById('prm_gaps')?.value || '').trim();
   if(!raw) return [];
   return raw.split('\n').map(l=>l.replace(/^[-•\d.、]\s*/,'').trim()).filter(Boolean);
 }
+
 function renderConvertPreview() {
   const lines = getGapLines();
   const preview = document.getElementById('prm_convert_preview');
@@ -3956,10 +3817,12 @@ function renderConvertPreview() {
   ).join('')}</div>`;
   if(hint) hint.textContent = `${lines.length} 个盲点将变成练习条目`;
 }
+
 function convertGapsToPractice() {
   const lines = getGapLines();
   if(!lines.length) { showToast('盲点列表是空的，先填写内容'); return; }
-  const {c,u} = getCtx(prepModalUnitId); if(!u) return;
+  const c = courses.find(x=>x.id===activeCourseId); if(!c) return;
+  const u = c.units.find(x=>x.id===prepModalUnitId); if(!u) return;
   // first save current prep content
   const item = u.items.find(x=>x.id===prepModalItemId);
   if(item) {
@@ -3972,7 +3835,14 @@ function convertGapsToPractice() {
   let added = 0, skipped = 0;
   lines.forEach(line => {
     if(existingTitles.has(line)) { skipped++; return; }
-    u.items.push(mkPractice(line));
+    const newPractice = {
+      id: genId(), title: line, type: 'practice',
+      status: 'todo', duration: '', link: '', note: '',
+      studyLog: [], needReview: false, moodLog: [],
+      masteryLevel: 0, masteryHistory: [], practiceLog: [], referenceLinks: [],
+      substeps: []
+    };
+    u.items.push(newPractice);
     existingTitles.add(line);
     added++;
   });
@@ -3984,19 +3854,29 @@ function convertGapsToPractice() {
   // Switch to practice tab to see results
   if(added > 0 && activeTab !== 'practice') { activeTab = 'practice'; renderTab(); }
 }
+
 function savePrepModal() {
-  const {c,u,item} = getCtx(prepModalUnitId,prepModalItemId); if(!item) return;
+  const c = courses.find(x=>x.id===activeCourseId); if(!c) return;
+  const u = c.units.find(x=>x.id===prepModalUnitId); if(!u) return;
+  const item = u.items.find(x=>x.id===prepModalItemId); if(!item) return;
   item.prepMap   = document.getElementById('prm_map').value.trim();
   item.prepGaps  = document.getElementById('prm_gaps').value.trim();
   item.prepTraps = document.getElementById('prm_traps').value.trim();
   saveData(); closeModal('prepModal'); renderAll();
   showToast('✓ 预习分析已保存');
 }
+
 function convertSingleGap(unitId, prepItemId, gapText) {
-  const {c,u} = getCtx(unitId); if(!u) return;
+  const c = courses.find(x=>x.id===activeCourseId); if(!c) return;
+  const u = c.units.find(x=>x.id===unitId); if(!u) return;
   const exists = u.items.some(i=>i.type==='practice' && i.title.trim()===gapText.trim());
   if(exists) { showToast('这个练习条目已存在'); return; }
-  u.items.push(mkPractice(gapText));
+  u.items.push({
+    id: genId(), title: gapText.trim(), type: 'practice',
+    status: 'todo', duration: '', link: '', note: '',
+    studyLog: [], needReview: false, moodLog: [],
+    masteryLevel: 0, masteryHistory: [], practiceLog: [], referenceLinks: [], substeps: []
+  });
   saveData(); renderAll();
   showToast(`✓ 已添加练习：${gapText.slice(0,20)}`);
 }
@@ -4006,7 +3886,9 @@ function convertSingleGap(unitId, prepItemId, gapText) {
 let selfTestQuestion = ''; // 当前生成的题目，供 submitSelfTest 引用
 
 async function openSelfTest(unitId, itemId) {
-  const {c,u,item} = getCtx(unitId,itemId); if(!item) return;
+  const c = courses.find(x=>x.id===activeCourseId); if(!c) return;
+  const u = c.units.find(x=>x.id===unitId); if(!u) return;
+  const item = u.items.find(x=>x.id===itemId); if(!item) return;
   selfTestUnitId = unitId; selfTestItemId = itemId;
   selfTestQuestion = '';
 
@@ -4061,10 +3943,14 @@ ${recentLogs || '（暂无记录）'}
     document.getElementById('stm_submit_btn').style.display = 'none';
   }
 }
+
 async function submitSelfTest() {
   const answer = (document.getElementById('stm_answer')?.value||'').trim();
   if(!answer) { showToast('请先写下你的作答'); return; }
-  const {c,u,item} = getCtx(selfTestUnitId,selfTestItemId); if(!item) return;
+
+  const c = courses.find(x=>x.id===activeCourseId); if(!c) return;
+  const u = c.units.find(x=>x.id===selfTestUnitId); if(!u) return;
+  const item = u.items.find(x=>x.id===selfTestItemId); if(!item) return;
   const lvl = item.masteryLevel || 0;
 
   const btn = document.getElementById('stm_submit_btn');
@@ -4133,6 +4019,7 @@ C. 停留跟练层：回答停留在步骤复述，缺乏判断依据
     });
     saveData();
     btn.style.display = 'none';
+
     // ── v7.1 自测闭环：连续两次 C，触发换方式提示 ──
     if(judge === 'C') {
       const selfTestLogs = item.practiceLog.filter(l=>l.selfTest && l.selfTestJudge);
@@ -4162,11 +4049,17 @@ C. 停留跟练层：回答停留在步骤复述，缺乏判断依据
     btn.disabled = false; btn.textContent = '重试';
   }
 }
-// ── v7 NEW: 卡点拆解 (Breakdown) ──
+
+// ═══════════════════════════════════════════════
+// ═══ v7 NEW: 卡点拆解 (Breakdown)          ═══
+// ═══════════════════════════════════════════════
+
 let breakdownUnitId=null, breakdownItemId=null, breakdownSteps=[];
 
 function openBreakdownDialog(unitId, itemId) {
-  const {c,u,item} = getCtx(unitId,itemId); if(!item) return;
+  const c = courses.find(x=>x.id===activeCourseId); if(!c) return;
+  const u = c.units.find(x=>x.id===unitId); if(!u) return;
+  const item = u.items.find(x=>x.id===itemId); if(!item) return;
   breakdownUnitId = unitId; breakdownItemId = itemId; breakdownSteps = [];
 
   document.getElementById('bdm_title').textContent = `🔨 拆解：${item.title.slice(0,16)}${item.title.length>16?'…':''}`;
@@ -4189,9 +4082,12 @@ function openBreakdownDialog(unitId, itemId) {
 
   openModal('breakdownModal');
 }
+
 async function runBreakdown() {
   const desc = (document.getElementById('bdm_desc').value||'').trim();
-  const {c,u,item} = getCtx(breakdownUnitId,breakdownItemId); if(!item) return;
+  const c = courses.find(x=>x.id===activeCourseId); if(!c) return;
+  const u = c.units.find(x=>x.id===breakdownUnitId); if(!u) return;
+  const item = u.items.find(x=>x.id===breakdownItemId); if(!item) return;
 
   const btn = document.getElementById('bdm_btn');
   btn.disabled = true; btn.textContent = '生成中…';
@@ -4232,6 +4128,7 @@ ${blockedLogs||'（无记录）'}
       // 宽松解析：按换行分割非空行
       breakdownSteps = reply.split('\n').map(l=>l.trim()).filter(l=>l&&!l.startsWith('#'));
     }
+
     const preview = document.getElementById('bdm_steps_preview');
     preview.innerHTML = breakdownSteps.map((s,i)=>`
       <div class="breakdown-step">
@@ -4249,9 +4146,12 @@ ${blockedLogs||'（无记录）'}
     showToast('拆解失败：'+e.message);
   }
 }
+
 function applyBreakdownSteps() {
   if(!breakdownSteps.length) return;
-  const {c,u,item} = getCtx(breakdownUnitId,breakdownItemId); if(!item) return;
+  const c = courses.find(x=>x.id===activeCourseId); if(!c) return;
+  const u = c.units.find(x=>x.id===breakdownUnitId); if(!u) return;
+  const item = u.items.find(x=>x.id===breakdownItemId); if(!item) return;
   if(!item.substeps) item.substeps = [];
   breakdownSteps.forEach(s => item.substeps.push({text: s, done: false}));
   saveData(); renderAll();
@@ -4259,14 +4159,18 @@ function applyBreakdownSteps() {
   showToast(`✓ 已追加 ${breakdownSteps.length} 个子步骤`);
   breakdownSteps = [];
 }
-// ── RISK DETECTION ENGINE v6 ──
+
+// ═══════════════════════════════════════════════
+// ═══ RISK DETECTION ENGINE v6              ═══
+// ═══════════════════════════════════════════════
+
 // ── 统一 AI 调用（Gemini / 千问，从 cfg 取 provider）──
 async function callAI(prompt) {
   const provider = cfg.aiProvider || 'gemini';
   const key = provider==='gemini' ? cfg.geminiKey : cfg.qwenKey;
   if(!key) throw new Error('未配置 API Key，请前往设置');
   if(provider==='gemini'){
-    const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,{
+    const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${key}`,{
       method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})
     });
@@ -4283,6 +4187,7 @@ async function callAI(prompt) {
     return d.choices?.[0]?.message?.content||'';
   }
 }
+
 // ── 风险卡片单例显示 ──
 let riskCardTimer = null;
 function showRiskCard({id, color, icon, title, bodyHtml, buttons, autoClose=0}) {
@@ -4308,6 +4213,7 @@ function dismissRiskCard(exempt=false) {
   if(exempt && id) riskCardDismissedToday[id] = today();
   card.classList.remove('show');
 }
+
 // ─────────────────────────────────────────
 // 风险一：工具回避检测
 // ─────────────────────────────────────────
@@ -4341,6 +4247,7 @@ function triggerRisk1() {
     ]
   });
 }
+
 // ─────────────────────────────────────────
 // 风险二：掌握度自评校准
 // ─────────────────────────────────────────
@@ -4364,11 +4271,14 @@ function checkMasteryCalibration(item, newLevel, logCount) {
 // 掌握度回退（校准卡片里的按钮）
 function rollbackMastery() {
   if(!plmItemId) return;
-  const {c,u,item} = getCtx(plmUnitId,plmItemId); if(!item) return;
+  const c=courses.find(x=>x.id===activeCourseId); if(!c) return;
+  const u=c.units.find(x=>x.id===plmUnitId); if(!u) return;
+  const item=u.items.find(x=>x.id===plmItemId); if(!item) return;
   item.masteryLevel = 2; // 回到「能跟」
   if(item.masteryHistory?.length) item.masteryHistory[item.masteryHistory.length-1].level = 2;
   saveData(); renderAll(); showToast('掌握度已调整为「能跟」');
 }
+
 // ─────────────────────────────────────────
 // 风险三：练习质量 → AI 反馈（掌握度变化时）
 // ─────────────────────────────────────────
@@ -4392,22 +4302,24 @@ async function triggerAIFeedback(item, entry, prevLevel, newLevel) {
   ).join('\n');
   const masteryTrack = (item.masteryHistory||[]).map(h=>`${h.date} ${MASTERY_LABELS[h.level]}`).join(' → ');
 
-  const prompt = `你是一个实践技能的学习教练。以下是学习者的练习数据，请给出直接有用的反馈。
-
-技能：${item.title}
-掌握度变化：${MASTERY_LABELS[prevLevel]} → ${MASTERY_LABELS[newLevel]}
-本次复盘：${entry.reflection || '（无文字复盘）'}
-历史复盘（近3次）：
-${recentLogs || '（暂无）'}
-掌握度轨迹：${masteryTrack || '（首次评级）'}
-
-请按以下格式回复（总计150字以内，不要开头寒暄）：
-
-**真实深度判断**：从复盘内容看，这次练习属于（跟练/理解原理/能变体）哪个层次，一句话说原因。
-
-**检验问题**：给一个具体问题，让学习者自测是否真正掌握。
-
-**下一步建议**：针对当前卡点或下一个突破方向，说一个具体动作（不要泛泛说"多练"）。`;
+  const prompt = (()=>{
+    const lightingKeywords = ['打光','灯光','lighting','light','三点光','主光','轮廓光','辅光','布光','氛围光'];
+    const titleLower = item.title.toLowerCase();
+    const isLighting = lightingKeywords.some(k => titleLower.includes(k));
+    if(isLighting) {
+      const c = courses.find(x=>x.id===activeCourseId);
+      const cNameLower = (c?.name||'').toLowerCase();
+      const isBlender = cNameLower.includes('blender') || titleLower.includes('blender');
+      const isJian3   = cNameLower.includes('剑') || cNameLower.includes('movieeditor') || cNameLower.includes('剑网') || cNameLower.includes('movie');
+      const toolContext = isBlender
+        ? '工具：Blender（Cycles渲染器）。关注物理光线追踪、灯光节点、Clay Render纯灰模检查、AgX色彩管理。'
+        : isJian3
+        ? '工具：剑网3 MovieEditor。关注自定义灯光组、聚光灯/点光源放置、阴影仅主光开启、LUT后期调色。'
+        : '工具：3D软件打光练习。';
+      return `你是一个专注于3D场景打光的视觉教练。以下是学习者的打光练习数据。\n\n${toolContext}\n技能：${item.title}\n掌握度变化：${MASTERY_LABELS[prevLevel]} → ${MASTERY_LABELS[newLevel]}\n本次复盘：${entry.reflection || '（无文字复盘）'}\n历史复盘（近3次）：\n${recentLogs || '（暂无）'}\n\n请按以下格式回复（总计150字以内，不要开头寒暄）：\n\n**光影结构判断**：从复盘看，这次打光是停在「能摆出灯的位置」还是「理解了为什么这样放」，一句话说依据。\n\n**盲点检验**：给一个打光专属的检验问题（比如"把辅光关掉，暗部还有层次吗"），让学习者确认是否真正掌握。\n\n**下一步建议**：结合${isBlender?'Blender':'剑三编辑器'}的操作，给一个具体动作（不要泛泛说"多练"）。`;
+    }
+    return `你是一个实践技能的学习教练。以下是学习者的练习数据，请给出直接有用的反馈。\n\n技能：${item.title}\n掌握度变化：${MASTERY_LABELS[prevLevel]} → ${MASTERY_LABELS[newLevel]}\n本次复盘：${entry.reflection || '（无文字复盘）'}\n历史复盘（近3次）：\n${recentLogs || '（暂无）'}\n掌握度轨迹：${masteryTrack || '（首次评级）'}\n\n请按以下格式回复（总计150字以内，不要开头寒暄）：\n\n**真实深度判断**：从复盘内容看，这次练习属于（跟练/理解原理/能变体）哪个层次，一句话说原因。\n\n**检验问题**：给一个具体问题，让学习者自测是否真正掌握。\n\n**下一步建议**：针对当前卡点或下一个突破方向，说一个具体动作（不要泛泛说"多练"）。`;
+  })();
 
   try {
     const reply = await callAI(prompt);
@@ -4437,6 +4349,7 @@ function appendFeedbackToNote(itemId, feedback) {
     }
   }
 }
+
 // ─────────────────────────────────────────
 // 风险四：空完成轻摩擦
 // ─────────────────────────────────────────
@@ -4448,7 +4361,7 @@ function triggerEmptyDoneCheck(item, unitId) {
 
   showRiskCard({
     id: 'empty_done_'+item.id,
-    color: 'var(--green)',
+    color: '#2D7D52',
     icon: '✓',
     title: `「${item.title.slice(0,20)}${item.title.length>20?'…':''}」完成了`,
     bodyHtml: `学完最深的印象是什么？<br>一句话就够，写下来记忆更牢固。
@@ -4468,29 +4381,22 @@ function saveQuickNote(itemId, unitId) {
   item.note = (item.note?item.note+'\n\n':'') + inp.value.trim();
   saveData(); showToast('已保存到笔记 ✓');
 }
+
 // ─────────────────────────────────────────
 // 风险五：新坑陷阱
 // ─────────────────────────────────────────
 function checkNewCourseTrap() {
-  if(courses.length < 3) return false; // 少于3门不触发
-  // 只统计「有视频内容」的课程，纯研究库/练习库不计入
-  const activeCourses = courses.filter(c => {
-    const stats = getCourseStats(c);
-    if(stats.total === 0) return false;
-    // 有视频才算「正式课程」
-    const hasVideos = (c.units||[]).some(u=>(u.items||[]).some(i=>i.type==='video'||i.type==='reading'));
-    return hasVideos;
-  });
-  if(activeCourses.length < 3) return false; // 正式课程少于3门不触发
+  if(courses.length < 2) return false; // 才一门课不触发
+  const activeCourses = courses.filter(c=>getCourseStats(c).total > 0);
+  if(activeCourses.length < 2) return false;
   const avgPct = activeCourses.reduce((a,c)=>a+getCourseStats(c).pct, 0) / activeCourses.length;
-  if(avgPct >= 20) return false; // 降低门槛，平均完成率>=20%就不触发
+  if(avgPct >= 30) return false; // 平均完成率 >= 30%，不触发
 
+  // 找出完成率低的课
   const lowCourses = activeCourses
-    .filter(c=>getCourseStats(c).pct < 20)
+    .filter(c=>getCourseStats(c).pct < 30)
     .sort((a,b)=>getCourseStats(a).pct-getCourseStats(b).pct)
     .slice(0,4);
-
-  if(lowCourses.length < 3) return false; // 至少3门低进度才触发
 
   const listHtml = `<div class="risk-course-list">${lowCourses.map(c=>{
     const s=getCourseStats(c);
@@ -4507,17 +4413,18 @@ function checkNewCourseTrap() {
 
   showRiskCard({
     id: 'new_course_trap',
-    color: 'var(--red)',
+    color: '#C0392B',
     icon: '⚠️',
-    title: `你有 ${lowCourses.length} 门课程完成率低于 20%`,
+    title: `你有 ${lowCourses.length} 门课程完成率低于 30%`,
     bodyHtml: listHtml + `新开一门之前，先把哪门推进一下？`,
     buttons: [
       { label:'先去推进',       primary:true,  action:"dismissRiskCard();setSidebarView('overview',document.getElementById('snav_overview'))" },
-      { label:'我知道，继续新建', primary:false, action:"dismissRiskCard(true);forceSaveCourse()" }
+      { label:'我知道，继续新建', primary:false, action:"dismissRiskCard(true);openModal('courseModal')" }
     ]
   });
-  return true;
+  return true; // 触发了，调用方据此决定是否暂停
 }
+
 function getLastStudyDate(course) {
   let latest = null;
   (course.units||[]).forEach(u=>(u.items||[]).forEach(item=>{
@@ -4530,13 +4437,17 @@ function getLastStudyDate(course) {
   }));
   return latest;
 }
+
 // ─────────────────────────────────────────
 // 风险检测挂载点：改造关键交互函数
 // ─────────────────────────────────────────
+
 // 重写 toggleItem 加空完成检测
 const _origToggleItem = toggleItem;
 function toggleItem(unitId, itemId, e){
-  const {c,u,item} = getCtx(unitId,itemId); if(!item) return;
+  const c=courses.find(x=>x.id===activeCourseId); if(!c) return;
+  const u=c.units.find(x=>x.id===unitId); if(!u) return;
+  const item=u.items.find(x=>x.id===itemId); if(!item) return;
   const wasNotDone = item.status !== 'done';
 
   if(item.status === 'todo') { item.status = 'doing'; }
@@ -4555,35 +4466,32 @@ function toggleItem(unitId, itemId, e){
   saveCfg(); saveData(); renderAll();
 }
 
-// ── 新坑检测内联进 saveCourse ──
-function forceSaveCourse() {
-  // 跳过风险检测，直接保存（用于用户确认「我知道」之后）
-  const name=document.getElementById('cm_name').value.trim(); if(!name) return;
-  const courseType=document.getElementById('cm_courseType').value||'';
-  if(editingCourseId){const c=courses.find(x=>x.id===editingCourseId);c.name=name;c.platform=document.getElementById('cm_platform').value;c.courseType=courseType;c.link=document.getElementById('cm_link').value.trim();c.desc=document.getElementById('cm_desc').value.trim();c.deadline=document.getElementById('cm_deadline').value;}
-  else{const c={id:genId(),name,platform:document.getElementById('cm_platform').value,courseType,link:document.getElementById('cm_link').value.trim(),desc:document.getElementById('cm_desc').value.trim(),deadline:document.getElementById('cm_deadline').value,units:[],createdAt:today()};courses.push(c);activeCourseId=c.id;}
-  saveData();closeModal('courseModal');renderAll();showToast('课程已保存');
-}
+// 重写 saveCourse 加新坑检测
+const _origSaveCourse = saveCourse;
 function saveCourse(){
   const name=document.getElementById('cm_name').value.trim(); if(!name){alert('请输入课程名称');return;}
   const isNew = !editingCourseId;
-  if(isNew && checkNewCourseTrap()) return;
-  const courseType=document.getElementById('cm_courseType').value||'';
-  if(editingCourseId){const c=courses.find(x=>x.id===editingCourseId);c.name=name;c.platform=document.getElementById('cm_platform').value;c.courseType=courseType;c.link=document.getElementById('cm_link').value.trim();c.desc=document.getElementById('cm_desc').value.trim();c.deadline=document.getElementById('cm_deadline').value;}
-  else{const c={id:genId(),name,platform:document.getElementById('cm_platform').value,courseType,link:document.getElementById('cm_link').value.trim(),desc:document.getElementById('cm_desc').value.trim(),deadline:document.getElementById('cm_deadline').value,units:[],createdAt:today()};courses.push(c);activeCourseId=c.id;}
+  // 风险五：新坑检测（仅新建时）
+  if(isNew && checkNewCourseTrap()) return; // 已显示警告卡片，暂停新建
+
+  if(editingCourseId){const c=courses.find(x=>x.id===editingCourseId);c.name=name;c.platform=document.getElementById('cm_platform').value;c.link=document.getElementById('cm_link').value.trim();c.desc=document.getElementById('cm_desc').value.trim();c.deadline=document.getElementById('cm_deadline').value;}
+  else{const c={id:genId(),name,platform:document.getElementById('cm_platform').value,link:document.getElementById('cm_link').value.trim(),desc:document.getElementById('cm_desc').value.trim(),deadline:document.getElementById('cm_deadline').value,units:[],createdAt:today()};courses.push(c);activeCourseId=c.id;}
   saveData();closeModal('courseModal');renderAll();showToast('课程已保存');
 }
+
 // ─────────────────────────────────────────
 // 追踪用户交互（用于回避检测）
 // ─────────────────────────────────────────
 document.addEventListener('click',    ()=>trackInteraction());
 document.addEventListener('keydown',  ()=>trackInteraction());
 document.addEventListener('mousemove',()=>{ lastInteractionTime=Date.now(); }); // 不重置real
+
 // ─────────────────────────────────────────
 // v6：计时结束/打卡时重置真实活动时间
 // 直接在原函数里内联，避免 function 声明提升导致死递归
 // （原来用 _orig 模式 + function 重声明会被提升覆盖，造成无限递归）
 // ─────────────────────────────────────────
+
 // ════════════════════════════════════════
 // 备份 & 导入
 // ════════════════════════════════════════
@@ -4625,6 +4533,7 @@ function importData(event){
   };
   reader.readAsText(file);
 }
+
 function platformLabel(p){return{bilibili:'B站',baidu:'百度云',local:'本地',youtube:'YouTube',udemy:'Udemy',coursera:'Coursera',other:'其他'}[p]||'其他';}
 function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function openModal(id){document.getElementById(id).classList.remove('hidden');}
@@ -4634,171 +4543,6 @@ document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay:not(.hidden)').forEach(el=>closeModal(el.id));});
 
 // ════════════════════════════════════════
-// ── 观察周期视图（4周切片） ──
-function buildCycleSlices(weeksBack=4) {
-  // 收集所有课程的 studyLog + practiceLog
-  const today_d = new Date(); today_d.setHours(0,0,0,0);
-  const slices = [];
-  for(let w=weeksBack-1; w>=0; w--) {
-    const start = new Date(today_d); start.setDate(start.getDate() - (w+1)*7);
-    const end   = new Date(today_d); end.setDate(end.getDate() - w*7);
-    const startStr = start.toISOString().slice(0,10);
-    const endStr   = end.toISOString().slice(0,10);
-    const isCurrent = w===0;
-    let totalMins=0, practiceCount=0, masteryChanges=0, skillsTouched=new Set();
-    courses.forEach(c=>(c.units||[]).forEach(u=>(u.items||[]).forEach(item=>{
-      // studyLog 分钟数
-      (item.studyLog||[]).forEach(l=>{ if(l.date>=startStr&&l.date<endStr){totalMins+=l.minutes||0;} });
-      // practiceLog
-      if(item.type==='practice'){
-        const logs=(item.practiceLog||[]).filter(l=>l.date>=startStr&&l.date<endStr);
-        if(logs.length){ practiceCount+=logs.length; skillsTouched.add(item.id); }
-        // 掌握度变化：比较切片内最早和最晚的 masteryAfter
-        const withMastery=logs.filter(l=>l.masteryAfter!==undefined);
-        if(withMastery.length>=2){
-          const first=withMastery[0].masteryAfter, last=withMastery[withMastery.length-1].masteryAfter;
-          if(last>first) masteryChanges++;
-        }
-      }
-    })));
-    const label = isCurrent ? '本周' : `${w+1}周前`;
-    slices.push({label, startStr, endStr, isCurrent, totalMins, practiceCount, masteryChanges, skillCount:skillsTouched.size});
-  }
-  return slices;
-}
-function renderCycleView() {
-  const slices = buildCycleSlices(4);
-  if(slices.every(s=>s.totalMins===0&&s.practiceCount===0)) return ''; // 没有数据不显示
-  const maxMins = Math.max(...slices.map(s=>s.totalMins),1);
-  const maxPrac = Math.max(...slices.map(s=>s.practiceCount),1);
-
-  // 检测停滞：最近两个切片练习数都为0且上上周有记录
-  const last2 = slices.slice(-2);
-  const prev2 = slices.slice(-4,-2);
-  const isStagnant = last2.every(s=>s.practiceCount===0) && prev2.some(s=>s.practiceCount>0);
-
-  const cards = slices.map((s,i)=>{
-    const prev = slices[i-1];
-    const pracDelta = prev ? s.practiceCount - prev.practiceCount : null;
-    const minsDelta = prev ? s.totalMins - prev.totalMins : null;
-    const deltaTag = (d, unit='')=>d===null?'':
-      d>0?`<span class="cycle-delta up">+${d}${unit}</span>`:
-      d<0?`<span class="cycle-delta down">${d}${unit}</span>`:
-      `<span class="cycle-delta flat">持平</span>`;
-    const cardClass = s.isCurrent ? 'current' : (s.practiceCount===0&&i>0?'stagnant':'');
-    return `<div class="cycle-card ${cardClass}">
-      <div class="cycle-card-label">${s.label}</div>
-      <div class="cycle-stat">
-        <span><span class="cycle-stat-val">${Math.round(s.totalMins/60*10)/10}</span><span class="cycle-stat-label"> h</span>${deltaTag(minsDelta?Math.round(minsDelta/60*10)/10:null,'h')}</span>
-        <span class="cycle-stat-label">时长</span>
-      </div>
-      <div class="cycle-bar-wrap">
-        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted)">
-          <span>练习 ${s.practiceCount}次${deltaTag(pracDelta)}</span>
-          <span>${s.skillCount}个技能</span>
-        </div>
-        <div class="cycle-bar-track"><div class="cycle-bar-fill" style="width:${Math.round(s.totalMins/maxMins*100)}%"></div></div>
-      </div>
-      ${s.masteryChanges>0?`<div style="font-size:10px;color:var(--green);margin-top:6px;font-weight:600">↑ ${s.masteryChanges}项掌握度提升</div>`:''}
-    </div>`;
-  }).join('');
-
-  const alert = isStagnant ? `<div class="cycle-alert">⚠️ 已连续两周没有练习记录。这是你设定的「3-4周观察期」末尾信号——是时候评估一下这个方向有没有在进步，或者调整练法了。</div>` : '';
-
-  return `<div class="cycle-section">
-    <div class="cycle-header">
-      <span class="cycle-title">📈 四周观察期</span>
-      <span style="font-size:11px;color:var(--text-muted)">练习与时长趋势</span>
-    </div>
-    <div class="cycle-grid">${cards}</div>
-    ${alert}
-  </div>`;
-}
-// ── 自测历史可视化 ──
-function renderSelfTestHistory(practiceLog) {
-  const tests = (practiceLog||[]).filter(l=>l.selfTest && l.selfTestJudge);
-  if(tests.length===0) return '';
-  // 最近8次自测
-  const recent = tests.slice(-8);
-  const dots = recent.map(t=>{
-    const j = t.selfTestJudge; // A B C
-    const label = j==='A'?'掌握':j==='B'?'部分':'表面';
-    return `<span class="st-dot ${j}" title="${t.date} · ${label}">${j}</span>`;
-  }).join('');
-  // 趋势判断
-  let trendHtml = '';
-  if(recent.length>=3){
-    const last3=recent.slice(-3);
-    if(last3.every(t=>t.selfTestJudge==='A')) trendHtml=`<span class="st-trend-good">✓ 稳定掌握</span>`;
-    else if(last3.every(t=>t.selfTestJudge==='C')) trendHtml=`<span class="st-trend-bad">⚠ 连续停留表面</span>`;
-    else if(last3[last3.length-1]?.selfTestJudge==='A'&&last3[0]?.selfTestJudge==='C') trendHtml=`<span class="st-trend-good">↑ 进步中</span>`;
-  }
-  return `<div class="selftest-history">
-    <span class="st-dot-label">自测：</span>
-    ${dots}
-    ${trendHtml}
-  </div>`;
-}
-// ── Prep AI 辅助分析 ──
-async function prepAIAnalyze() {
-  if(!cfg.geminiKey && !cfg.qwenKey) {
-    alert('请先在设置里配置 AI API Key');
-    return;
-  }
-  const c = courses.find(x=>x.id===activeCourseId); if(!c) return;
-  const u = c && c.units.find(x=>x.id===prepModalUnitId); if(!u) return;
-  const item = u.items.find(x=>x.id===prepModalItemId); if(!item) return;
-
-  // 收集素材：当前单元所有条目标题 + 笔记 + 上一个单元的标题
-  const unitIdx = c.units.findIndex(x=>x.id===prepModalUnitId);
-  const prevUnit = unitIdx>0 ? c.units[unitIdx-1] : null;
-  const curItems = (u.items||[]).filter(i=>i.type!=='prep').map(i=>i.title).join('、');
-  const prevItems = prevUnit ? (prevUnit.items||[]).map(i=>i.title).join('、') : '';
-  const notes = (u.items||[]).filter(i=>i.note&&i.note.trim()).map(i=>`【${i.title}】${i.note.trim().slice(0,100)}`).join('\n');
-
-  const material = `课程：${c.name}
-本周单元：${u.name}
-本周内容：${curItems||'（暂无）'}
-上周内容：${prevItems||'（暂无）'}
-现有笔记：\n${notes||'（暂无）'}`;
-
-  const btn = document.getElementById('prm_ai_btn');
-  const status = document.getElementById('prm_ai_status');
-  btn.disabled = true; btn.textContent = '⏳ 分析中…';
-  status.style.display = 'block';
-
-  // 三个 prompt 顺序执行
-  try {
-    // Prompt 1: 本周地图
-    status.textContent = '🗺 正在生成本周地图（1/3）…';
-    const p1 = `基于以下学习材料，提炼出本周内容的5个核心概念，并说明它们与上周内容的连接关系。用中文回答，简洁清晰，每个概念一行，格式：「概念名：和上周XX的连接」。不要多余的前缀或解释。\n\n${material}`;
-    const map = await callAI(p1);
-    document.getElementById('prm_map').value = map.trim();
-
-    // Prompt 2: 我的盲点
-    status.textContent = '🕳 正在识别理解盲点（2/3）…';
-    const p2 = `基于以下学习材料，如果我要把这部分内容讲给一个完全没有背景的人听，我需要真正理解哪些东西？列出5-8个核心理解点，每行一个，不要编号，不要解释，直接写理解点本身。用中文。\n\n${material}`;
-    const gaps = await callAI(p2);
-    document.getElementById('prm_gaps').value = gaps.trim();
-
-    // Prompt 3: 考核陷阱
-    status.textContent = '🪤 正在生成考核陷阱（3/3）…';
-    const p3 = `基于以下学习材料，一个教授会问出什么问题，能一下子识别出那些只懂表面、却没有理解底层逻辑的学生？列出3-5个这样的问题，每行一个。用中文。\n\n${material}`;
-    const traps = await callAI(p3);
-    document.getElementById('prm_traps').value = traps.trim();
-
-    status.style.background = 'var(--green-bg)'; status.style.color = 'var(--green)';
-    status.textContent = '✓ AI 分析完成！检查内容后点「保存」。';
-    renderConvertPreview();
-  } catch(e) {
-    status.style.background = 'var(--red-bg)'; status.style.color = 'var(--red)';
-    status.textContent = '分析失败：' + e.message;
-  }
-  btn.disabled = false; btn.textContent = '✨ AI 分析';
-}
-
-// ════════════════════════════════════════
-
 // ═══ PWA：安装到桌面                   ═══
 // ════════════════════════════════════════
 
