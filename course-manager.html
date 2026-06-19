@@ -98,6 +98,94 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 
 @keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
 
+/* ═══ 手机端响应式适配 (≤600px) ═══ */
+@media(max-width:600px){
+  :root{--sidebar-w:100vw}
+  .app{position:relative;overflow:hidden}
+
+  /* 侧边栏全屏，主区域默认隐藏在右侧 */
+  .sidebar{
+    position:fixed;inset:0;width:100%;
+    transform:translateX(0);
+    transition:transform .28s cubic-bezier(.4,0,.2,1);
+    z-index:10;
+  }
+  .sidebar.mob-hidden{transform:translateX(-100%)}
+
+  .main{
+    position:fixed;inset:0;width:100%;
+    transform:translateX(100%);
+    transition:transform .28s cubic-bezier(.4,0,.2,1);
+    z-index:10;overflow-y:auto;
+  }
+  .main.mob-visible{transform:translateX(0)}
+
+  /* 返回栏 */
+  .mob-back-bar{
+    display:flex;align-items:center;
+    padding:10px 16px 6px;
+    background:#fff;border-bottom:1px solid var(--border);
+    position:sticky;top:0;z-index:5;
+  }
+  .mob-back-btn{
+    background:none;border:none;font-size:15px;font-weight:600;
+    color:var(--navy);cursor:pointer;padding:4px 0;font-family:inherit;
+    display:flex;align-items:center;gap:4px;
+  }
+  .mob-back-btn::before{content:'‹';font-size:20px;line-height:1}
+
+  /* 课程详情头部精简 */
+  .main-header{padding:14px 16px}
+  .main-course-title{font-size:18px;margin-bottom:8px}
+  .overall-bar{width:80px}
+
+  /* 操作按钮改为两行网格 */
+  .header-actions{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:6px;margin-top:10px;
+  }
+  .header-actions .btn{
+    font-size:11px;padding:7px 4px;
+    justify-content:center;white-space:nowrap;
+  }
+
+  /* 侧边栏底部按钮压缩 */
+  .data-actions{flex-wrap:wrap;gap:4px}
+  .data-btn{font-size:10px;padding:5px 2px}
+
+  /* 弹窗从底部弹出 */
+  .modal-overlay{align-items:flex-end}
+  .modal{
+    border-radius:20px 20px 0 0;
+    max-height:90vh;overflow-y:auto;
+    width:100%;max-width:100%;
+  }
+
+  /* iOS 安全区 */
+  .sidebar-footer{padding-bottom:max(12px,env(safe-area-inset-bottom))}
+  .modal-footer{padding-bottom:max(16px,env(safe-area-inset-bottom))}
+
+  /* tab栏 */
+  .tab-bar{gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tab-btn{font-size:12px;padding:10px 10px;white-space:nowrap;flex-shrink:0}
+
+  /* 风险卡片宽度 */
+  .risk-card{width:calc(100vw - 32px);right:16px;bottom:70px}
+
+  /* 内容区padding缩小 */
+  .tab-content{padding:14px 14px}
+  .overview-container{padding:16px}
+
+  /* 仪表盘 */
+  .dash-course-name{font-size:12px}
+  .dash-section{padding:12px 14px}
+
+  /* 统计数字 */
+  .stat-val{font-size:16px}
+}
+
+
 .sidebar-footer{padding:12px 18px;}
 .stats-row{display:flex;gap:12px;margin-bottom:10px}
 .stat-item{flex:1}
@@ -1646,6 +1734,16 @@ function getLinkType(url) {
 }
 
 // ═══ RENDER ═══
+function mobShowMain(){
+  if(window.innerWidth>600)return;
+  document.querySelector('.sidebar')?.classList.add('mob-hidden');
+  document.querySelector('.main')?.classList.add('mob-visible');
+}
+function mobShowSidebar(){
+  if(window.innerWidth>600)return;
+  document.querySelector('.sidebar')?.classList.remove('mob-hidden');
+  document.querySelector('.main')?.classList.remove('mob-visible');
+}
 function renderAll(){renderSidebar();renderXPPanel();renderMain();}
 
 function renderXPPanel() {
@@ -1986,7 +2084,7 @@ function renderOverview(mainArea){
     </div>`).join('')}
   </div>`:'';
 
-  const mobBack=window.innerWidth<=600?`<div class="mob-back-bar"><button class="mob-back-btn" onclick="mobShowSidebar()">‹ 返回</button></div>`:'';
+  const mobBack=window.innerWidth<=600?`<div class="mob-back-bar"><button class="mob-back-btn" onclick="mobShowSidebar()">返回</button></div>`:'';
 
   mainArea.innerHTML=`<div class="overview-container">
     ${mobBack}
@@ -2873,6 +2971,39 @@ function confirmTimerStartFor(courseId, unitId, itemId) {
   openModal('timerStartModal');
 }
 // Pose课程专用阶段定义
+// Pose各阶段检查清单
+const POSE_CHECKLISTS = {
+  lv1: [
+    '找到一张动作参考照片（武术/舞蹈/运动）',
+    '用角色骨骼还原了参考动作',
+    '在原基础上夸张了 30~50%（弓步更大、重心更低、脊椎扭转更多）',
+    '关掉贴图/灯光，纯黑剪影能看出角色在干什么',
+    '动作线（脊椎曲线）是清晰的 C / S / 直线',
+  ],
+  lv2: [
+    '从正面检查过比例和动态',
+    '从侧面检查过深度，不是"纸片人"',
+    '从 45° 斜角检查过空间感',
+    '旋转 360° 没有出现手脚和躯干叠在一起的死角',
+    '切换 Flat Color 检查过剪影，轮廓清晰可读',
+  ],
+  lv3: [
+    '肩膀和胯部方向相反（形成扭转）',
+    '两只手不在对称/平行位置',
+    '两条腿不在对称/平行位置',
+    '身体有明显的对抗力量感（不是左右均等的静止站姿）',
+    '重心（骨盆位置）和支撑脚之间关系是合理的',
+  ],
+  lv4: [
+    '明确了这个 Pose 的类型（Idle / 蓄力 / 击中 / 收招）',
+    'Idle：不动也能看出角色职业/性格',
+    '蓄力/预备：有明显的反向拉伸，积蓄能量感',
+    '击中：动作线最硬最挺，力量在这一帧爆发',
+    '收招：身体重新找到平衡支撑点，有卸力感',
+    '切成纯色剪影后仍能判断是哪种状态',
+  ],
+};
+
 const POSE_CYCLE_BTNS = [
   {val:'lv1', emoji:'🔴', label:'Lv1 极限夸张', desc:'照片还原+夸张30~50%'},
   {val:'lv2', emoji:'🟡', label:'Lv2 多视角',   desc:'360°旋转检查空间感'},
@@ -2899,41 +3030,46 @@ function openPracticeLog(unitId, itemId) {
   document.getElementById('plm_reflection').value = '';
   document.getElementById('plm_artifacts').value = '';
 
-  // 根据课程类型动态渲染循环阶段按钮
   const isPose = (c.courseType || '') === 'pose';
+  const titleLower = item.title.toLowerCase();
+
+  // 阶段按钮（Pose 或通用）
   const cycleDefs = isPose ? POSE_CYCLE_BTNS : DEFAULT_CYCLE_BTNS;
-  const cycleLabel = isPose ? '本次练习阶段（Pose五阶段法）' : '本次处于哪个循环阶段？';
-  document.querySelector('label[for="plm_cycle_group"]') &&
-    (document.querySelector('label[for="plm_cycle_group"]').textContent = cycleLabel);
-  // 更新label文字
+  const cycleLabel = isPose ? '本次练习阶段（点击后显示检查清单）' : '本次处于哪个循环阶段？';
   const cycleWrap = document.getElementById('plm_cycle_btns');
   const cycleParent = cycleWrap ? cycleWrap.closest('.form-group') : null;
-  if(cycleParent) {
-    const lbl = cycleParent.querySelector('.form-label');
-    if(lbl) lbl.textContent = cycleLabel;
-  }
-  if(cycleWrap) {
+  if(cycleParent){ const lbl=cycleParent.querySelector('.form-label'); if(lbl)lbl.textContent=cycleLabel; }
+  if(cycleWrap){
     cycleWrap.innerHTML = cycleDefs.map(d=>
       `<button class="plm-cycle-btn" data-val="${d.val}" onclick="selectCycle('${d.val}')">${d.emoji} ${d.label}<span>${d.desc}</span></button>`
     ).join('');
   }
 
-  // 重置维度按钮样式
+  // 重置维度按钮
   document.querySelectorAll('.plm-dim-btn').forEach(b=>b.classList.remove('active'));
-  // 预选上次的循环阶段（如有）
-  const lastLog = (item.practiceLog||[]).slice(-1)[0];
-  if(lastLog?.cycleStage) selectCycle(lastLog.cycleStage);
-  selectMastery(item.masteryLevel || 0);
 
-  // 打光检查清单：software类课程 + 技能名含打光关键词时显示
+  // 检查清单区域标题
+  const checklistEl = document.getElementById('plm_lighting_checklist');
+  const checklistLabel = checklistEl?.querySelector('.form-label');
+
+  // 打光检查清单
   const lightingKeywords = ['打光','灯光','lighting','light','三点光','主光','轮廓光','辅光','布光','氛围光'];
-  const titleLower = item.title.toLowerCase();
   const isLightingSkill = (c.courseType === 'software' || c.courseType === '') &&
     lightingKeywords.some(k => titleLower.includes(k));
-  const checklistEl = document.getElementById('plm_lighting_checklist');
-  const checklistItems = document.getElementById('plm_lighting_items');
-  if(isLightingSkill && checklistEl && checklistItems) {
-    // 判断是剑三还是Blender
+
+  if(isPose){
+    // Pose：阶段按钮选中后动态填充清单，先隐藏等待选择
+    if(checklistEl){
+      if(checklistLabel) checklistLabel.textContent = '✅ Pose 检查清单';
+      checklistEl.style.display = 'none'; // 先隐藏，选阶段后显示
+    }
+    // 预选上次阶段并填充清单
+    const lastLog = (item.practiceLog||[]).slice(-1)[0];
+    if(lastLog?.cycleStage) selectCycle(lastLog.cycleStage);
+  } else if(isLightingSkill){
+    // 打光检查清单
+    if(checklistLabel) checklistLabel.textContent = '💡 打光要素确认';
+    const checklistItems = document.getElementById('plm_lighting_items');
     const cNameLower = c.name.toLowerCase();
     const isBlender = cNameLower.includes('blender') || titleLower.includes('blender');
     const isJian3 = cNameLower.includes('剑') || cNameLower.includes('movieeditor') || cNameLower.includes('剑网') || cNameLower.includes('movie');
@@ -2958,17 +3094,21 @@ function openPracticeLog(unitId, itemId) {
       '色彩有冷暖对比',
       '用纯色/剪影模式检查过剪影质量',
     ];
-    checklistItems.innerHTML = checks.map((text, i) =>
+    if(checklistItems) checklistItems.innerHTML = checks.map((text,i)=>
       `<div class="lighting-check-item" id="lci_${i}">
         <input type="checkbox" id="lc_${i}" onchange="toggleLightingCheck(${i})">
         <label for="lc_${i}" style="cursor:pointer;line-height:1.5">${text}</label>
-      </div>`
-    ).join('');
-    checklistEl.style.display = 'block';
+      </div>`).join('');
+    if(checklistEl) checklistEl.style.display = 'block';
+    const lastLog = (item.practiceLog||[]).slice(-1)[0];
+    if(lastLog?.cycleStage) selectCycle(lastLog.cycleStage);
   } else {
     if(checklistEl) checklistEl.style.display = 'none';
+    const lastLog = (item.practiceLog||[]).slice(-1)[0];
+    if(lastLog?.cycleStage) selectCycle(lastLog.cycleStage);
   }
 
+  selectMastery(item.masteryLevel || 0);
   openModal('practiceLogModal');
 }
 
@@ -2984,6 +3124,25 @@ function selectMastery(val) {
 function selectCycle(val) {
   plmSelectedCycle = val;
   document.querySelectorAll('.plm-cycle-btn').forEach(b=>b.classList.toggle('active',b.dataset.val===val));
+  // Pose课程：选阶段后显示对应检查清单
+  const c = courses.find(x=>x.id===activeCourseId);
+  if(c && c.courseType==='pose' && POSE_CHECKLISTS[val]){
+    const checklistEl = document.getElementById('plm_lighting_checklist');
+    const checklistItems = document.getElementById('plm_lighting_items');
+    const checklistLabel = checklistEl?.querySelector('.form-label');
+    if(checklistLabel){
+      const lvlNames={lv1:'Lv1 极限夸张',lv2:'Lv2 多视角',lv3:'Lv3 不对称',lv4:'Lv4 游戏状态'};
+      checklistLabel.textContent = `✅ Pose 检查清单 · ${lvlNames[val]||val}`;
+    }
+    if(checklistItems){
+      checklistItems.innerHTML = POSE_CHECKLISTS[val].map((text,i)=>
+        `<div class="lighting-check-item" id="lci_${i}">
+          <input type="checkbox" id="lc_${i}" onchange="toggleLightingCheck(${i})">
+          <label for="lc_${i}" style="cursor:pointer;line-height:1.5">${text}</label>
+        </div>`).join('');
+    }
+    if(checklistEl) checklistEl.style.display = 'block';
+  }
 }
 function selectDim(val) {
   plmSelectedDim = val;
@@ -3308,8 +3467,8 @@ function saveTimerEnd() {
 }
 
 // ═══ CRUD & UTILS ═══
-function setSidebarView(view,btn){sidebarView=view;document.querySelectorAll('.snav-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');if(view==='overview')activeCourseId=null;renderAll();}
-function selectCourse(id){activeCourseId=id;activeTab='content';sidebarView='courses';document.getElementById('snav_courses').classList.add('active');document.getElementById('snav_overview').classList.remove('active');document.getElementById('snav_search').classList.remove('active');renderAll();}
+function setSidebarView(view,btn){sidebarView=view;document.querySelectorAll('.snav-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');if(view==='overview')activeCourseId=null;renderAll();if(view==='overview'||view==='search')mobShowMain();}
+function selectCourse(id){activeCourseId=id;activeTab='content';sidebarView='courses';document.getElementById('snav_courses').classList.add('active');document.getElementById('snav_overview').classList.remove('active');document.getElementById('snav_search').classList.remove('active');renderAll();mobShowMain();}
 function switchTab(tab){activeTab=tab;renderMain();}
 function toggleUnit(uid){const c=courses.find(x=>x.id===activeCourseId);if(!c)return;const u=c.units.find(x=>x.id===uid);if(!u)return;u.open=u.open===false;saveData();renderAll();}
 function toggleReview(unitId, itemId){const c=courses.find(x=>x.id===activeCourseId);const u=c.units.find(x=>x.id===unitId);const item=u.items.find(x=>x.id===itemId);item.needReview = !item.needReview;saveData(); renderAll(); showToast(item.needReview ? '已加入待复习' : '已取消复习');}
