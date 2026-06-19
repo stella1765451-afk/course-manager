@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>课程管理器</title>
 <meta name="description" content="学习管理系统 · 课程追踪 · 练习台 · 云同步">
-<meta name="theme-color" content="#0E7C86">
+<meta name="theme-color" content="#7B9E97">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -15,46 +15,72 @@
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
 :root{
-  /* ── 新配色系统 (Deep Teal × Mist Porcelain) ── */
-  --teal:        #0E7C86;  /* Deep Teal · 主色·侧边栏·按钮 */
-  --teal-light:  #2AA9A9;  /* Aqua Alloy · 强调·hover */
-  --teal-dim:    #0A5F68;  /* 深色变体 */
-  --teal-bg:     #E6F5F6;  /* Teal淡底 */
-  --coral:       #F26D6D;  /* Blush Coral · 警告·删除·未动 */
-  --peach:       #FFB5A7;  /* Peach Shell · 次级强调 */
-  --ink:         #1F1F1F;  /* Shadow Ink · 正文 */
-  --porcelain:   #FDF2F0;  /* Mist Porcelain · 页面背景 */
-  --porcelain-dark: #F0E8E5; /* 稍深的背景 */
-  --border:      #E2D9D6;
-  --border-light:#EDE6E3;
-  --text-primary:#1F1F1F;
-  --text-secondary:#5A5450;
-  --text-muted:  #9A9490;
-  --green:       #1E8C5A;
-  --red:         #E03A3A;
-  /* 兼容旧变量名 */
-  --navy:        #0E7C86;
-  --navy-light:  #2AA9A9;
-  --navy-dim:    #0A5F68;
-  --amber:       #D4870A;
-  --amber-light: #F0A830;
-  --amber-bg:    #FEF3DC;
-  --cream:       #FDF2F0;
-  --cream-dark:  #F0E8E5;
+  /* ── 莫兰迪浅色配色系统 ── */
+  /* 主色：低饱和度青灰绿 */
+  --m-sage:      #7B9E97;  /* 莫兰迪鼠尾草绿 · 主强调色 */
+  --m-sage-dk:   #5E807A;  /* 深版 · 按钮/active */
+  --m-sage-lt:   #A8C4BE;  /* 浅版 · hover */
+  --m-sage-bg:   #EEF4F3;  /* 极浅底色 */
+
+  /* 暖色辅助：低饱和珊瑚/桃 */
+  --m-blush:     #C4897A;  /* 莫兰迪珊瑚玫瑰 · 警告/删除 */
+  --m-blush-lt:  #DFB0A5;  /* 浅版 */
+  --m-blush-bg:  #F7EDE9;  /* 极浅底 */
+  --m-peach:     #C9A08A;  /* 莫兰迪桃褐 · 次要强调 */
+
+  /* 中性：陶瓷白/暖灰 */
+  --m-bg:        #F5F0EE;  /* 页面主背景 */
+  --m-bg-card:   #FDFAF9;  /* 卡片白 */
+  --m-bg-warm:   #EDE8E5;  /* 稍深暖灰 */
+
+  /* 文字 */
+  --m-ink:       #2E2926;  /* 主正文 */
+  --m-text-2:    #6A625D;  /* 次级文字 */
+  --m-text-3:    #A09890;  /* 辅助文字 */
+
+  /* 边框 */
+  --m-border:    #DDD7D3;
+  --m-border-lt: #E8E3DF;
+
+  /* 兼容旧变量 → 映射到莫兰迪 */
+  --teal:        #7B9E97;
+  --teal-light:  #A8C4BE;
+  --teal-dim:    #5E807A;
+  --teal-bg:     #EEF4F3;
+  --coral:       #C4897A;
+  --peach:       #DFB0A5;
+  --ink:         #2E2926;
+  --porcelain:   #F5F0EE;
+  --porcelain-dark:#EDE8E5;
+  --border:      #DDD7D3;
+  --border-light:#E8E3DF;
+  --text-primary:#2E2926;
+  --text-secondary:#6A625D;
+  --text-muted:  #A09890;
+  --green:       #6B9E7A;
+  --red:         #C4897A;
+  --navy:        #5E807A;
+  --navy-light:  #7B9E97;
+  --navy-dim:    #4A6863;
+  --amber:       #C9A08A;
+  --amber-light: #DFB0A5;
+  --amber-bg:    #F7EDE9;
+  --cream:       #F5F0EE;
+  --cream-dark:  #EDE8E5;
   --sidebar-w:280px;--radius:8px;--radius-lg:12px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--porcelain);color:var(--text-primary);font-size:14px;line-height:1.6;min-height:100vh}
 .app{display:flex;height:100vh;overflow:hidden}
-.sidebar{width:var(--sidebar-w);flex-shrink:0;background:var(--navy);display:flex;flex-direction:column;overflow:hidden;box-shadow:2px 0 10px rgba(0,0,0,0.1);z-index:2}
-.sidebar-header{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
-.sidebar-logo{font-size:11px;font-weight:600;letter-spacing:.12em;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:2px}
-.sidebar-title{font-size:17px;font-weight:600;color:#fff}
-.sidebar-add-btn{display:flex;align-items:center;gap:6px;width:100%;margin-top:6px;padding:7px 10px;background:rgba(255,255,255,.08);border:1px dashed rgba(255,255,255,.2);border-radius:var(--radius);color:rgba(255,255,255,.65);font-size:13px;cursor:pointer;transition:all .15s;font-family:inherit}
-.sidebar-add-btn:hover{background:rgba(255,255,255,.13);color:#fff}
+.sidebar{width:var(--sidebar-w);flex-shrink:0;background:var(--m-bg-card);display:flex;flex-direction:column;overflow:hidden;box-shadow:1px 0 0 var(--m-border);z-index:2}
+.sidebar-header{padding:20px 18px 16px;border-bottom:1px solid var(--m-border)}
+.sidebar-logo{font-size:11px;font-weight:600;letter-spacing:.12em;color:var(--m-text-3);text-transform:uppercase;margin-bottom:2px}
+.sidebar-title{font-size:17px;font-weight:700;color:var(--m-ink)}
+.sidebar-add-btn{display:flex;align-items:center;gap:6px;width:100%;margin-top:6px;padding:7px 10px;background:var(--m-bg);border:1px dashed var(--m-border);border-radius:var(--radius);color:var(--m-text-2);font-size:13px;cursor:pointer;transition:all .15s;font-family:inherit}
+.sidebar-add-btn:hover{background:var(--m-sage-bg);color:var(--m-sage-dk)}
 /* 一键启动按钮 */
-.now-btn{display:flex;align-items:center;justify-content:center;width:100%;margin-top:10px;padding:10px;background:var(--amber);border:none;border-radius:var(--radius);color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit;letter-spacing:.02em;box-shadow:0 2px 8px rgba(212,135,10,.35)}
-.now-btn:hover{background:var(--amber-light);transform:translateY(-1px);box-shadow:0 4px 14px rgba(212,135,10,.4)}
+.now-btn{display:flex;align-items:center;justify-content:center;width:100%;margin-top:10px;padding:10px;background:var(--m-sage-dk);border:none;border-radius:var(--radius);color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit;letter-spacing:.02em;box-shadow:0 2px 8px rgba(94,128,122,.25)}
+.now-btn:hover{background:var(--m-sage);transform:translateY(-1px);box-shadow:0 4px 14px rgba(123,158,151,.35)}
 /* 子步骤 */
 .substeps-wrap{margin-left:14px;margin-top:0;padding:4px 0 6px 14px;border-left:2px solid var(--border-light)}
 .substep-row{display:flex;align-items:center;gap:8px;padding:3px 0}
@@ -81,22 +107,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 /* 情绪历史小徽章 */
 .mood-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
 .mood-blocked{background:#C0392B}.mood-slow{background:#D4870A}.mood-good{background:#2D7D52}.mood-fire{background:#2A4080}
-.sidebar-nav{padding:8px 10px 4px;display:flex;gap:4px}
-.snav-btn{flex:1;padding:5px 0;background:rgba(255,255,255,.06);border:none;border-radius:6px;color:rgba(255,255,255,.5);font-size:11px;font-family:inherit;cursor:pointer;transition:all .15s;font-weight:500}
-.snav-btn.active{background:var(--teal-light);color:#fff}
-.snav-btn:hover:not(.active){background:rgba(255,255,255,.1);color:rgba(255,255,255,.8)}
+.sidebar-nav{padding:8px 10px 4px;display:flex;gap:4px;border-bottom:1px solid var(--m-border-lt)}
+.snav-btn{flex:1;padding:5px 0;background:transparent;border:none;border-radius:6px;color:var(--m-text-3);font-size:11px;font-family:inherit;cursor:pointer;transition:all .15s;font-weight:500}
+.snav-btn.active{background:var(--m-sage-bg);color:var(--m-sage-dk);font-weight:600}
+.snav-btn:hover:not(.active){background:var(--m-bg-warm);color:var(--m-text-2)}
 .sidebar-courses{flex:1;overflow-y:auto;padding:6px 0}
 .sidebar-courses::-webkit-scrollbar{width:3px}
-.sidebar-courses::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px}
+.sidebar-courses::-webkit-scrollbar-thumb{background:var(--m-border);border-radius:2px}
 .course-item{padding:10px 18px;cursor:pointer;transition:background .12s;position:relative}
-.course-item:hover{background:rgba(255,255,255,.06)}
-.course-item.active{background:rgba(255,255,255,.1)}
+.course-item:hover{background:var(--m-sage-bg)}
+.course-item.active{background:var(--m-sage-bg)}
 .course-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--amber-light);border-radius:0 2px 2px 0}
-.course-item-name{font-size:13px;color:rgba(255,255,255,.8);font-weight:500;line-height:1.4;margin-bottom:5px}
-.course-item.active .course-item-name{color:#fff}
-.course-progress-bar{height:3px;background:rgba(255,255,255,.12);border-radius:2px;overflow:hidden}
+.course-item-name{font-size:13px;color:var(--m-ink);font-weight:500;line-height:1.4;margin-bottom:5px}
+.course-item.active .course-item-name{color:var(--m-sage-dk);font-weight:600}
+.course-progress-bar{height:3px;background:var(--m-border);border-radius:2px;overflow:hidden}
 .course-progress-fill{height:100%;background:var(--amber-light);border-radius:2px;transition:width .3s}
-.course-progress-text{font-size:11px;color:rgba(255,255,255,.35);margin-top:3px}
+.course-progress-text{font-size:11px;color:var(--m-text-3);margin-top:3px}
 /* 时间感知双轨 */
 .time-track-wrap{margin-top:5px}
 .time-track-label{display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,.28);margin-bottom:2px}
@@ -108,11 +134,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .time-ahead{background:rgba(45,125,82,.7)}
 
 /* XP & Level Panel */
-.level-panel {padding:12px 18px;background:rgba(0,0,0,0.15);border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05)}
+.level-panel {padding:12px 18px;background:var(--m-bg);border-top:1px solid var(--m-border-lt);border-bottom:1px solid var(--m-border-lt)}
 .lvl-header {display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
 .lvl-badge {font-size:13px;font-weight:700;color:var(--amber-light);text-shadow:0 0 10px rgba(240,168,48,0.3)}
 .lvl-xp {font-size:10px;color:rgba(255,255,255,.4)}
-.lvl-bar {height:4px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden;position:relative}
+.lvl-bar {height:4px;background:var(--m-border);border-radius:2px;overflow:hidden;position:relative}
 .lvl-fill {height:100%;background:linear-gradient(90deg, var(--amber), var(--amber-light));border-radius:2px;transition:width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);position:relative}
 .lvl-fill::after {content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.8),transparent);animation:shimmer 2s infinite;}
 
@@ -144,12 +170,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
   .mob-back-bar{
     display:flex;align-items:center;
     padding:10px 16px 6px;
-    background:#fff;border-bottom:1px solid var(--border);
+    background:var(--m-bg-card);border-bottom:1px solid var(--m-border-lt);
     position:sticky;top:0;z-index:5;
   }
   .mob-back-btn{
     background:none;border:none;font-size:15px;font-weight:600;
-    color:var(--navy);cursor:pointer;padding:4px 0;font-family:inherit;
+    color:var(--m-sage-dk);cursor:pointer;padding:4px 0;font-family:inherit;
     display:flex;align-items:center;gap:4px;
   }
   .mob-back-btn::before{content:'‹';font-size:20px;line-height:1}
@@ -252,9 +278,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .sidebar-footer{padding:12px 18px;}
 /* ── 视图切换条 ── */
 .view-mode-bar{display:flex;gap:4px;padding:4px 12px;justify-content:flex-end}
-.vm-btn{background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.35);font-size:14px;padding:3px 10px;border-radius:6px;cursor:pointer;font-family:inherit;transition:all .15s;line-height:1}
-.vm-btn.active{background:rgba(255,255,255,.18);color:#fff}
-.vm-btn:hover{background:rgba(255,255,255,.13);color:rgba(255,255,255,.8)}
+.vm-btn{background:var(--m-bg-warm);border:none;color:var(--m-text-3);font-size:14px;padding:3px 10px;border-radius:6px;cursor:pointer;font-family:inherit;transition:all .15s;line-height:1}
+.vm-btn.active{background:var(--m-sage);color:#fff}
+.vm-btn:hover{background:var(--m-sage-bg);color:var(--m-sage-dk)}
 /* ── 书架卡片 ── */
 .shelf-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px 12px}
 .shelf-card{border-radius:12px;padding:14px 12px 12px;cursor:pointer;position:relative;overflow:hidden;transition:transform .15s,box-shadow .15s;min-height:110px;display:flex;flex-direction:column;justify-content:space-between}
@@ -268,31 +294,31 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .shelf-status-tag{font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;background:rgba(0,0,0,.2);color:rgba(255,255,255,.9);white-space:nowrap;backdrop-filter:blur(4px)}
 .shelf-card-deco{position:absolute;right:-8px;top:-8px;font-size:44px;opacity:.12;pointer-events:none;transform:rotate(15deg)}
 /* 课程类型配色 */
-.shelf-pose    {background:linear-gradient(135deg,#0E7C86,#1AA8B5)}
-.shelf-painting{background:linear-gradient(135deg,#B85C2A,#D4870A)}
-.shelf-software{background:linear-gradient(135deg,#1E6B4A,#2AA980)}
-.shelf-design  {background:linear-gradient(135deg,#6B3FA0,#9B5FD0)}
-.shelf-general {background:linear-gradient(135deg,#3A5A8A,#0E7C86)}
+.shelf-pose    {background:linear-gradient(135deg,#7B9E97,#9ABFB9)}
+.shelf-painting{background:linear-gradient(135deg,#C4897A,#DFB0A5)}
+.shelf-software{background:linear-gradient(135deg,#6B9E7A,#8CBFA0)}
+.shelf-design  {background:linear-gradient(135deg,#8A7BA8,#B0A0C8)}
+.shelf-general {background:linear-gradient(135deg,#7B9E97,#8A9EB5)}
 /* ── 列表模式（原有样式微调） ── */
-.course-item{padding:10px 16px;cursor:pointer;transition:background .12s;position:relative;border-bottom:1px solid rgba(255,255,255,.05)}
-.course-item:hover{background:rgba(255,255,255,.06)}
-.course-item.active{background:rgba(255,255,255,.1)}
-.course-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--teal-light);border-radius:0 2px 2px 0}
-.course-item-name{font-size:13px;color:rgba(255,255,255,.8);font-weight:500;line-height:1.4;margin-bottom:4px}
-.course-item.active .course-item-name{color:#fff}
+.course-item{padding:10px 16px;cursor:pointer;transition:background .12s;position:relative;border-bottom:1px solid var(--m-border-lt)}
+.course-item:hover{background:var(--m-sage-bg)}
+.course-item.active{background:var(--m-sage-bg)}
+.course-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--m-sage);border-radius:0 2px 2px 0}
+.course-item-name{font-size:13px;color:var(--m-ink);font-weight:500;line-height:1.4;margin-bottom:4px}
+.course-item.active .course-item-name{color:var(--m-sage-dk);font-weight:600}
 /* 列表左侧状态竖条 */
 .course-item-status{position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:0 2px 2px 0}
-.status-today{background:#2AA9A9}
-.status-recent{background:#D4870A}
-.status-idle{background:#F26D6D}
-.status-none{background:rgba(255,255,255,.1)}
+.status-today{background:var(--m-sage)}
+.status-recent{background:var(--m-peach)}
+.status-idle{background:var(--m-blush)}
+.status-none{background:var(--m-border)}
 .stats-row{display:flex;gap:12px;margin-bottom:10px}
 .stat-item{flex:1}
-.stat-val{font-size:18px;font-weight:700;color:var(--teal-light);line-height:1.1}
-.stat-label{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px}
+.stat-val{font-size:18px;font-weight:700;color:var(--m-sage-dk);line-height:1.1}
+.stat-label{font-size:11px;color:var(--m-text-3);margin-top:2px}
 .data-actions{display:flex;gap:6px}
-.data-btn{flex:1;padding:5px 0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);color:rgba(255,255,255,.5);font-size:11px;font-family:inherit;cursor:pointer;text-align:center;transition:all .15s;display:block}
-.data-btn:hover{background:rgba(255,255,255,.13);color:rgba(255,255,255,.9)}
+.data-btn{flex:1;padding:5px 0;background:var(--m-bg);border:1px solid var(--m-border);border-radius:var(--radius);color:var(--m-text-2);font-size:11px;font-family:inherit;cursor:pointer;text-align:center;transition:all .15s;display:block}
+.data-btn:hover{background:var(--m-sage-bg);color:var(--m-sage-dk)}
 /* 云同步状态指示 */
 .sync-status{display:flex;align-items:center;gap:5px;font-size:11px;padding:3px 6px;border-radius:6px;margin-bottom:5px;transition:all .3s;cursor:pointer}
 .sync-status.idle{color:rgba(255,255,255,.3)}
@@ -341,8 +367,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .overall-pct{font-size:13px;font-weight:600;color:var(--teal);min-width:36px}
 .header-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border-radius:var(--radius);font-size:13px;cursor:pointer;transition:all .15s;border:none;font-family:inherit}
-.btn-primary{background:var(--teal);color:#fff}
-.btn-primary:hover{background:var(--teal-light)}
+.btn-primary{background:var(--m-sage-dk);color:#fff}
+.btn-primary:hover{background:var(--m-sage)}
 .btn-primary:disabled{opacity:.5;cursor:not-allowed}
 .btn-outline{background:transparent;color:var(--text-secondary);border:1px solid var(--border)}
 .btn-outline:hover{background:var(--cream-dark);color:var(--text-primary)}
@@ -705,20 +731,20 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
 .db-hint{font-size:11px;color:var(--text-muted);margin-top:2px}
 .db-hint strong{color:var(--navy)}
 /* ── Inbox 折叠区 ── */
-.inbox-section{border-top:1px solid rgba(255,255,255,.08);margin-top:4px}
-.inbox-toggle{display:flex;align-items:center;justify-content:space-between;padding:8px 18px;cursor:pointer;color:rgba(255,255,255,.35);font-size:11px;font-weight:500;user-select:none;transition:color .15s}
-.inbox-toggle:hover{color:rgba(255,255,255,.55)}
+.inbox-section{border-top:1px solid var(--m-border-lt);margin-top:4px}
+.inbox-toggle{display:flex;align-items:center;justify-content:space-between;padding:8px 18px;cursor:pointer;color:var(--m-text-3);font-size:11px;font-weight:500;user-select:none;transition:color .15s}
+.inbox-toggle:hover{color:var(--m-text-2)}
 .inbox-toggle .inbox-arrow{transition:transform .2s;font-size:9px}
 .inbox-toggle.open .inbox-arrow{transform:rotate(90deg)}
 .inbox-body{overflow:hidden;transition:max-height .25s ease}
 .inbox-item{padding:8px 18px 8px 28px;cursor:pointer;transition:background .12s;position:relative}
-.inbox-item:hover{background:rgba(255,255,255,.04)}
-.inbox-item-name{font-size:12px;color:rgba(255,255,255,.45);line-height:1.4}
-.inbox-item-meta{font-size:10px;color:rgba(255,255,255,.22);margin-top:2px}
+.inbox-item:hover{background:var(--m-sage-bg)}
+.inbox-item-name{font-size:12px;color:var(--m-text-2);line-height:1.4}
+.inbox-item-meta{font-size:10px;color:var(--m-text-3);margin-top:2px}
 .inbox-item-actions{position:absolute;right:12px;top:50%;transform:translateY(-50%);display:none;gap:4px}
 .inbox-item:hover .inbox-item-actions{display:flex}
-.inbox-act-btn{background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.5);font-size:10px;padding:2px 7px;border-radius:4px;cursor:pointer;font-family:inherit;transition:all .12s}
-.inbox-act-btn:hover{background:rgba(255,255,255,.15);color:#fff}
+.inbox-act-btn{background:var(--m-bg-warm);border:none;color:var(--m-text-2);font-size:10px;padding:2px 7px;border-radius:4px;cursor:pointer;font-family:inherit;transition:all .12s}
+.inbox-act-btn:hover{background:var(--m-sage-bg);color:var(--m-sage-dk)}
 /* ── 每日仪表盘 ── */
 .dash-section{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;margin-bottom:16px}
 .dash-section-title{font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
