@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>课程管理器</title>
 <meta name="description" content="学习管理系统 · 课程追踪 · 练习台 · 云同步">
-<meta name="theme-color" content="#1B2D5B">
+<meta name="theme-color" content="#0E7C86">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -15,16 +15,36 @@
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
 :root{
-  --navy:#1B2D5B;--navy-light:#2A4080;--navy-dim:#3D5299;
-  --amber:#D4870A;--amber-light:#F0A830;--amber-bg:#FEF3DC;
-  --cream:#F9F7F3;--cream-dark:#F0EDE6;
-  --border:#E0DCD4;--border-light:#EAE7E0;
-  --text-primary:#1A1917;--text-secondary:#5A5750;--text-muted:#9A9790;
-  --green:#2D7D52;--red:#C0392B;
+  /* ── 新配色系统 (Deep Teal × Mist Porcelain) ── */
+  --teal:        #0E7C86;  /* Deep Teal · 主色·侧边栏·按钮 */
+  --teal-light:  #2AA9A9;  /* Aqua Alloy · 强调·hover */
+  --teal-dim:    #0A5F68;  /* 深色变体 */
+  --teal-bg:     #E6F5F6;  /* Teal淡底 */
+  --coral:       #F26D6D;  /* Blush Coral · 警告·删除·未动 */
+  --peach:       #FFB5A7;  /* Peach Shell · 次级强调 */
+  --ink:         #1F1F1F;  /* Shadow Ink · 正文 */
+  --porcelain:   #FDF2F0;  /* Mist Porcelain · 页面背景 */
+  --porcelain-dark: #F0E8E5; /* 稍深的背景 */
+  --border:      #E2D9D6;
+  --border-light:#EDE6E3;
+  --text-primary:#1F1F1F;
+  --text-secondary:#5A5450;
+  --text-muted:  #9A9490;
+  --green:       #1E8C5A;
+  --red:         #E03A3A;
+  /* 兼容旧变量名 */
+  --navy:        #0E7C86;
+  --navy-light:  #2AA9A9;
+  --navy-dim:    #0A5F68;
+  --amber:       #D4870A;
+  --amber-light: #F0A830;
+  --amber-bg:    #FEF3DC;
+  --cream:       #FDF2F0;
+  --cream-dark:  #F0E8E5;
   --sidebar-w:280px;--radius:8px;--radius-lg:12px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--cream);color:var(--text-primary);font-size:14px;line-height:1.6;min-height:100vh}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--porcelain);color:var(--text-primary);font-size:14px;line-height:1.6;min-height:100vh}
 .app{display:flex;height:100vh;overflow:hidden}
 .sidebar{width:var(--sidebar-w);flex-shrink:0;background:var(--navy);display:flex;flex-direction:column;overflow:hidden;box-shadow:2px 0 10px rgba(0,0,0,0.1);z-index:2}
 .sidebar-header{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
@@ -63,7 +83,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .mood-blocked{background:#C0392B}.mood-slow{background:#D4870A}.mood-good{background:#2D7D52}.mood-fire{background:#2A4080}
 .sidebar-nav{padding:8px 10px 4px;display:flex;gap:4px}
 .snav-btn{flex:1;padding:5px 0;background:rgba(255,255,255,.06);border:none;border-radius:6px;color:rgba(255,255,255,.5);font-size:11px;font-family:inherit;cursor:pointer;transition:all .15s;font-weight:500}
-.snav-btn.active{background:rgba(255,255,255,.15);color:#fff}
+.snav-btn.active{background:var(--teal-light);color:#fff}
 .snav-btn:hover:not(.active){background:rgba(255,255,255,.1);color:rgba(255,255,255,.8)}
 .sidebar-courses{flex:1;overflow-y:auto;padding:6px 0}
 .sidebar-courses::-webkit-scrollbar{width:3px}
@@ -153,6 +173,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
     justify-content:center;white-space:nowrap;overflow:hidden;
   }
 
+  /* 书架卡片手机适配 */
+  .shelf-grid{grid-template-columns:1fr 1fr;gap:6px;padding:6px 10px}
+  .shelf-card{min-height:95px;padding:11px 10px 10px;border-radius:10px}
+  .shelf-card-name{font-size:11px;margin-bottom:6px}
+  .shelf-ring{width:30px;height:30px}
+  .shelf-ring svg{width:30px;height:30px}
+  .shelf-ring-pct{font-size:8px}
+  .shelf-status-tag{font-size:9px;padding:1px 5px}
+  .shelf-card-deco{font-size:36px}
+  .view-mode-bar{padding:2px 10px}
+
   /* 侧边栏底部按钮压缩 */
   .data-actions{flex-wrap:wrap;gap:4px}
   .data-btn{font-size:10px;padding:5px 2px}
@@ -219,9 +250,45 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 
 
 .sidebar-footer{padding:12px 18px;}
+/* ── 视图切换条 ── */
+.view-mode-bar{display:flex;gap:4px;padding:4px 12px;justify-content:flex-end}
+.vm-btn{background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.35);font-size:14px;padding:3px 10px;border-radius:6px;cursor:pointer;font-family:inherit;transition:all .15s;line-height:1}
+.vm-btn.active{background:rgba(255,255,255,.18);color:#fff}
+.vm-btn:hover{background:rgba(255,255,255,.13);color:rgba(255,255,255,.8)}
+/* ── 书架卡片 ── */
+.shelf-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px 12px}
+.shelf-card{border-radius:12px;padding:14px 12px 12px;cursor:pointer;position:relative;overflow:hidden;transition:transform .15s,box-shadow .15s;min-height:110px;display:flex;flex-direction:column;justify-content:space-between}
+.shelf-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.2)}
+.shelf-card.active-card{box-shadow:0 0 0 2px #fff,0 0 0 4px rgba(255,255,255,.4)}
+.shelf-card-name{font-size:12px;font-weight:700;color:#fff;line-height:1.3;margin-bottom:8px;text-shadow:0 1px 3px rgba(0,0,0,.3)}
+.shelf-card-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:6px}
+.shelf-ring{position:relative;width:36px;height:36px;flex-shrink:0}
+.shelf-ring svg{transform:rotate(-90deg)}
+.shelf-ring-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff}
+.shelf-status-tag{font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;background:rgba(0,0,0,.2);color:rgba(255,255,255,.9);white-space:nowrap;backdrop-filter:blur(4px)}
+.shelf-card-deco{position:absolute;right:-8px;top:-8px;font-size:44px;opacity:.12;pointer-events:none;transform:rotate(15deg)}
+/* 课程类型配色 */
+.shelf-pose    {background:linear-gradient(135deg,#0E7C86,#1AA8B5)}
+.shelf-painting{background:linear-gradient(135deg,#B85C2A,#D4870A)}
+.shelf-software{background:linear-gradient(135deg,#1E6B4A,#2AA980)}
+.shelf-design  {background:linear-gradient(135deg,#6B3FA0,#9B5FD0)}
+.shelf-general {background:linear-gradient(135deg,#3A5A8A,#0E7C86)}
+/* ── 列表模式（原有样式微调） ── */
+.course-item{padding:10px 16px;cursor:pointer;transition:background .12s;position:relative;border-bottom:1px solid rgba(255,255,255,.05)}
+.course-item:hover{background:rgba(255,255,255,.06)}
+.course-item.active{background:rgba(255,255,255,.1)}
+.course-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--teal-light);border-radius:0 2px 2px 0}
+.course-item-name{font-size:13px;color:rgba(255,255,255,.8);font-weight:500;line-height:1.4;margin-bottom:4px}
+.course-item.active .course-item-name{color:#fff}
+/* 列表左侧状态竖条 */
+.course-item-status{position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:0 2px 2px 0}
+.status-today{background:#2AA9A9}
+.status-recent{background:#D4870A}
+.status-idle{background:#F26D6D}
+.status-none{background:rgba(255,255,255,.1)}
 .stats-row{display:flex;gap:12px;margin-bottom:10px}
 .stat-item{flex:1}
-.stat-val{font-size:18px;font-weight:600;color:#fff;line-height:1.1}
+.stat-val{font-size:18px;font-weight:700;color:var(--teal-light);line-height:1.1}
 .stat-label{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px}
 .data-actions{display:flex;gap:6px}
 .data-btn{flex:1;padding:5px 0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);color:rgba(255,255,255,.5);font-size:11px;font-family:inherit;cursor:pointer;text-align:center;transition:all .15s;display:block}
@@ -256,7 +323,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .main::-webkit-scrollbar{width:4px}
 .main::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 
-.main-header{background:#fff;border-bottom:1px solid var(--border);padding:18px 32px;flex-shrink:0}
+.main-header{background:#fff;border-bottom:1px solid var(--border-light);padding:18px 28px;flex-shrink:0}
 .breadcrumb{font-size:12px;color:var(--text-muted);margin-bottom:6px}
 .main-course-title{font-size:22px;font-weight:700;color:var(--navy);letter-spacing:-.02em;line-height:1.2;margin-bottom:10px}
 .header-meta{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
@@ -270,12 +337,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .platform-other{background:var(--cream-dark);color:var(--text-secondary)}
 .overall-progress{display:flex;align-items:center;gap:10px;margin-left:auto}
 .overall-bar{width:120px;height:6px;background:var(--cream-dark);border-radius:3px;overflow:hidden}
-.overall-fill{height:100%;background:var(--amber);border-radius:3px;transition:width .4s}
-.overall-pct{font-size:13px;font-weight:600;color:var(--amber);min-width:36px}
+.overall-fill{height:100%;background:var(--teal-light);border-radius:3px;transition:width .4s}
+.overall-pct{font-size:13px;font-weight:600;color:var(--teal);min-width:36px}
 .header-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border-radius:var(--radius);font-size:13px;cursor:pointer;transition:all .15s;border:none;font-family:inherit}
-.btn-primary{background:var(--navy);color:#fff}
-.btn-primary:hover{background:var(--navy-light)}
+.btn-primary{background:var(--teal);color:#fff}
+.btn-primary:hover{background:var(--teal-light)}
 .btn-primary:disabled{opacity:.5;cursor:not-allowed}
 .btn-outline{background:transparent;color:var(--text-secondary);border:1px solid var(--border)}
 .btn-outline:hover{background:var(--cream-dark);color:var(--text-primary)}
@@ -767,6 +834,11 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
       <button class="snav-btn active" id="snav_courses" onclick="setSidebarView('courses',this)">课程</button>
       <button class="snav-btn" id="snav_overview" onclick="setSidebarView('overview',this)">总览</button>
       <button class="snav-btn" id="snav_search" onclick="setSidebarView('search',this)">搜索</button>
+    </div>
+    <!-- 书架/列表切换 -->
+    <div class="view-mode-bar" id="viewModeBar">
+      <button class="vm-btn active" id="vm_shelf" onclick="setCourseView('shelf',this)" title="书架">⊞</button>
+      <button class="vm-btn" id="vm_list" onclick="setCourseView('list',this)" title="列表">☰</button>
     </div>
     <div class="sidebar-courses" id="sidebarCourses"></div>
     <div class="inbox-section" id="inboxSection">
@@ -1790,39 +1862,99 @@ function renderXPPanel() {
   `;
 }
 
+// 课程视图模式：'shelf'=书架 'list'=列表
+let courseViewMode = 'shelf';
+function setCourseView(mode, btn){
+  courseViewMode = mode;
+  document.querySelectorAll('.vm-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  renderSidebar();
+}
+
+function getCourseStatusInfo(c){
+  // 返回今日状态信息
+  const todayStr = today();
+  let latestDate='', todayMins=0, hasToday=false;
+  (c.units||[]).forEach(u=>(u.items||[]).forEach(item=>{
+    [...(item.studyLog||[]),...(item.practiceLog||[]),...(item.checkIns||[])].forEach(l=>{
+      if(l.date>latestDate) latestDate=l.date;
+      if(l.date===todayStr){ todayMins+=l.minutes||0; hasToday=true; }
+    });
+  }));
+  const daysSince = latestDate ? Math.floor((new Date(todayStr)-new Date(latestDate))/86400000) : 999;
+  if(hasToday) return {tag:`今天 ${todayMins?todayMins+'min':'✓'}`, cls:'status-today', deco:'🟢'};
+  if(daysSince<=1) return {tag:'昨天', cls:'status-recent', deco:'🟡'};
+  if(daysSince<=6) return {tag:daysSince+'天前', cls:'status-recent', deco:'🟡'};
+  if(daysSince>=7&&latestDate) return {tag:daysSince+'天未动', cls:'status-idle', deco:'🔴'};
+  return {tag:'未开始', cls:'status-none', deco:'⚪'};
+}
+
+const SHELF_TYPE_CLASS = {pose:'shelf-pose',painting:'shelf-painting',software:'shelf-software',design:'shelf-design'};
+const SHELF_TYPE_DECO  = {pose:'🎯',painting:'🎨',software:'⚙️',design:'✏️',default:'📚'};
+
+function renderShelfCard(c){
+  const s=getCourseStats(c), isActive=c.id===activeCourseId;
+  const status=getCourseStatusInfo(c);
+  const typeClass=SHELF_TYPE_CLASS[c.courseType]||'shelf-general';
+  const deco=SHELF_TYPE_DECO[c.courseType]||SHELF_TYPE_DECO.default;
+  const pct=s.pct, r=16, circ=2*Math.PI*r;
+  const dash=Math.round(pct/100*circ);
+  return `<div class="shelf-card ${typeClass}${isActive?' active-card':''}" onclick="selectCourse(${c.id})">
+    <div class="shelf-card-deco">${deco}</div>
+    <div class="shelf-card-name">${esc(c.name)}</div>
+    <div class="shelf-card-bottom">
+      <div class="shelf-status-tag">${status.tag}</div>
+      <div class="shelf-ring">
+        <svg width="36" height="36" viewBox="0 0 36 36">
+          <circle cx="18" cy="18" r="${r}" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="3"/>
+          <circle cx="18" cy="18" r="${r}" fill="none" stroke="rgba(255,255,255,.85)" stroke-width="3"
+            stroke-dasharray="${dash} ${circ}" stroke-linecap="round"/>
+        </svg>
+        <div class="shelf-ring-pct">${pct}%</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderListItem(c){
+  const s=getCourseStats(c), isActive=c.id===activeCourseId;
+  const status=getCourseStatusInfo(c);
+  const tp=getTimeProgress(c);
+  let timeTrackHtml='';
+  if(tp){
+    const behind=tp.status>10,ahead=tp.status<-10;
+    const fillColor=behind?'rgba(242,109,109,.75)':ahead?'rgba(42,169,169,.75)':'rgba(212,135,10,.75)';
+    const statusTxt=behind?`落后${tp.status}%`:ahead?`超前${-tp.status}%`:'同步';
+    timeTrackHtml=`<div class="time-track-wrap">
+      <div class="time-track-label"><span>任务 ${tp.taskPct}%</span><span style="color:${behind?'rgba(255,120,100,.7)':ahead?'rgba(100,220,160,.7)':'rgba(255,255,255,.28)'}">${statusTxt} · 剩${tp.daysLeft}天</span></div>
+      <div class="time-track"><div class="time-fill-task" style="width:${tp.taskPct}%;background:${fillColor}"></div><div class="time-marker" style="left:${tp.timePct}%"></div></div>
+    </div>`;
+  }
+  return `<div class="course-item${isActive?' active':''}" onclick="selectCourse(${c.id})" style="padding-left:20px">
+    <div class="course-item-status ${status.cls}"></div>
+    <div class="course-item-name">${esc(c.name)}</div>
+    <div class="course-progress-bar"><div class="course-progress-fill" style="width:${s.pct}%"></div></div>
+    <div class="course-progress-text">${s.done}/${s.total} · ${s.pct}% <span style="float:right;font-size:10px;opacity:.6">${status.tag}</span></div>
+    ${timeTrackHtml}
+  </div>`;
+}
+
 function renderSidebar(){
   const el=document.getElementById('sidebarCourses');
   const empty=document.getElementById('emptyState');
+  const vmBar=document.getElementById('viewModeBar');
   const activeCourses=courses.filter(c=>!c.isInbox);
   const inboxCourses=courses.filter(c=>c.isInbox);
-  if(!courses.length){el.innerHTML='';empty.style.display='flex';renderInbox(inboxCourses);return;}
+  if(!courses.length){el.innerHTML='';empty.style.display='flex';renderInbox(inboxCourses);if(vmBar)vmBar.style.display='none';return;}
   empty.style.display='none';
-  if(sidebarView==='search'){renderSearchSidebar(el);renderInbox(inboxCourses);return;}
-  if(sidebarView==='overview'){el.innerHTML='';updateGlobalStats();renderInbox(inboxCourses);return;}
-  el.innerHTML=activeCourses.map(c=>{
-    const s=getCourseStats(c),isActive=c.id===activeCourseId;
-    const tp = getTimeProgress(c);
-    let timeTrackHtml = '';
-    if(tp) {
-      const behind = tp.status > 10;
-      const ahead  = tp.status < -10;
-      const fillColor = behind ? 'rgba(192,57,43,.75)' : ahead ? 'rgba(45,125,82,.75)' : 'rgba(240,168,48,.75)';
-      const statusTxt = behind ? `落后${tp.status}%` : ahead ? `超前${-tp.status}%` : '同步';
-      timeTrackHtml = `<div class="time-track-wrap">
-        <div class="time-track-label"><span>任务 ${tp.taskPct}%</span><span style="color:${behind?'rgba(255,120,100,.7)':ahead?'rgba(100,200,140,.7)':'rgba(255,255,255,.28)'}">${statusTxt} · 剩${tp.daysLeft}天</span></div>
-        <div class="time-track" title="琥珀=完成进度 白线=时间消耗">
-          <div class="time-fill-task" style="width:${tp.taskPct}%;background:${fillColor}"></div>
-          <div class="time-marker" style="left:${tp.timePct}%"></div>
-        </div>
-      </div>`;
-    }
-    return`<div class="course-item${isActive?' active':''}" onclick="selectCourse(${c.id})">
-      <div class="course-item-name">${esc(c.name)}</div>
-      <div class="course-progress-bar"><div class="course-progress-fill" style="width:${s.pct}%"></div></div>
-      <div class="course-progress-text">${s.done}/${s.total} · ${s.pct}%</div>
-      ${timeTrackHtml}
-    </div>`;
-  }).join('');
+  if(sidebarView==='search'){renderSearchSidebar(el);renderInbox(inboxCourses);if(vmBar)vmBar.style.display='none';return;}
+  if(sidebarView==='overview'){el.innerHTML='';updateGlobalStats();renderInbox(inboxCourses);if(vmBar)vmBar.style.display='none';return;}
+  if(vmBar)vmBar.style.display='flex';
+  if(courseViewMode==='shelf'){
+    el.innerHTML=`<div class="shelf-grid">${activeCourses.map(renderShelfCard).join('')}</div>`;
+  } else {
+    el.innerHTML=activeCourses.map(renderListItem).join('');
+  }
   renderInbox(inboxCourses);
   updateGlobalStats();
 }
