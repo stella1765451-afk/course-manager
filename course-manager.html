@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>课程管理器</title>
 <meta name="description" content="学习管理系统 · 课程追踪 · 练习台 · 云同步">
-<meta name="theme-color" content="#7B9E97">
+<meta name="theme-color" content="#07688A">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -15,58 +15,65 @@
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
 :root{
-  /* ── 莫兰迪浅色配色系统 ── */
-  /* 主色：低饱和度青灰绿 */
-  --m-sage:      #7B9E97;  /* 莫兰迪鼠尾草绿 · 主强调色 */
-  --m-sage-dk:   #5E807A;  /* 深版 · 按钮/active */
-  --m-sage-lt:   #A8C4BE;  /* 浅版 · hover */
-  --m-sage-bg:   #EEF4F3;  /* 极浅底色 */
-
-  /* 暖色辅助：低饱和珊瑚/桃 */
-  --m-blush:     #C4897A;  /* 莫兰迪珊瑚玫瑰 · 警告/删除 */
-  --m-blush-lt:  #DFB0A5;  /* 浅版 */
-  --m-blush-bg:  #F7EDE9;  /* 极浅底 */
-  --m-peach:     #C9A08A;  /* 莫兰迪桃褐 · 次要强调 */
-
-  /* 中性：陶瓷白/暖灰 */
-  --m-bg:        #F5F0EE;  /* 页面主背景 */
-  --m-bg-card:   #FDFAF9;  /* 卡片白 */
-  --m-bg-warm:   #EDE8E5;  /* 稍深暖灰 */
-
-  /* 文字 */
-  --m-ink:       #2E2926;  /* 主正文 */
-  --m-text-2:    #6A625D;  /* 次级文字 */
-  --m-text-3:    #A09890;  /* 辅助文字 */
-
-  /* 边框 */
-  --m-border:    #DDD7D3;
-  --m-border-lt: #E8E3DF;
-
-  /* 兼容旧变量 → 映射到莫兰迪 */
-  --teal:        #7B9E97;
-  --teal-light:  #A8C4BE;
-  --teal-dim:    #5E807A;
-  --teal-bg:     #EEF4F3;
-  --coral:       #C4897A;
-  --peach:       #DFB0A5;
-  --ink:         #2E2926;
-  --porcelain:   #F5F0EE;
-  --porcelain-dark:#EDE8E5;
-  --border:      #DDD7D3;
-  --border-light:#E8E3DF;
-  --text-primary:#2E2926;
-  --text-secondary:#6A625D;
-  --text-muted:  #A09890;
-  --green:       #6B9E7A;
-  --red:         #C4897A;
-  --navy:        #5E807A;
-  --navy-light:  #7B9E97;
-  --navy-dim:    #4A6863;
-  --amber:       #C9A08A;
-  --amber-light: #DFB0A5;
-  --amber-bg:    #F7EDE9;
-  --cream:       #F5F0EE;
-  --cream-dark:  #EDE8E5;
+  /* ══ 方案III · 烟蓝 × 赤褐 ══
+     #07688A · #5F8797 · #C03E22 · #DC7959 · #E7DFD5 */
+  --r-blue:      #07688A;  /* 烟蓝主色 · 按钮/active/强调 */
+  --r-blue-lt:   #5F8797;  /* 浅烟蓝 · hover/进度条 */
+  --r-blue-dim:  #054F6A;  /* 深版 · 按下态 */
+  --r-blue-bg:   #E6F2F6;  /* 极浅蓝底 */
+  --r-red:       #C03E22;  /* 赤褐 · 警告/删除/未动 */
+  --r-red-lt:    #DC7959;  /* 浅赤褐 · 次要强调 */
+  --r-red-bg:    #FAEDE9;  /* 极浅赤底 */
+  --r-gold:      #A7823C;  /* 金棕 · XP/等级/特殊 */
+  --r-bg:        #E7DFD5;  /* 皮纸背景 */
+  --r-bg-card:   #FAF7F4;  /* 卡片暖白 */
+  --r-bg-warm:   #DDD4C8;  /* 稍深暖灰 */
+  --r-ink:       #1A1512;  /* 正文深色 */
+  --r-text-2:    #6A5E54;  /* 次级文字 */
+  --r-text-3:    #A89E95;  /* 辅助文字 */
+  --r-border:    #CEC6BC;  /* 边框 */
+  --r-border-lt: #DDD4C8;  /* 浅边框 */
+  /* 兼容旧变量名 */
+  --m-sage:      #07688A;
+  --m-sage-dk:   #054F6A;
+  --m-sage-lt:   #5F8797;
+  --m-sage-bg:   #E6F2F6;
+  --m-blush:     #C03E22;
+  --m-blush-lt:  #DC7959;
+  --m-blush-bg:  #FAEDE9;
+  --m-peach:     #A7823C;
+  --m-bg:        #E7DFD5;
+  --m-bg-card:   #FAF7F4;
+  --m-bg-warm:   #DDD4C8;
+  --m-ink:       #1A1512;
+  --m-text-2:    #6A5E54;
+  --m-text-3:    #A89E95;
+  --m-border:    #CEC6BC;
+  --m-border-lt: #DDD4C8;
+  --teal:        #07688A;
+  --teal-light:  #5F8797;
+  --teal-dim:    #054F6A;
+  --teal-bg:     #E6F2F6;
+  --coral:       #C03E22;
+  --peach:       #DC7959;
+  --ink:         #1A1512;
+  --porcelain:   #E7DFD5;
+  --porcelain-dark:#DDD4C8;
+  --border:      #CEC6BC;
+  --border-light:#DDD4C8;
+  --text-primary:#1A1512;
+  --text-secondary:#6A5E54;
+  --text-muted:  #A89E95;
+  --green:       #2D7D52;
+  --red:         #C03E22;
+  --navy:        #07688A;
+  --navy-light:  #5F8797;
+  --navy-dim:    #054F6A;
+  --amber:       #A7823C;
+  --amber-light: #C9A05A;
+  --amber-bg:    #F5ECD8;
+  --cream:       #E7DFD5;
+  --cream-dark:  #DDD4C8;
   --sidebar-w:280px;--radius:8px;--radius-lg:12px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -294,11 +301,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .shelf-status-tag{font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;background:rgba(0,0,0,.2);color:rgba(255,255,255,.9);white-space:nowrap;backdrop-filter:blur(4px)}
 .shelf-card-deco{position:absolute;right:-8px;top:-8px;font-size:44px;opacity:.12;pointer-events:none;transform:rotate(15deg)}
 /* 课程类型配色 */
-.shelf-pose    {background:linear-gradient(135deg,#7B9E97,#9ABFB9)}
-.shelf-painting{background:linear-gradient(135deg,#C4897A,#DFB0A5)}
-.shelf-software{background:linear-gradient(135deg,#6B9E7A,#8CBFA0)}
-.shelf-design  {background:linear-gradient(135deg,#8A7BA8,#B0A0C8)}
-.shelf-general {background:linear-gradient(135deg,#7B9E97,#8A9EB5)}
+.shelf-pose    {background:linear-gradient(135deg,#07688A,#5F8797)}
+.shelf-painting{background:linear-gradient(135deg,#8B3418,#C03E22)}
+.shelf-software{background:linear-gradient(135deg,#4A5E6A,#6A8090)}
+.shelf-design  {background:linear-gradient(135deg,#8B5A2A,#B07840)}
+.shelf-general {background:linear-gradient(135deg,#07688A,#3A6878)}
 /* ── 列表模式（原有样式微调） ── */
 .course-item{padding:10px 16px;cursor:pointer;transition:background .12s;position:relative;border-bottom:1px solid var(--m-border-lt)}
 .course-item:hover{background:var(--m-sage-bg)}
@@ -778,6 +785,46 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
 .lighting-check-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--text-primary);cursor:pointer;padding:2px 0}
 .lighting-check-item input[type=checkbox]{margin-top:2px;accent-color:var(--amber);width:14px;height:14px;cursor:pointer;flex-shrink:0}
 .lighting-check-item.checked label{text-decoration:line-through;color:var(--text-muted)}
+
+/* ── 条目折叠系统 ── */
+/* 收起态：紧凑单行 */
+.item-row-compact{display:flex;align-items:center;gap:8px;padding:8px 12px;cursor:pointer;transition:background .1s;min-height:0}
+.item-row-compact:hover{background:rgba(7,104,138,.04)}
+.item-row-compact.done-row{opacity:.5}
+.item-row-compact.done-row:hover{opacity:.65}
+.irc-check{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--r-border,#CEC6BC);flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s}
+.irc-check.done{background:var(--r-blue,#07688A);border-color:var(--r-blue,#07688A)}
+.irc-check.done::after{content:'✓';font-size:8px;color:#fff;font-weight:700}
+.irc-check.doing{border-color:var(--r-blue,#07688A);border-width:2px}
+.irc-icon{font-size:14px;flex-shrink:0}
+.irc-body{flex:1;min-width:0}
+.irc-title{font-size:13px;font-weight:500;color:var(--r-ink,#1A1512);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
+.irc-meta{display:flex;align-items:center;gap:5px;margin-top:2px;flex-wrap:wrap}
+.irc-badge{font-size:10px;padding:1px 5px;border-radius:4px;font-weight:500}
+.irc-badge-video{background:#E6F2F6;color:#07688A}
+.irc-badge-practice{background:#FFF3EE;color:#C03E22}
+.irc-badge-routine{background:#F5ECD8;color:#A7823C}
+.irc-badge-creation{background:#F0EBF8;color:#6B3FA0}
+.irc-badge-prep{background:#EEF4F3;color:#2D7D52}
+.irc-badge-reading{background:#EEF0F8;color:#3D5299}
+.irc-badge-default{background:var(--r-bg-warm,#DDD4C8);color:var(--r-text-2,#6A5E54)}
+.irc-dur{font-size:11px;color:var(--r-text-3,#A89E95)}
+.irc-right{display:flex;align-items:center;gap:5px;flex-shrink:0}
+.irc-done-date{font-size:11px;color:var(--r-blue-lt,#5F8797);white-space:nowrap}
+.irc-action-btn{font-size:11px;padding:3px 9px;border-radius:6px;border:none;cursor:pointer;font-family:inherit;font-weight:500;white-space:nowrap;transition:all .12s}
+.irc-action-btn.primary{background:var(--r-blue,#07688A);color:#fff}
+.irc-action-btn.primary:hover{background:var(--r-blue-lt,#5F8797)}
+.irc-action-btn.record{background:var(--r-red-bg,#FAEDE9);color:var(--r-red,#C03E22);border:1px solid rgba(192,62,34,.2)}
+.irc-action-btn.checkin-done{background:#EAF4EE;color:#2D7D52}
+/* 展开区 */
+.irc-expand{background:var(--r-bg,#E7DFD5);border-top:1px solid var(--r-border-lt,#DDD4C8);padding:8px 12px 8px 40px;display:none}
+.irc-expand.open{display:block}
+.irc-btn-row{display:flex;gap:6px;flex-wrap:wrap}
+.irc-btn{font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid var(--r-border,#CEC6BC);background:var(--r-bg-card,#FAF7F4);color:var(--r-text-2,#6A5E54);cursor:pointer;font-family:inherit;transition:all .12s;white-space:nowrap}
+.irc-btn:hover{background:var(--r-blue-bg,#E6F2F6);border-color:var(--r-blue,#07688A);color:var(--r-blue,#07688A)}
+.irc-btn.blue{background:var(--r-blue,#07688A);color:#fff;border-color:var(--r-blue,#07688A)}
+.irc-btn.blue:hover{background:var(--r-blue-lt,#5F8797)}
+.irc-note-preview{font-size:11px;color:var(--r-text-3,#A89E95);margin-top:6px;padding-top:6px;border-top:1px solid var(--r-border-lt,#DDD4C8);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .plm-cycle-btn[data-val="try"].active{border-color:#C0392B;background:#FEF0EE;color:#C0392B}
 .plm-cycle-btn[data-val="analyze"].active{border-color:#D4870A;background:#FEF3DC;color:#9A6200}
 .plm-cycle-btn[data-val="method"].active{border-color:#2D7D52;background:#EAF4F0;color:#2D7D52}
@@ -2515,94 +2562,84 @@ function renderItem(item,unitId,courseId){
   if(item.type==='creation') return renderCreationItem(item,unitId,courseId);
   if(item.type==='prep')     return renderPrepItem(item,unitId,courseId);
 
-  const hasNote=item.note&&item.note.trim();
-  const isTimerActive = activeTimer && activeTimer.itemId === item.id;
-  let totalMins = (item.studyLog||[]).reduce((a,b)=>a+b.minutes, 0);
-  const timeStr = totalMins > 0 ? ` · 已学 ${totalMins}min` : '';
+  const isMob = window.innerWidth<=600;
+  const isDone = item.status==='done';
+  const isDoing = item.status==='doing';
+  const isTimerActive = activeTimer && activeTimer.itemId===item.id;
+  const hasNote = item.note && item.note.trim();
+  const totalMins = (item.studyLog||[]).reduce((a,b)=>a+b.minutes,0);
+  const expandKey = `item_expand_${item.id}`;
+  const isOpen = !!window[expandKey] || isTimerActive;
+
+  // 链接
   const linkType = getLinkType(item.link);
-  let linkEl = '';
-  if (linkType === 'embed') {
-    const embedUrl = getEmbedUrl(item.link);
-    linkEl = `<span class="item-link link-embed" onclick="openPlayer(${courseId},${unitId},${item.id},'${embedUrl}')">▶ 沉浸学习</span>`;
-  } else if (linkType === 'local') {
-    linkEl = `<a class="item-link link-local" href="#" onclick="showLocalHint('${esc(item.link).replace(/'/g,"\\'").replace(/"/g,'&quot;')}');return false;">📁 本地打开 ↗</a>`;
-  } else if (linkType === 'baidu') {
-    linkEl = `<a class="item-link link-baidu" href="${esc(item.link)}" target="_blank">☁️ 网盘外部学习 ↗</a>`;
-  } else if (linkType === 'external') {
-    linkEl = `<a class="item-link" href="${esc(item.link)}" target="_blank">🔗 外部打开 ↗</a>`;
+  let primaryAction='', extraBtns='';
+  if(linkType==='embed'){
+    const eu=getEmbedUrl(item.link);
+    primaryAction=`<button class="irc-action-btn primary" onclick="event.stopPropagation();openPlayer(${courseId},${unitId},${item.id},'${eu}')">▶ 沉浸学习</button>`;
+    extraBtns+=`<button class="irc-btn blue" onclick="openPlayer(${courseId},${unitId},${item.id},'${eu}')">▶ 沉浸学习</button>`;
+  } else if(linkType==='external'||linkType==='baidu'){
+    primaryAction=`<a class="irc-action-btn primary" href="${esc(item.link)}" target="_blank">🔗 打开</a>`;
+    extraBtns+=`<a class="irc-btn blue" href="${esc(item.link)}" target="_blank">🔗 外部打开</a>`;
+  }
+
+  // 类型标签
+  const badgeClass = {video:'irc-badge-video',reading:'irc-badge-reading',assignment:'irc-badge-default',quiz:'irc-badge-default',link:'irc-badge-default'}[item.type]||'irc-badge-default';
+  const badgeLabel = TL[item.type]||'视频';
+
+  // 右侧主操作
+  let rightEl = '';
+  if(isDone){
+    rightEl = item.doneDate ? `<span class="irc-done-date">✓ ${item.doneDate}</span>` : `<span class="irc-done-date">✓</span>`;
+  } else if(isTimerActive){
+    rightEl = `<button class="irc-action-btn primary" onclick="event.stopPropagation();toggleTimer(${courseId},${unitId},${item.id})">⏹ 结束 <span id="timer_text_${item.id}">00:00</span></button>`;
+  } else if(primaryAction){
+    rightEl = primaryAction;
   } else {
-    linkEl = `<span class="item-link item-link-add" onclick="inlineEditLink(${unitId},${item.id},this)">＋ 添加链接</span>`;
-  }
-  const noteHtml = hasNote ? marked.parse(item.note) : '';
-
-  // 子步骤
-  const steps = item.substeps || [];
-  const stepsDone = steps.filter(s=>s.done).length;
-  const stepsHtml = steps.length ? `<div class="substeps-wrap">${steps.map((s,si)=>`
-    <div class="substep-row">
-      <input type="checkbox" class="substep-cb" ${s.done?'checked':''} onclick="event.stopPropagation();toggleSubstep(${unitId},${item.id},${si},event)">
-      <span class="substep-label ${s.done?'done':''}">${esc(s.text)}</span>
-      ${!s.done?`<span class="substep-xp">+8 XP</span>`:''}
-    </div>`).join('')}
-    <div style="margin-top:4px;font-size:11px;color:var(--text-muted)">
-      子步骤 ${stepsDone}/${steps.length}
-      <span class="substep-mini-bar"><span class="substep-mini-fill" style="width:${steps.length?Math.round(stepsDone/steps.length*100):0}%"></span></span>
-    </div>
-  </div>` : '';
-
-  // 情绪历史最近5条
-  const moods = (item.moodLog||[]).slice(-5);
-  const moodsHtml = moods.length ? `<span style="display:inline-flex;gap:3px;align-items:center;margin-left:4px">${moods.map(m=>`<span class="mood-dot mood-${m.mood}" title="${m.date} · ${{blocked:'卡住了',slow:'推进了',good:'很顺畅',fire:'极好状态'}[m.mood]||''}"></span>`).join('')}</span>` : '';
-
-  // 番茄钟进度（计时中显示）
-  let pomodoroHtml = '';
-  if(isTimerActive && timerTarget > 0) {
-    pomodoroHtml = `<span class="pomodoro-ring" id="pom_${item.id}">
-      <span class="pomodoro-track"><span class="pomodoro-fill" id="pomfill_${item.id}" style="width:0%"></span></span>
-      <span class="pomodoro-text" id="pomtxt_${item.id}">0/${timerTarget}min</span>
-    </span>`;
+    rightEl = `<button class="irc-action-btn primary" onclick="event.stopPropagation();toggleTimer(${courseId},${unitId},${item.id})">▶ 计时</button>`;
   }
 
-  return`<div class="item-row ${item.status}${hasNote?' has-note':''} ${isTimerActive ? 'is-timing' : ''}" id="item_${item.id}">
-    <div class="item-connector"></div>
+  // 展开区按钮
+  if(!isDone){
+    extraBtns += `<button class="irc-btn" onclick="event.stopPropagation();toggleTimer(${courseId},${unitId},${item.id})">${isTimerActive?`⏹ 结束`:'▶ 计时'}</button>`;
+  }
+  if(!linkType||linkType==='none'){
+    extraBtns += `<button class="irc-btn" onclick="event.stopPropagation();inlineEditLink(${unitId},${item.id},this)">＋ 添加链接</button>`;
+  }
+  extraBtns += `<button class="irc-btn" onclick="event.stopPropagation();openEditItemAndFocusNote(${unitId},${item.id})">📝 笔记</button>`;
+  extraBtns += `<button class="irc-btn" onclick="event.stopPropagation();toggleReview(${unitId},${item.id})">${item.needReview?'🔁 取消复习':'🔁 待复习'}</button>`;
+  extraBtns += `<button class="irc-btn" onclick="event.stopPropagation();openEditItem(${unitId},${item.id})">✏ 编辑</button>`;
+  if(totalMins>0) extraBtns += `<span class="irc-btn" style="cursor:default;color:var(--r-text-3)">已学 ${totalMins}min</span>`;
+
+  const notePreview = (hasNote && isOpen) ? `<div class="irc-note-preview">${esc(item.note.trim().slice(0,80))}${item.note.length>80?'…':''}</div>` : '';
+
+  return `<div class="item-row ${item.status}" id="item_${item.id}">
     <input class="item-bulk-cb" type="checkbox" id="icb_${item.id}" data-uid="${unitId}" onclick="event.stopPropagation();updateBulkCount()">
-    <div class="item-main">
-      <div class="item-check ${item.status}" onclick="event.stopPropagation();toggleItem(${unitId},${item.id},event)">
-        <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <span class="item-icon">${TI[item.type]||'📹'}</span>
-      <div class="item-content">
-        <div class="item-title">
-          <span>${esc(item.title)}</span>
-          <span class="type-badge type-${item.type}">${TL[item.type]||'视频'}</span>
-          ${item.needReview?'<span class="review-badge" onclick="toggleReview('+unitId+','+item.id+')">🔁 待复习</span>':''}
-          ${steps.length?`<span style="font-size:10px;color:var(--text-muted);background:var(--cream-dark);padding:1px 5px;border-radius:8px">${stepsDone}/${steps.length}</span>`:''}
-          ${moodsHtml}
-        </div>
-        <div class="item-sub">
-          ${item.duration?`<span class="item-duration">⏱ ${esc(item.duration)}</span>`:''}
-          ${linkEl}
-          <button class="btn-timer ${isTimerActive?'active':''}" onclick="toggleTimer(${courseId},${unitId},${item.id})">
-            ${isTimerActive?`⏹ 结束 (<span id="timer_text_${item.id}">00:00</span>)`:'▶ 计时'}
-          </button>
-          ${pomodoroHtml}
-          <span style="font-size:11px;color:var(--text-muted)">${timeStr}</span>
-          ${item.status==='done'&&item.doneDate?`<span class="item-done-date">✓ ${item.doneDate}</span>`:''}
-          ${hasNote?`<span class="note-pill" id="notepill_${item.id}" onclick="event.stopPropagation();toggleNoteDrawer(${item.id})">📝 笔记</span>`:''}
+    <div class="item-row-compact${isDone?' done-row':''}" onclick="toggleItemExpand(${item.id})">
+      <div class="irc-check ${item.status}" onclick="event.stopPropagation();toggleItem(${unitId},${item.id},event)"></div>
+      <span class="irc-icon">${TI[item.type]||'📹'}</span>
+      <div class="irc-body">
+        <div class="irc-title">${esc(item.title)}</div>
+        <div class="irc-meta">
+          <span class="irc-badge ${badgeClass}">${badgeLabel}</span>
+          ${item.duration?`<span class="irc-dur">⏱ ${esc(item.duration)}</span>`:''}
+          ${item.needReview?'<span class="irc-badge irc-badge-default">🔁</span>':''}
         </div>
       </div>
-      <div class="item-actions">
-        <button class="btn btn-ghost" onclick="toggleReview(${unitId},${item.id})" title="标记/取消复习">🔁</button>
-        <button class="btn btn-ghost" onclick="openEditItemAndFocusNote(${unitId},${item.id})" title="快捷记笔记">📝</button>
-        <button class="btn btn-ghost" onclick="openEditItem(${unitId},${item.id})" title="编辑条目详情">✏</button>
-      </div>
+      <div class="irc-right">${rightEl}</div>
     </div>
-    ${stepsHtml}
-    ${hasNote?`<div class="item-note-drawer markdown-body" id="notedrawer_${item.id}" onclick="openEditItemAndFocusNote(${unitId},${item.id})">
-      <div class="edit-hint">✏️ 点击编辑笔记</div>
-      ${noteHtml}
-    </div>`:''}
+    <div class="irc-expand${isOpen?' open':''}" id="expand_${item.id}">
+      <div class="irc-btn-row">${extraBtns}</div>
+      ${notePreview}
+    </div>
   </div>`;
+}
+
+function toggleItemExpand(itemId){
+  const key = `item_expand_${itemId}`;
+  window[key] = !window[key];
+  const el = document.getElementById(`expand_${itemId}`);
+  if(el) el.classList.toggle('open', !!window[key]);
 }
 
 // ── practice 条目渲染 ──
@@ -2616,110 +2653,92 @@ function renderMasteryBar(level, unitId, itemId) {
 
 function renderPracticeItem(item, unitId, courseId) {
   const log = item.practiceLog || [];
-  const totalMins = log.reduce((a,b)=>a+(b.minutes||0), 0) + (item.studyLog||[]).reduce((a,b)=>a+b.minutes, 0);
+  const totalMins = log.reduce((a,b)=>a+(b.minutes||0),0)+(item.studyLog||[]).reduce((a,b)=>a+b.minutes,0);
   const lastEntry = log[log.length-1];
-  const timeStr = totalMins > 0 ? `累计 ${totalMins}min` : '';
-  const countStr = log.length > 0 ? `已练 ${log.length} 次` : '未开始';
-  const lastStr = lastEntry ? (() => {
-    const d = Math.round((new Date() - new Date(lastEntry.date)) / 86400000);
-    return d===0?'今天':d===1?'昨天':`${d}天前`;
-  })() : '';
-  const isTimerActive = activeTimer && activeTimer.itemId === item.id;
-  const logOpen = item._logOpen;
+  const countStr = log.length>0 ? `${log.length}次` : '未开始';
+  const lastStr = lastEntry ? (()=>{const d=Math.round((new Date()-new Date(lastEntry.date))/86400000);return d===0?'今天':d===1?'昨天':`${d}天前`;})() : '';
+  const isTimerActive = activeTimer && activeTimer.itemId===item.id;
+  const isOpen = !!window[`item_expand_${item.id}`] || isTimerActive;
   const linkType = getLinkType(item.link);
-  let linkEl = '';
-  if(linkType==='embed'){const eu=getEmbedUrl(item.link);linkEl=`<span class="item-link link-embed" onclick="openPlayer(${courseId},${unitId},${item.id},'${eu}')">▶ 参考视频</span>`;}
-  else if(linkType==='external'){linkEl=`<a class="item-link" href="${esc(item.link)}" target="_blank">🔗 参考资料</a>`;}
-  else if(linkType==='baidu'){linkEl=`<a class="item-link link-baidu" href="${esc(item.link)}" target="_blank">☁️ 参考资料</a>`;}
-  else if(linkType==='local'){linkEl=`<a class="item-link link-local" href="#" onclick="showLocalHint('${esc(item.link).replace(/'/g,"\\'")}');return false;">📁 参考资料</a>`;}
-
-  const logHtml = logOpen && log.length ? `<div class="practice-log-panel open">${log.slice().reverse().map(e=>{
-    const mTag = e.masteryAfter !== undefined ? `<span class="plog-mastery">${MASTERY_LABELS[e.masteryAfter]}</span>` : '';
-    const artHtml = (e.artifacts||[]).map(a=>{
-      const isUrl = a.value && (a.value.startsWith('http')||a.value.startsWith('/'));
-      return isUrl ? `<a class="plog-artifact" href="${esc(a.value)}" target="_blank">🖼 ${esc(a.label||'作品')}</a>`
-                   : `<span class="plog-artifact">📝 ${esc(a.label||a.value)}</span>`;
-    }).join('');
-    return `<div class="plog-entry">
-      <div class="plog-header"><span class="plog-date">${e.date}</span><span class="plog-mins">${e.minutes}min</span>${mTag}</div>
-      ${e.reflection?`<div class="plog-reflection markdown-body">${marked.parse(e.reflection)}</div>`:''}
-      ${artHtml?`<div class="plog-artifacts">${artHtml}</div>`:''}
-    </div>`;
-  }).join('')}</div>` : '';
-
-  return`<div class="item-row ${item.status||'todo'} ${isTimerActive?'is-timing':''}" id="item_${item.id}">
-    <div class="item-connector"></div>
+  let refBtn='';
+  if(linkType==='embed'){const eu=getEmbedUrl(item.link);refBtn=`<button class="irc-btn blue" onclick="openPlayer(${courseId},${unitId},${item.id},'${eu}')">▶ 参考视频</button>`;}
+  else if(linkType==='external'||linkType==='baidu'){refBtn=`<a class="irc-btn blue" href="${esc(item.link)}" target="_blank">🔗 参考资料</a>`;}
+  const logPreview = (isOpen && log.length) ? log.slice(-3).reverse().map(e=>`
+    <div style="font-size:10px;color:var(--r-text-3,#A89E95);padding:2px 0;border-bottom:1px solid var(--r-border-lt,#DDD4C8);display:flex;gap:6px;align-items:baseline">
+      <span>${e.date}</span><span>${e.minutes}min</span>
+      ${e.masteryAfter!==undefined?`<span style="color:var(--r-blue,#07688A)">${MASTERY_LABELS[e.masteryAfter]}</span>`:''}
+      ${e.reflection?`<span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(e.reflection.slice(0,30))}</span>`:''}
+    </div>`).join('') : '';
+  return `<div class="item-row ${item.status||'todo'}" id="item_${item.id}">
     <input class="item-bulk-cb" type="checkbox" id="icb_${item.id}" data-uid="${unitId}" onclick="event.stopPropagation();updateBulkCount()">
-    <div class="item-main">
-      <span class="item-icon">🎯</span>
-      <div class="item-content">
-        <div class="item-title">
-          <span>${esc(item.title)}</span>
-          <span class="type-badge type-practice">练习项目</span>
-          ${item.needReview?'<span class="review-badge" onclick="toggleReview('+unitId+','+item.id+')">🔁</span>':''}
-        </div>
-        <div class="item-sub">
-          ${renderMasteryBar(item.masteryLevel||0, unitId, item.id)}
-          <span style="font-size:11px;color:var(--text-muted)">${countStr}${timeStr?' · '+timeStr:''}${lastStr?' · '+lastStr:''}</span>
-          ${linkEl}
-          <button class="btn-timer ${isTimerActive?'active':''}" onclick="toggleTimer(${courseId},${unitId},${item.id})">
-            ${isTimerActive?'⏹ 结束 (<span id="timer_text_'+item.id+'">00:00</span>)':'▶ 计时'}
-          </button>
+    <div class="item-row-compact" onclick="toggleItemExpand(${item.id})">
+      <span class="irc-icon">🎯</span>
+      <div class="irc-body">
+        <div class="irc-title">${esc(item.title)}</div>
+        <div class="irc-meta">
+          <span class="irc-badge irc-badge-practice">练习项目</span>
+          ${renderMasteryBar(item.masteryLevel||0,unitId,item.id)}
+          <span class="irc-dur">${countStr}${lastStr?' · '+lastStr:''}</span>
         </div>
       </div>
-      <div class="item-actions">
-        <button class="btn btn-ghost" onclick="event.stopPropagation();openPracticeLog(${unitId},${item.id})" title="记录练习" style="color:var(--amber);font-size:13px">＋记录</button>
-        <button class="btn btn-ghost" onclick="event.stopPropagation();togglePracticeLogPanel(${item.id})" title="查看历程">${log.length?'📋 '+log.length:'📋'}</button>
-        <button class="btn btn-ghost" onclick="openEditItem(${unitId},${item.id})" title="编辑">✏</button>
+      <div class="irc-right">
+        <button class="irc-action-btn record" onclick="event.stopPropagation();openPracticeLog(${unitId},${item.id})">＋记录</button>
       </div>
     </div>
-    ${logHtml}
+    <div class="irc-expand${isOpen?' open':''}" id="expand_${item.id}">
+      <div class="irc-btn-row">
+        ${refBtn}
+        <button class="irc-btn${isTimerActive?' blue':''}" onclick="event.stopPropagation();toggleTimer(${courseId},${unitId},${item.id})">${isTimerActive?`⏹ 结束 <span id="timer_text_${item.id}">00:00</span>`:'▶ 计时'}</button>
+        ${log.length?`<button class="irc-btn" onclick="event.stopPropagation();togglePracticeLogPanel(${item.id})">📋 ${log.length}条记录</button>`:''}
+        <button class="irc-btn" onclick="event.stopPropagation();openSelfTest(${unitId},${item.id})">🧪 自测</button>
+        <button class="irc-btn" onclick="openEditItem(${unitId},${item.id})">✏ 编辑</button>
+        ${totalMins>0?`<span class="irc-btn" style="cursor:default;color:var(--r-text-3)">累计 ${totalMins}min</span>`:''}
+      </div>
+      ${logPreview?`<div style="margin-top:6px">${logPreview}</div>`:''}
+    </div>
   </div>`;
 }
 
-// ── routine 条目渲染 ──
 function renderRoutineItem(item, unitId, courseId) {
   const checkIns = item.checkIns || [];
   const streak = calcStreak(checkIns);
   const doneToday = isCheckedInToday(checkIns);
   const totalCount = checkIns.length;
   const rc = item.repeatConfig || {};
-  const freqLabel = rc.frequency==='daily'?'每天':rc.frequency==='weekly'?'每周':(`每${rc.customDays||2}天`);
-  // 最近7天点状
+  const freqLabel = rc.frequency==='daily'?'每天':rc.frequency==='weekly'?'每周':`每${rc.customDays||2}天`;
   const last7 = Array.from({length:7},(_,i)=>{
     const d=new Date();d.setDate(d.getDate()-(6-i));
     const ds=d.toISOString().slice(0,10);
-    const isT = ds===today();
-    const done = checkIns.some(c=>c.date===ds);
+    const isT=ds===today();
+    const done=checkIns.some(c=>c.date===ds);
     return `<span class="rd ${done?'done':''} ${isT?'today':''}" title="${ds}${done?' ✓':''}"></span>`;
   }).join('');
   const targetStr = rc.targetCount ? ` / ${rc.targetCount}` : '';
-  return`<div class="item-row todo" id="item_${item.id}">
-    <div class="item-connector"></div>
+  const isOpen = !!window[`item_expand_${item.id}`];
+  return `<div class="item-row todo" id="item_${item.id}">
     <input class="item-bulk-cb" type="checkbox" id="icb_${item.id}" data-uid="${unitId}" onclick="event.stopPropagation();updateBulkCount()">
-    <div class="item-main">
-      <span class="item-icon">🔄</span>
-      <div class="item-content">
-        <div class="item-title">
-          <span>${esc(item.title)}</span>
-          <span class="type-badge type-routine">打卡练习</span>
-          <span style="font-size:11px;color:var(--text-muted);background:var(--cream-dark);padding:1px 6px;border-radius:8px">${freqLabel}</span>
-        </div>
-        <div class="item-sub" style="align-items:center">
-          ${streak>=2?`<span class="routine-streak">🔥 连续 ${streak} 天</span>`:''}
-          <span style="font-size:11px;color:var(--text-muted)">共 ${totalCount}${targetStr} 次</span>
+    <div class="item-row-compact" onclick="toggleItemExpand(${item.id})">
+      <span class="irc-icon">🔄</span>
+      <div class="irc-body">
+        <div class="irc-title">${esc(item.title)}</div>
+        <div class="irc-meta">
+          <span class="irc-badge irc-badge-routine">打卡练习</span>
+          <span class="irc-dur">${freqLabel} · 共${totalCount}${targetStr}次${streak>=2?' 🔥'+streak:''}</span>
           <div class="routine-dots">${last7}</div>
         </div>
       </div>
-      <div class="item-actions" style="opacity:1">
-        <button class="btn-checkin ${doneToday?'done-today':''}" onclick="event.stopPropagation();openCheckin(${unitId},${item.id})">${doneToday?'✓ 已打卡':'打卡'}</button>
-        <button class="btn btn-ghost" onclick="openEditItem(${unitId},${item.id})" title="编辑">✏</button>
+      <div class="irc-right">
+        <button class="irc-action-btn${doneToday?' checkin-done':' record'}" onclick="event.stopPropagation();openCheckin(${unitId},${item.id})">${doneToday?'✓ 已打卡':'打卡'}</button>
+      </div>
+    </div>
+    <div class="irc-expand${isOpen?' open':''}" id="expand_${item.id}">
+      <div class="irc-btn-row">
+        <button class="irc-btn" onclick="openEditItem(${unitId},${item.id})">✏ 编辑</button>
       </div>
     </div>
   </div>`;
 }
 
-// ── 课前预习条目渲染 ──
 function renderPrepItem(item, unitId, courseId) {
   const hasMap   = !!(item.prepMap   && item.prepMap.trim());
   const hasGaps  = !!(item.prepGaps  && item.prepGaps.trim());
