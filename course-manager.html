@@ -135,19 +135,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
   .mob-back-btn::before{content:'‹';font-size:20px;line-height:1}
 
   /* 课程详情头部精简 */
-  .main-header{padding:14px 16px}
-  .main-course-title{font-size:18px;margin-bottom:8px}
-  .overall-bar{width:80px}
+  .main-header{padding:12px 14px}
+  .breadcrumb{font-size:11px;margin-bottom:3px}
+  .main-course-title{font-size:17px;margin-bottom:6px;line-height:1.3}
+  .header-meta{flex-wrap:wrap;gap:6px;align-items:center}
+  .overall-bar{width:60px}
+  .overall-pct{font-size:12px}
 
-  /* 操作按钮改为两行网格 */
+  /* 操作按钮改为两列网格 */
   .header-actions{
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:6px;margin-top:10px;
+    gap:5px;margin-top:8px;
   }
   .header-actions .btn{
-    font-size:11px;padding:7px 4px;
-    justify-content:center;white-space:nowrap;
+    font-size:11px;padding:6px 4px;
+    justify-content:center;white-space:nowrap;overflow:hidden;
   }
 
   /* 侧边栏底部按钮压缩 */
@@ -169,6 +172,35 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
   /* tab栏 */
   .tab-bar{gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch}
   .tab-btn{font-size:12px;padding:10px 10px;white-space:nowrap;flex-shrink:0}
+
+  /* 单元头部 */
+  .unit-header{flex-wrap:wrap;gap:4px;padding:10px 12px}
+  .unit-title{font-size:13px}
+  .unit-progress-text{font-size:11px}
+
+  /* 条目行整体 */
+  .item-row{padding:10px 12px 10px 28px}
+  .item-main{align-items:flex-start;gap:6px}
+  .item-icon{font-size:14px;flex-shrink:0;margin-top:2px}
+
+  /* 标题行：标题+标签同行，超长截断 */
+  .item-title{flex-wrap:wrap;gap:4px;row-gap:3px;align-items:center}
+  .item-title>span:first-child{font-size:13px;line-height:1.4;word-break:break-all}
+  .type-badge{font-size:10px;padding:1px 5px;flex-shrink:0}
+
+  /* 操作区：沉浸/计时/日期横排，自动换行 */
+  .item-sub{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin-top:5px}
+  .item-sub .item-link,.item-sub .btn-timer{
+    font-size:11px;padding:3px 8px;
+    white-space:nowrap;
+  }
+  .item-sub .item-duration{font-size:11px}
+  .item-sub .item-done-date{font-size:11px}
+  .item-sub .note-pill{font-size:11px}
+
+  /* 右侧操作按钮：hover才显示改为常显小按钮 */
+  .item-actions{opacity:1 !important;display:flex;gap:0;flex-shrink:0;margin-top:0;align-self:flex-start}
+  .item-actions .btn-ghost{padding:3px 5px;font-size:13px}
 
   /* 风险卡片宽度 */
   .risk-card{width:calc(100vw - 32px);right:16px;bottom:70px}
@@ -1932,8 +1964,10 @@ function renderMain(){
   const c=courses.find(x=>x.id===activeCourseId);
   if(!c){mainArea.innerHTML='';return;}
   const s=getCourseStats(c);
+  const mobBack=window.innerWidth<=600?`<div class="mob-back-bar"><button class="mob-back-btn" onclick="mobShowSidebar()">返回</button></div>`:'';
   mainArea.innerHTML=`
     <div style="flex-shrink:0">
+      ${mobBack}
       <div class="main-header">
         <div class="breadcrumb">我的课程</div>
         <div class="main-course-title">${esc(c.name)}</div>
