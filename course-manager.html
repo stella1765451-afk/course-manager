@@ -95,14 +95,17 @@
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--porcelain);color:var(--text-primary);font-size:14px;line-height:1.6;min-height:100vh}
 .app{display:flex;height:100vh;overflow:hidden}
 .sidebar{width:var(--sidebar-w);flex-shrink:0;background:var(--m-bg-card);display:flex;flex-direction:column;overflow:hidden;box-shadow:1px 0 0 var(--m-border);z-index:2}
-.sidebar-header{padding:20px 18px 16px;border-bottom:1px solid var(--m-border)}
+.sidebar-header{padding:16px 18px 14px;border-bottom:1px solid var(--m-border)}
+.sidebar-header-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
 .sidebar-logo{font-size:11px;font-weight:600;letter-spacing:.12em;color:var(--m-text-3);text-transform:uppercase;margin-bottom:2px}
 .sidebar-title{font-size:17px;font-weight:700;color:var(--m-ink)}
+.sidebar-add-icon-btn{width:30px;height:30px;background:var(--m-bg);border:1px dashed var(--m-border);border-radius:50%;color:var(--m-text-3);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;font-family:inherit;line-height:1;margin-top:2px}
+.sidebar-add-icon-btn:hover{background:var(--m-sage-bg);color:var(--m-sage-dk);border-color:var(--m-sage-lt)}
 .sidebar-add-btn{display:flex;align-items:center;gap:6px;width:100%;margin-top:6px;padding:7px 10px;background:var(--m-bg);border:1px dashed var(--m-border);border-radius:var(--radius);color:var(--m-text-2);font-size:13px;cursor:pointer;transition:all .15s;font-family:inherit}
 .sidebar-add-btn:hover{background:var(--m-sage-bg);color:var(--m-sage-dk)}
 /* 一键启动按钮 */
-.now-btn{display:flex;align-items:center;justify-content:center;width:100%;margin-top:10px;padding:10px;background:var(--m-sage-dk);border:none;border-radius:var(--radius);color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit;letter-spacing:.02em;box-shadow:0 2px 8px rgba(94,128,122,.25)}
-.now-btn:hover{background:var(--m-sage);transform:translateY(-1px);box-shadow:0 4px 14px rgba(123,158,151,.35)}
+.now-btn{display:flex;align-items:center;justify-content:center;width:100%;padding:11px;background:var(--navy);border:none;border-radius:var(--radius);color:#fff;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit;letter-spacing:.04em;box-shadow:0 3px 10px rgba(27,45,91,.3);background-image:linear-gradient(135deg,var(--navy-light),var(--navy))}
+.now-btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(27,45,91,.4)}
 /* 子步骤 */
 .substeps-wrap{margin-left:14px;margin-top:0;padding:4px 0 6px 14px;border-left:2px solid var(--border-light)}
 .substep-row{display:flex;align-items:center;gap:8px;padding:3px 0}
@@ -203,18 +206,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
   .mob-back-btn::before{content:'‹';font-size:20px;line-height:1}
 
   /* 课程详情头部精简 */
-  .main-header{padding:12px 14px}
+  .main-header{padding:10px 14px 0}
+  .main-header-row1{gap:8px;margin-bottom:6px}
   .breadcrumb{font-size:11px;margin-bottom:3px}
-  .main-course-title{font-size:17px;margin-bottom:6px;line-height:1.3}
-  .header-meta{flex-wrap:wrap;gap:6px;align-items:center}
-  .overall-bar{width:60px}
-  .overall-pct{font-size:12px}
+  .main-course-title{font-size:16px;line-height:1.3}
+  .main-header-progress{gap:6px}
+  .overall-bar{width:50px;height:4px}
+  .overall-pct{font-size:11px;min-width:26px}
+  .header-meta{flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:6px!important}
 
   /* 操作按钮改为两列网格 */
   .header-actions{
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:5px;margin-top:8px;
+    gap:4px;margin-top:6px;
   }
   .header-actions .btn{
     font-size:11px;padding:6px 4px;
@@ -291,6 +296,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
   /* 仪表盘 */
   .dash-course-name{font-size:12px}
   .dash-section{padding:12px 14px}
+
+  /* 今日推荐任务 - 手机端 */
+  .plan-item{padding:8px 0;gap:8px}
+  .plan-course-tag{max-width:70px;overflow:hidden;text-overflow:ellipsis}
+  .plan-item-title{font-size:12px}
+  .plan-jump-btn{opacity:1!important}
+
+  /* 笔记 Tab */
+  .notes-wrap{padding:12px 14px 24px}
+  .notes-search{max-width:160px;font-size:11px}
+  .note-card2{padding:10px 12px}
+  .note-card2-body{font-size:12px}
 
   /* 统计数字 */
   .stat-val{font-size:16px}
@@ -382,10 +399,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .main::-webkit-scrollbar{width:4px}
 .main::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 
-.main-header{background:#fff;border-bottom:1px solid var(--border-light);padding:18px 28px;flex-shrink:0}
+.main-header{background:#fff;border-bottom:1px solid var(--border-light);padding:16px 28px 0;flex-shrink:0}
+.main-header-row1{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px}
 .breadcrumb{font-size:12px;color:var(--text-muted);margin-bottom:6px}
-.main-course-title{font-size:22px;font-weight:700;color:var(--navy);letter-spacing:-.02em;line-height:1.2;margin-bottom:10px}
-.header-meta{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.main-course-title{font-size:22px;font-weight:700;color:var(--navy);letter-spacing:-.02em;line-height:1.2;flex:1;min-width:0}
+.main-header-progress{display:flex;align-items:center;gap:8px;flex-shrink:0;margin-top:4px}
+.header-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .platform-badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 9px;border-radius:20px;font-weight:500}
 .platform-bilibili{background:#FEE8EE;color:#C44E74}
 .platform-baidu{background:#E8F0FE;color:#2A57CF}
@@ -395,10 +414,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .platform-coursera{background:#EBF3FF;color:#1A56D4}
 .platform-other{background:var(--cream-dark);color:var(--text-secondary)}
 .overall-progress{display:flex;align-items:center;gap:10px;margin-left:auto}
-.overall-bar{width:120px;height:6px;background:var(--cream-dark);border-radius:3px;overflow:hidden}
+.overall-bar{width:80px;height:5px;background:var(--cream-dark);border-radius:3px;overflow:hidden}
 .overall-fill{height:100%;background:var(--teal-light);border-radius:3px;transition:width .4s}
-.overall-pct{font-size:13px;font-weight:600;color:var(--teal);min-width:36px}
-.header-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.overall-pct{font-size:12px;font-weight:700;color:var(--navy);min-width:32px;text-align:right}
+.header-actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border-radius:var(--radius);font-size:13px;cursor:pointer;transition:all .15s;border:none;font-family:inherit}
 .btn-primary{background:var(--m-sage-dk);color:#fff}
 .btn-primary:hover{background:var(--m-sage)}
@@ -795,6 +814,52 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
 .dash-tag-active{background:var(--amber-bg);color:var(--amber)}
 .dash-tag-idle{background:var(--cream-dark);color:var(--text-muted)}
 .dash-tag-warn{background:#FEE8EE;color:#C0392B}
+
+/* ── 今日推荐任务：紧凑单行布局 ── */
+.plan-item{display:flex;align-items:center;gap:10px;padding:9px 0;cursor:default}
+.plan-item-done .plan-item-title{text-decoration:line-through;color:var(--text-muted)}
+.plan-item-body{flex:1;min-width:0;cursor:pointer}
+.plan-item-line{display:flex;align-items:baseline;gap:6px;min-width:0;overflow:hidden}
+.plan-course-tag{font-size:10px;font-weight:700;color:var(--navy);background:var(--b-blue-bg);padding:1px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0;letter-spacing:.02em}
+.plan-item-title{font-size:13px;font-weight:500;color:var(--text-primary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
+.plan-item-meta{display:flex;align-items:center;gap:6px;margin-top:2px}
+.plan-dur{font-size:11px;color:var(--text-muted)}
+.plan-badge-deadline{font-size:10px;background:#FEE8EE;color:#C0392B;padding:1px 5px;border-radius:4px;font-weight:600}
+.plan-badge-doing{font-size:10px;background:var(--amber-bg);color:var(--amber);padding:1px 5px;border-radius:4px;font-weight:600}
+.plan-jump-btn{font-size:12px;padding:3px 6px;opacity:0;transition:opacity .12s;flex-shrink:0}
+.plan-item:hover .plan-jump-btn{opacity:1}
+
+/* ── 笔记 Tab 重排版 ── */
+.notes-wrap{padding:16px 20px 32px}
+.notes-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px}
+.notes-count{font-size:12px;color:var(--text-muted);white-space:nowrap}
+.notes-search{flex:1;max-width:220px;padding:6px 10px;border:1px solid var(--border);border-radius:20px;font-size:12px;font-family:inherit;color:var(--text-primary);background:#fff;transition:border .15s;outline:none}
+.notes-search:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(27,45,91,.08)}
+.notes-unit-group{margin-bottom:20px}
+.notes-unit-header{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;padding:0 0 8px 2px;border-bottom:1px solid var(--border-light);margin-bottom:8px}
+.note-card2{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:12px 14px;margin-bottom:8px;transition:box-shadow .15s}
+.note-card2:hover{box-shadow:0 2px 8px rgba(0,0,0,.07)}
+.note-card2-title{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:8px;display:flex;align-items:baseline;justify-content:space-between;gap:8px;line-height:1.4}
+.note-card2-date{font-size:10px;color:var(--text-muted);font-weight:400;white-space:nowrap}
+.note-card2-body{font-size:13px;color:var(--text-secondary);line-height:1.7}
+.note-card2-body p{margin-bottom:5px}.note-card2-body p:last-child{margin-bottom:0}
+.note-card2-body ul,.note-card2-body ol{padding-left:18px;margin-bottom:5px}
+.note-card2-body li{margin-bottom:2px}
+.note-card2-body code{background:rgba(0,0,0,.05);padding:1px 4px;border-radius:3px;font-size:11px;font-family:Consolas,monospace}
+
+/* ── 归档：书架卡片 ── */
+.shelf-card-complete{opacity:.75}
+.shelf-card-complete:hover{opacity:1}
+.shelf-archive-btn{font-size:10px;font-weight:600;padding:2px 8px;border:1px solid #2D7D52;border-radius:10px;background:#EAF4F0;color:#2D7D52;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
+.shelf-archive-btn:hover{background:#2D7D52;color:#fff}
+
+/* ── 归档：列表项 ── */
+.course-item-complete{opacity:.7}
+.course-item-complete:hover{opacity:1}
+.status-complete{background:#2D7D52}
+.list-archive-btn{float:right;font-size:10px;font-weight:600;padding:1px 7px;border:1px solid #2D7D52;border-radius:8px;background:#EAF4F0;color:#2D7D52;cursor:pointer;font-family:inherit;transition:all .15s;line-height:1.6}
+.list-archive-btn:hover{background:#2D7D52;color:#fff}
+
 .checkin-modal-body{padding:20px}
 .checkin-q{font-size:15px;font-weight:600;color:var(--navy);margin-bottom:16px;line-height:1.5}
 .checkin-preview{background:var(--cream);border-radius:var(--radius);padding:12px 14px;margin-bottom:16px;font-size:12px;color:var(--text-secondary);line-height:1.8}
@@ -924,10 +989,14 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
 <div class="app">
   <div class="sidebar">
     <div class="sidebar-header">
-      <div class="sidebar-logo">学习管理系统</div>
-      <div class="sidebar-title">我的知识库</div>
+      <div class="sidebar-header-top">
+        <div>
+          <div class="sidebar-logo">学习管理系统</div>
+          <div class="sidebar-title">我的知识库</div>
+        </div>
+        <button class="sidebar-add-icon-btn" onclick="openAddCourse()" title="添加课程">＋</button>
+      </div>
       <button class="now-btn" onclick="openNowModal()">▶ 现在学什么</button>
-      <button class="sidebar-add-btn" onclick="openAddCourse()"><span style="font-size:16px">＋</span> 添加课程</button>
     </div>
     
     <div class="level-panel" id="xpPanel"></div>
@@ -949,6 +1018,13 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
         <span class="inbox-arrow">▶</span>
       </div>
       <div class="inbox-body" id="inboxBody" style="max-height:0"></div>
+    </div>
+    <div class="inbox-section" id="archivedSection" style="display:none">
+      <div class="inbox-toggle" id="archivedToggle" onclick="toggleArchived()">
+        <span>📦 已归档 <span id="archivedCount" style="opacity:.5"></span></span>
+        <span class="inbox-arrow">▶</span>
+      </div>
+      <div class="inbox-body" id="archivedBody" style="max-height:0"></div>
     </div>
     <div class="sidebar-footer">
       <div class="stats-row" id="globalStats"></div>
@@ -1788,9 +1864,12 @@ function calcWeeklyHours(){
   return (mins/60).toFixed(1);
 }
 
+// ── 归档判断：isInbox 或 isArchived 的课程都不参与主流程 ──
+function isActiveCourse(c){ return !c.isInbox && !c.isArchived; }
+
 function getTodaysPlan() {
   const plan = []; const seenItems = new Set();
-  courses.filter(c=>!c.isInbox).forEach(c => {
+  courses.filter(isActiveCourse).forEach(c => {
     let itemsLeft = [];
     (c.units||[]).forEach(u => { (u.items||[]).forEach(item => {
         if(item.status !== 'done') itemsLeft.push({courseId: c.id, courseName: c.name, unitId: u.id, unitName: u.name, platform: c.platform, item: item});
@@ -1841,25 +1920,26 @@ function getLastMood(item) {
 
 // 一键启动算法：返回最应该现在做的一条
 function getNowItem() {
+  const active = courses.filter(isActiveCourse);
   // 1. 有活跃计时的
   if(activeTimer) {
-    for(const c of courses) for(const u of c.units||[]) for(const item of u.items||[]) {
+    for(const c of active) for(const u of c.units||[]) for(const item of u.items||[]) {
       if(item.id === activeTimer.itemId) return {courseId:c.id,courseName:c.name,unitId:u.id,unitName:u.name,platform:c.platform,item,reason:'timing'};
     }
   }
   // 2. doing 状态
-  for(const c of courses) for(const u of c.units||[]) for(const item of u.items||[]) {
+  for(const c of active) for(const u of c.units||[]) for(const item of u.items||[]) {
     if(item.status==='doing') return {courseId:c.id,courseName:c.name,unitId:u.id,unitName:u.name,platform:c.platform,item,reason:'doing'};
   }
   // 3. deadline最紧的课的第一条todo
-  const withDl = courses.filter(c=>c.deadline).sort((a,b)=>new Date(a.deadline)-new Date(b.deadline));
+  const withDl = active.filter(c=>c.deadline).sort((a,b)=>new Date(a.deadline)-new Date(b.deadline));
   for(const c of withDl) {
     for(const u of c.units||[]) for(const item of u.items||[]) {
       if(item.status==='todo') return {courseId:c.id,courseName:c.name,unitId:u.id,unitName:u.name,platform:c.platform,item,reason:'deadline'};
     }
   }
   // 4. 任意第一条todo
-  for(const c of courses) for(const u of c.units||[]) for(const item of u.items||[]) {
+  for(const c of active) for(const u of c.units||[]) for(const item of u.items||[]) {
     if(item.status==='todo') return {courseId:c.id,courseName:c.name,unitId:u.id,unitName:u.name,platform:c.platform,item,reason:'next'};
   }
   // 5. 待复习
@@ -2001,25 +2081,27 @@ function renderShelfCard(c){
   const deco=SHELF_TYPE_DECO[c.courseType]||SHELF_TYPE_DECO.default;
   const pct=s.pct, r=15, circ=2*Math.PI*r;
   const dash=Math.round(pct/100*circ);
-  // 色条颜色
   const stripeColor={pose:'#1E3A5F',painting:'#2563EB',software:'#1D4ED8',design:'#4F46E5',general:'#64748B'}[c.courseType||'general']||'#A7823C';
-  // 状态标签样式
   const tagToday=status.tag.includes('今天');
   const tagWarn=status.tag.includes('未动');
   const tagCls=tagToday?'shelf-tag-today':tagWarn?'shelf-tag-warn':'shelf-tag-recent';
-  return `<div class="shelf-card ${typeClass}${isActive?' active-card':''}" onclick="selectCourse(${c.id})">
-    <div class="shelf-card-stripe" style="background:${stripeColor}"></div>
-    <div class="shelf-card-deco">${deco}</div>
+  const isComplete=pct===100&&s.total>0;
+  return `<div class="shelf-card ${typeClass}${isActive?' active-card':''}${isComplete?' shelf-card-complete':''}" onclick="selectCourse(${c.id})">
+    <div class="shelf-card-stripe" style="background:${isComplete?'#2D7D52':stripeColor}"></div>
+    <div class="shelf-card-deco">${isComplete?'✓':deco}</div>
     <div class="shelf-card-name">${esc(c.name)}</div>
     <div class="shelf-card-bottom">
-      <div class="shelf-status-tag ${tagCls}">${status.tag}</div>
+      ${isComplete
+        ?`<button class="shelf-archive-btn" onclick="event.stopPropagation();archiveCourse(${c.id})">归档</button>`
+        :`<div class="shelf-status-tag ${tagCls}">${status.tag}</div>`
+      }
       <div class="shelf-ring">
         <svg width="36" height="36" viewBox="0 0 36 36">
-          <circle cx="18" cy="18" r="${r}" fill="none" stroke="${stripeColor}22" stroke-width="3"/>
-          <circle cx="18" cy="18" r="${r}" fill="none" stroke="${stripeColor}" stroke-width="3"
+          <circle cx="18" cy="18" r="${r}" fill="none" stroke="${isComplete?'#2D7D5222':'${stripeColor}22'}" stroke-width="3"/>
+          <circle cx="18" cy="18" r="${r}" fill="none" stroke="${isComplete?'#2D7D52':stripeColor}" stroke-width="3"
             stroke-dasharray="${dash} ${circ}" stroke-linecap="round" class="shelf-ring-track"/>
         </svg>
-        <div class="shelf-ring-pct">${pct}%</div>
+        <div class="shelf-ring-pct" style="${isComplete?'color:#2D7D52':''}">100%</div>
       </div>
     </div>
   </div>`;
@@ -2029,8 +2111,9 @@ function renderListItem(c){
   const s=getCourseStats(c), isActive=c.id===activeCourseId;
   const status=getCourseStatusInfo(c);
   const tp=getTimeProgress(c);
+  const isComplete=s.pct===100&&s.total>0;
   let timeTrackHtml='';
-  if(tp){
+  if(tp&&!isComplete){
     const behind=tp.status>10,ahead=tp.status<-10;
     const fillColor=behind?'rgba(242,109,109,.75)':ahead?'rgba(42,169,169,.75)':'rgba(212,135,10,.75)';
     const statusTxt=behind?`落后${tp.status}%`:ahead?`超前${-tp.status}%`:'同步';
@@ -2039,11 +2122,16 @@ function renderListItem(c){
       <div class="time-track"><div class="time-fill-task" style="width:${tp.taskPct}%;background:${fillColor}"></div><div class="time-marker" style="left:${tp.timePct}%"></div></div>
     </div>`;
   }
-  return `<div class="course-item${isActive?' active':''}" onclick="selectCourse(${c.id})" style="padding-left:20px">
-    <div class="course-item-status ${status.cls}"></div>
+  return `<div class="course-item${isActive?' active':''}${isComplete?' course-item-complete':''}" onclick="selectCourse(${c.id})" style="padding-left:20px">
+    <div class="course-item-status ${isComplete?'status-complete':status.cls}"></div>
     <div class="course-item-name">${esc(c.name)}</div>
-    <div class="course-progress-bar"><div class="course-progress-fill" style="width:${s.pct}%"></div></div>
-    <div class="course-progress-text">${s.done}/${s.total} · ${s.pct}% <span style="float:right;font-size:10px;opacity:.6">${status.tag}</span></div>
+    <div class="course-progress-bar"><div class="course-progress-fill" style="width:${s.pct}%;background:${isComplete?'#2D7D52':''}"></div></div>
+    <div class="course-progress-text">${s.done}/${s.total} · ${s.pct}%
+      ${isComplete
+        ?`<button class="list-archive-btn" onclick="event.stopPropagation();archiveCourse(${c.id})">归档 📦</button>`
+        :`<span style="float:right;font-size:10px;opacity:.6">${status.tag}</span>`
+      }
+    </div>
     ${timeTrackHtml}
   </div>`;
 }
@@ -2052,12 +2140,13 @@ function renderSidebar(){
   const el=document.getElementById('sidebarCourses');
   const empty=document.getElementById('emptyState');
   const vmBar=document.getElementById('viewModeBar');
-  const activeCourses=courses.filter(c=>!c.isInbox);
+  const activeCourses=courses.filter(isActiveCourse);
   const inboxCourses=courses.filter(c=>c.isInbox);
-  if(!courses.length){el.innerHTML='';empty.style.display='flex';renderInbox(inboxCourses);if(vmBar)vmBar.style.display='none';return;}
+  const archivedCourses=courses.filter(c=>c.isArchived);
+  if(!courses.length){el.innerHTML='';empty.style.display='flex';renderInbox(inboxCourses);renderArchived(archivedCourses);if(vmBar)vmBar.style.display='none';return;}
   empty.style.display='none';
-  if(sidebarView==='search'){renderSearchSidebar(el);renderInbox(inboxCourses);if(vmBar)vmBar.style.display='none';return;}
-  if(sidebarView==='overview'){el.innerHTML='';updateGlobalStats();renderInbox(inboxCourses);if(vmBar)vmBar.style.display='none';return;}
+  if(sidebarView==='search'){renderSearchSidebar(el);renderInbox(inboxCourses);renderArchived(archivedCourses);if(vmBar)vmBar.style.display='none';return;}
+  if(sidebarView==='overview'){el.innerHTML='';updateGlobalStats();renderInbox(inboxCourses);renderArchived(archivedCourses);if(vmBar)vmBar.style.display='none';return;}
   if(vmBar)vmBar.style.display='flex';
   if(courseViewMode==='shelf'){
     el.innerHTML=`<div class="shelf-grid">${activeCourses.map(renderShelfCard).join('')}</div>`;
@@ -2065,6 +2154,7 @@ function renderSidebar(){
     el.innerHTML=activeCourses.map(renderListItem).join('');
   }
   renderInbox(inboxCourses);
+  renderArchived(archivedCourses);
   updateGlobalStats();
 }
 
@@ -2105,11 +2195,56 @@ function activateFromInbox(id){
   saveData();renderAll();showToast('「'+c.name+'」已开始 🚀');
 }
 
+// ── 归档功能 ──
+let archivedOpen=false;
+function toggleArchived(){
+  archivedOpen=!archivedOpen;
+  const body=document.getElementById('archivedBody');
+  const toggle=document.getElementById('archivedToggle');
+  if(!body||!toggle)return;
+  if(archivedOpen){body.style.maxHeight=body.scrollHeight+'px';toggle.classList.add('open');}
+  else{body.style.maxHeight='0';toggle.classList.remove('open');}
+}
+function renderArchived(archivedCourses){
+  const countEl=document.getElementById('archivedCount');
+  const body=document.getElementById('archivedBody');
+  const section=document.getElementById('archivedSection');
+  if(!archivedCourses||!archivedCourses.length){if(countEl)countEl.textContent='';if(section)section.style.display='none';return;}
+  if(section)section.style.display='';
+  if(countEl)countEl.textContent='('+archivedCourses.length+')';
+  if(body){
+    body.innerHTML=archivedCourses.map(c=>`
+      <div class="inbox-item">
+        <div class="inbox-item-name" onclick="selectCourse(${c.id})">${esc(c.name)} <span style="color:#2D7D52;font-size:10px">✓ 100%</span></div>
+        <div class="inbox-item-meta">${c.courseType?({pose:'Pose',painting:'绘画',software:'软件',design:'设计'}[c.courseType]||c.courseType):''}${c.desc?' · '+esc(c.desc):''}</div>
+        <div class="inbox-item-actions">
+          <button class="inbox-act-btn" onclick="unarchiveCourse(${c.id})">恢复</button>
+          <button class="inbox-act-btn" onclick="openEditCourse(${c.id})">编辑</button>
+          <button class="inbox-act-btn" onclick="confirmDeleteCourse(${c.id})" style="color:rgba(255,100,100,.6)">✕</button>
+        </div>
+      </div>`).join('');
+    if(archivedOpen)body.style.maxHeight=body.scrollHeight+'px';
+  }
+}
+function archiveCourse(id){
+  const c=courses.find(x=>x.id===id);if(!c)return;
+  c.isArchived=true;
+  if(activeCourseId===id)activeCourseId=courses.find(isActiveCourse)?.id||null;
+  saveData();renderAll();showToast('「'+c.name+'」已归档 📦');
+}
+function unarchiveCourse(id){
+  const c=courses.find(x=>x.id===id);if(!c)return;
+  c.isArchived=false;activeCourseId=c.id;
+  saveData();renderAll();showToast('「'+c.name+'」已恢复 ↩');
+}
+
 function updateGlobalStats(){
-  const totalDone=courses.reduce((a,c)=>a+getCourseStats(c).done,0);
-  const totalItems=courses.reduce((a,c)=>a+getCourseStats(c).total,0);
+  const active=courses.filter(isActiveCourse);
+  const archived=courses.filter(c=>c.isArchived);
+  const totalDone=active.reduce((a,c)=>a+getCourseStats(c).done,0);
+  const totalItems=active.reduce((a,c)=>a+getCourseStats(c).total,0);
   document.getElementById('globalStats').innerHTML=`
-    <div class="stat-item"><div class="stat-val">${courses.length}</div><div class="stat-label">门课程</div></div>
+    <div class="stat-item"><div class="stat-val">${active.length}</div><div class="stat-label">门课程</div></div>
     <div class="stat-item"><div class="stat-val">${totalDone}</div><div class="stat-label">已完成</div></div>
     <div class="stat-item"><div class="stat-val">${totalItems?Math.round(totalDone/totalItems*100):0}%</div><div class="stat-label">完成率</div></div>`;
 }
@@ -2211,16 +2346,17 @@ function renderMain(){
     <div style="flex-shrink:0">
       ${mobBack}
       <div class="main-header">
-        <div class="breadcrumb">我的课程</div>
-        <div class="main-course-title">${esc(c.name)}</div>
-        <div class="header-meta">
-          <span class="platform-badge platform-${c.platform||'other'}">${platformLabel(c.platform)}</span>
-          ${c.desc?`<span style="font-size:12px;color:var(--text-muted)">${esc(c.desc)}</span>`:''}
-          ${c.link?`<a href="${esc(c.link)}" target="_blank" style="font-size:12px;color:var(--navy-dim);text-decoration:none">🔗 课程主页</a>`:''}
-          <div class="overall-progress">
+        <div class="main-header-row1">
+          <div class="main-course-title">${esc(c.name)}</div>
+          <div class="main-header-progress">
             <div class="overall-bar"><div class="overall-fill" style="width:${s.pct}%"></div></div>
             <span class="overall-pct">${s.pct}%</span>
           </div>
+        </div>
+        <div class="header-meta" style="margin-bottom:10px">
+          <span class="platform-badge platform-${c.platform||'other'}">${platformLabel(c.platform)}</span>
+          ${c.desc?`<span style="font-size:12px;color:var(--text-muted)">${esc(c.desc)}</span>`:''}
+          ${c.link?`<a href="${esc(c.link)}" target="_blank" style="font-size:12px;color:var(--navy-dim);text-decoration:none">🔗 课程主页</a>`:''}
         </div>
         <div class="header-actions">
           <button class="btn btn-outline" onclick="openImport()">⬆ 导入大纲</button>
@@ -2257,7 +2393,7 @@ function renderMain(){
 
 function renderOverview(mainArea){
   const hmap=buildHeatmap(), weekHrs=calcWeeklyHours();
-  const activeCourses=courses.filter(c=>!c.isInbox);
+  const activeCourses=courses.filter(isActiveCourse);
   const totalDone=activeCourses.reduce((a,c)=>a+getCourseStats(c).done,0);
   const totalItems=activeCourses.reduce((a,c)=>a+getCourseStats(c).total,0);
   const plan=getTodaysPlan(), revs=getReviewItems();
@@ -2333,16 +2469,22 @@ function renderOverview(mainArea){
   const planHtml=`<div class="dash-section">
     <div class="dash-section-title">📍 今日推荐任务</div>
     ${planWithTime.length?planWithTime.map((n,idx)=>`
-      <div class="item-row ${n.item.status}" style="padding:10px 0;${idx<planWithTime.length-1?'border-bottom:1px solid var(--cream-dark)':''}">
-        <div class="item-check ${n.item.status}" onclick="event.stopPropagation();toggleItem(${n.unitId},${n.item.id},event)" style="margin-right:12px;margin-top:2px">
+      <div class="plan-item ${n.item.status==='done'?'plan-item-done':''}" style="${idx<planWithTime.length-1?'border-bottom:1px solid var(--cream-dark)':''}">
+        <div class="item-check ${n.item.status}" onclick="event.stopPropagation();toggleItem(${n.unitId},${n.item.id},event)" style="flex-shrink:0">
           <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
-        <div style="flex:1;cursor:pointer;min-width:0" onclick="jumpToItem(${n.courseId},${n.unitId},${n.item.id})">
-          <div class="ov-next-course">${esc(n.courseName)}</div>
-          <div style="font-size:13px;font-weight:500;color:var(--text-primary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(n.item.title)}</div>
+        <div class="plan-item-body" onclick="jumpToItem(${n.courseId},${n.unitId},${n.item.id})">
+          <div class="plan-item-line">
+            <span class="plan-course-tag">${esc(n.courseName)}</span>
+            <span class="plan-item-title">${esc(n.item.title)}</span>
+          </div>
+          <div class="plan-item-meta">
+            <span class="plan-dur">~${n.estMins}min</span>
+            ${n.reason==='deadline'?'<span class="plan-badge-deadline">截止优先</span>':''}
+            ${n.reason==='doing'?'<span class="plan-badge-doing">进行中</span>':''}
+          </div>
         </div>
-        <span style="font-size:11px;color:var(--text-muted);white-space:nowrap;margin:0 8px">~${n.estMins}min</span>
-        <button class="btn btn-ghost" style="font-size:11px;padding:4px 8px" onclick="jumpToItem(${n.courseId},${n.unitId},${n.item.id})">↗</button>
+        <button class="btn btn-ghost plan-jump-btn" onclick="jumpToItem(${n.courseId},${n.unitId},${n.item.id})" title="跳转">↗</button>
       </div>`).join('')
     :'<div style="padding:20px 0;text-align:center;color:var(--text-muted);font-size:13px">🎉 今日没有必须赶进度的任务</div>'}
   </div>`;
@@ -2402,7 +2544,7 @@ function openWrapup(){
   // 汇总今日学习内容
   const rows=[];
   const dotColors={video:'#2A57CF',practice:'#2D7D52',routine:'#D4870A',creation:'#7331B5',prep:'#C0392B'};
-  courses.filter(c=>!c.isInbox).forEach(c=>{
+  courses.filter(isActiveCourse).forEach(c=>{
     (c.units||[]).forEach(u=>(u.items||[]).forEach(item=>{
       let mins=0;
       [...(item.studyLog||[]),...(item.practiceLog||[]),...(item.checkIns||[])].forEach(l=>{if(l.date===todayStr)mins+=l.minutes||0;});
@@ -2836,12 +2978,56 @@ function inlineEditLink(unitId,itemId,spanEl){
 }
 
 function renderNotesTab(el){
-  const notes=getAllNotes();
-  if(!notes.length){el.innerHTML=`<div class="notes-container"><div class="empty-state" style="padding:40px 0"><div class="empty-title">还没有笔记</div></div></div>`;return;}
-  el.innerHTML=`<div class="notes-container">${notes.map(n=>`<div class="note-card">
-    <div class="note-card-meta"><span class="note-card-source">${esc(n.unitName)} · ${esc(n.itemTitle)}</span>${n.date?`<span class="note-card-date">${n.date}</span>`:''}</div>
-    <div class="markdown-body" style="font-size:13px;color:var(--text-secondary);line-height:1.6">${marked.parse(n.note)}</div>
-  </div>`).join('')}</div>`;
+  const c=courses.find(x=>x.id===activeCourseId);if(!c){el.innerHTML='';return;}
+  // 收集带笔记的条目，按单元分组
+  const byUnit=[];
+  (c.units||[]).forEach(u=>{
+    const items=[];
+    (u.items||[]).forEach(item=>{
+      if(item.note&&item.note.trim())items.push(item);
+    });
+    if(items.length)byUnit.push({unit:u,items});
+  });
+  const totalCount=byUnit.reduce((a,g)=>a+g.items.length,0);
+  if(!totalCount){
+    el.innerHTML=`<div class="notes-wrap"><div class="empty-state" style="padding:40px 0"><div class="empty-title">还没有笔记</div><div class="empty-desc">在课程内容里点击条目右侧的 📝 图标可添加笔记</div></div></div>`;
+    return;
+  }
+
+  function buildHtml(filterQ=''){
+    const ql=filterQ.trim().toLowerCase();
+    let html='';
+    byUnit.forEach(({unit,items})=>{
+      const matched=ql?items.filter(i=>(i.note||'').toLowerCase().includes(ql)||(i.title||'').toLowerCase().includes(ql)):items;
+      if(!matched.length)return;
+      html+=`<div class="notes-unit-group">
+        <div class="notes-unit-header">${esc(unit.name)}</div>
+        ${matched.map(item=>{
+          const noteHtml=ql?marked.parse(item.note).replace(new RegExp('('+filterQ.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<mark>$1</mark>'):marked.parse(item.note);
+          return`<div class="note-card2">
+            <div class="note-card2-title">${esc(item.title)}${item.doneDate?`<span class="note-card2-date">${item.doneDate}</span>`:''}</div>
+            <div class="note-card2-body markdown-body">${noteHtml}</div>
+          </div>`;
+        }).join('')}
+      </div>`;
+    });
+    return html||`<div style="padding:24px;text-align:center;color:var(--text-muted);font-size:13px">没有匹配「${esc(filterQ)}」的笔记</div>`;
+  }
+
+  el.innerHTML=`<div class="notes-wrap">
+    <div class="notes-toolbar">
+      <span class="notes-count">${totalCount} 条笔记</span>
+      <input class="notes-search" id="notesSearchInput" placeholder="🔍 搜索笔记..." oninput="filterNotes(this.value)">
+    </div>
+    <div id="notesGroupArea">${buildHtml()}</div>
+  </div>`;
+
+  // 挂到 window 方便 oninput 调用
+  window._notesBuildHtml=buildHtml;
+}
+function filterNotes(q){
+  const area=document.getElementById('notesGroupArea');
+  if(area&&window._notesBuildHtml)area.innerHTML=window._notesBuildHtml(q);
 }
 
 function renderAssignmentsTab(el){
@@ -4978,7 +5164,7 @@ function saveQuickNote(itemId, unitId) {
 // ─────────────────────────────────────────
 function checkNewCourseTrap() {
   if(courses.length < 2) return false; // 才一门课不触发
-  const activeCourses = courses.filter(c=>getCourseStats(c).total > 0);
+  const activeCourses = courses.filter(c=>isActiveCourse(c)&&getCourseStats(c).total > 0);
   if(activeCourses.length < 2) return false;
   const avgPct = activeCourses.reduce((a,c)=>a+getCourseStats(c).pct, 0) / activeCourses.length;
   if(avgPct >= 30) return false; // 平均完成率 >= 30%，不触发
