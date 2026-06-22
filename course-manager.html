@@ -334,7 +334,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .shelf-status-tag{font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;white-space:nowrap}
 .shelf-tag-today{background:var(--r-blue-bg,#E6F2F6);color:var(--r-blue,#07688A)}
 .shelf-tag-recent{background:var(--r-bg-warm,#DDD4C8);color:var(--r-text-2,#6A5E54)}
-.shelf-tag-warn{background:var(--r-red-bg,#FAEDE9);color:var(--r-red,#C03E22)}
+.shelf-tag-warn{background:#FEF3C7;color:#D97706}
+.shelf-tag-warn-red{background:#FAEDE9;color:#C03E22}
 .shelf-tag-new{background:var(--r-bg-warm,#DDD4C8);color:var(--r-text-3,#A89E95)}
 .shelf-card-deco{position:absolute;right:-6px;top:-6px;font-size:40px;opacity:.07;pointer-events:none}
 /* 课程类型色条颜色 */
@@ -742,6 +743,10 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
 .form-textarea.note-area {min-height: 200px; font-family: Consolas, "PingFang SC", monospace; line-height: 1.6; font-size: 13px;}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:9px 18px;border-radius:20px;font-size:13px;font-weight:500;opacity:0;transition:all .3s;pointer-events:none;z-index:200;box-shadow:0 4px 12px rgba(0,0,0,0.2)}
+.toast-action{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:9px 8px 9px 18px;border-radius:20px;font-size:13px;font-weight:500;opacity:0;transition:all .3s;pointer-events:none;z-index:201;box-shadow:0 4px 16px rgba(0,0,0,0.25);display:flex;align-items:center;gap:10px;white-space:nowrap}
+.toast-action.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
+.toast-action #toastActionBtn{background:rgba(255,255,255,0.18);border:none;color:#fff;padding:4px 12px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s}
+.toast-action #toastActionBtn:hover{background:rgba(255,255,255,0.3)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* ═══ 风险卡片 Risk Card ═══ */
@@ -813,7 +818,9 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
 .dash-tag-done{background:#EAF4F0;color:#2D7D52}
 .dash-tag-active{background:var(--amber-bg);color:var(--amber)}
 .dash-tag-idle{background:var(--cream-dark);color:var(--text-muted)}
-.dash-tag-warn{background:#FEE8EE;color:#C0392B}
+.dash-tag-cool{background:#F3F4F6;color:#9CA3AF}
+.dash-tag-warn{background:#FEF3C7;color:#D97706}
+.dash-tag-warn-red{background:#FEE8EE;color:#C0392B}
 
 /* ── 今日推荐任务：紧凑单行布局 ── */
 .plan-item{display:flex;align-items:center;gap:10px;padding:9px 0;cursor:default}
@@ -1049,6 +1056,10 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
   </div>
 </div>
 <div class="toast" id="toast"></div>
+<div class="toast-action" id="toastAction">
+  <span id="toastActionMsg"></span>
+  <button id="toastActionBtn" onclick="handleToastAction()"></button>
+</div>
 
 <!-- ═══ PWA 安装横幅 ═══ -->
 <div class="pwa-banner" id="pwaBanner">
@@ -1376,10 +1387,16 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
           <button class="plm-mastery-btn" data-val="4" onclick="selectMastery(4)" style="padding:6px 14px;border-radius:8px;border:2px solid #ddd;background:#EEF4FF;color:#2A4080;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit"><div>掌握</div><div style="font-size:10px;font-weight:400;margin-top:2px">有判断，能变体</div></button>
         </div>
       </div>
-      <!-- 循环阶段 + 能力维度 -->
+      <!-- 循环阶段 + 能力维度（可选折叠） -->
+      <div style="margin-bottom:12px">
+        <button onclick="togglePlmOptional()" id="plm_optional_toggle" style="background:none;border:1px dashed var(--border);color:var(--text-muted);font-size:12px;padding:5px 12px;border-radius:8px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px">
+          <span id="plm_optional_arrow">▸</span> 添加阶段 / 维度标签（可选）
+        </button>
+      </div>
+      <div id="plm_optional_fields" style="display:none">
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">本次处于哪个循环阶段？</label>
+          <label class="form-label">本次处于哪个循环阶段？<span style="font-weight:400;color:var(--text-muted);font-size:11px;margin-left:4px">可跳过</span></label>
           <div style="display:flex;gap:6px;flex-wrap:wrap" id="plm_cycle_btns">
             <button class="plm-cycle-btn" data-val="try"     onclick="selectCycle('try')"    >🔴 尝试<span>第一次摸这个</span></button>
             <button class="plm-cycle-btn" data-val="analyze" onclick="selectCycle('analyze')" >🟡 分析<span>找到问题在哪</span></button>
@@ -1388,7 +1405,7 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
           </div>
         </div>
         <div class="form-group">
-          <label class="form-label">练的是哪个能力维度？</label>
+          <label class="form-label">练的是哪个能力维度？<span style="font-weight:400;color:var(--text-muted);font-size:11px;margin-left:4px">可跳过</span></label>
           <div style="display:flex;gap:6px;flex-wrap:wrap" id="plm_dim_btns">
             <button class="plm-dim-btn" data-val="shape"    onclick="selectDim('shape')"   >📐 型<span>形状/结构准确</span></button>
             <button class="plm-dim-btn" data-val="value"    onclick="selectDim('value')"   >⬛ 明度<span>黑白关系/体积</span></button>
@@ -1397,6 +1414,7 @@ mark{background:var(--amber-bg);color:var(--amber);border-radius:2px;padding:0 2
           </div>
         </div>
       </div>
+      </div><!-- /plm_optional_fields -->
       <div class="form-row">
         <div class="form-group"><label class="form-label">练习时长（分钟）</label><input type="number" class="form-input" id="plm_minutes" min="1" placeholder="30"></div>
         <div class="form-group"><label class="form-label">日期</label><input type="date" class="form-input" id="plm_date"></div>
@@ -1606,7 +1624,7 @@ let chkUnitId=null, chkItemId=null;
 // ── 新增 v5：番茄钟 / 计时结束弹窗 / 情绪 ──
 let timerTarget=0;
 let timerPendingCourseId=null, timerPendingUnitId=null, timerPendingItemId=null;
-let temCourseId=null, temUnitId=null, temItemId=null, temSelectedMood=null;
+let temCourseId=null, temUnitId=null, temItemId=null, temSelectedMood=null, temElapsed=0;
 // ── 新增 v6：风险检测状态 ──
 let lastInteractionTime = Date.now();  // 最后一次界面操作时间
 let lastRealActivityTime = Date.now(); // 最后一次真实学习（计时/打卡）时间
@@ -1869,13 +1887,35 @@ function isActiveCourse(c){ return !c.isInbox && !c.isArchived; }
 
 function getTodaysPlan() {
   const plan = []; const seenItems = new Set();
-  courses.filter(isActiveCourse).forEach(c => {
+  const active = courses.filter(isActiveCourse);
+
+  // 0. lastStudied 对应的条目优先进入推荐（无论有无 deadline）
+  if(cfg.lastStudied) {
+    const ls = cfg.lastStudied;
+    for(const c of active) {
+      if(c.id !== ls.courseId) continue;
+      for(const u of c.units||[]) {
+        if(u.id !== ls.unitId) continue;
+        for(const item of u.items||[]) {
+          if(item.id === ls.itemId && item.status !== 'done' && !seenItems.has(item.id)) {
+            plan.push({courseId:c.id, courseName:c.name, unitId:u.id, unitName:u.name, platform:c.platform, item, reason:'last'});
+            seenItems.add(item.id);
+          }
+        }
+      }
+    }
+  }
+
+  active.forEach(c => {
     let itemsLeft = [];
     (c.units||[]).forEach(u => { (u.items||[]).forEach(item => {
         if(item.status !== 'done') itemsLeft.push({courseId: c.id, courseName: c.name, unitId: u.id, unitName: u.name, platform: c.platform, item: item});
     });});
     if(!itemsLeft.length) return;
-    itemsLeft.filter(x => x.item.status === 'doing').forEach(x => { plan.push(x); seenItems.add(x.item.id); });
+    // doing 状态无论有无 deadline 都进推荐
+    itemsLeft.filter(x => x.item.status === 'doing').forEach(x => {
+      if(!seenItems.has(x.item.id)) { plan.push(x); seenItems.add(x.item.id); }
+    });
     if(c.deadline) {
       const daysLeft = Math.max(1, Math.ceil((new Date(c.deadline) - new Date())/(1000*3600*24)));
       const needToday = Math.ceil(itemsLeft.length / daysLeft);
@@ -1921,6 +1961,20 @@ function getLastMood(item) {
 // 一键启动算法：返回最应该现在做的一条
 function getNowItem() {
   const active = courses.filter(isActiveCourse);
+  // 0. lastStudied 优先——上次在哪继续在哪
+  if(cfg.lastStudied) {
+    const ls = cfg.lastStudied;
+    for(const c of active) {
+      if(c.id !== ls.courseId) continue;
+      for(const u of c.units||[]) {
+        if(u.id !== ls.unitId) continue;
+        for(const item of u.items||[]) {
+          if(item.id === ls.itemId && item.status !== 'done')
+            return {courseId:c.id, courseName:c.name, unitId:u.id, unitName:u.name, platform:c.platform, item, reason:'last'};
+        }
+      }
+    }
+  }
   // 1. 有活跃计时的
   if(activeTimer) {
     for(const c of active) for(const u of c.units||[]) for(const item of u.items||[]) {
@@ -2067,7 +2121,9 @@ function getCourseStatusInfo(c){
   if(hasToday) return {tag:`今天 ${todayMins?todayMins+'min':'✓'}`, cls:'status-today', deco:'🟢'};
   if(daysSince<=1) return {tag:'昨天', cls:'status-recent', deco:'🟡'};
   if(daysSince<=6) return {tag:daysSince+'天前', cls:'status-recent', deco:'🟡'};
-  if(daysSince>=7&&latestDate) return {tag:daysSince+'天未动', cls:'status-idle', deco:'🔴'};
+  if(daysSince>=21&&latestDate) return {tag:daysSince+'天未动', cls:'status-idle-red', deco:'🔴'};
+  if(daysSince>=14&&latestDate) return {tag:daysSince+'天未动', cls:'status-idle-orange', deco:'🟠'};
+  if(daysSince>=7&&latestDate) return {tag:daysSince+'天未动', cls:'status-idle', deco:'⚪'};
   return {tag:'未开始', cls:'status-none', deco:'⚪'};
 }
 
@@ -2083,8 +2139,10 @@ function renderShelfCard(c){
   const dash=Math.round(pct/100*circ);
   const stripeColor={pose:'#1E3A5F',painting:'#2563EB',software:'#1D4ED8',design:'#4F46E5',general:'#64748B'}[c.courseType||'general']||'#A7823C';
   const tagToday=status.tag.includes('今天');
-  const tagWarn=status.tag.includes('未动');
-  const tagCls=tagToday?'shelf-tag-today':tagWarn?'shelf-tag-warn':'shelf-tag-recent';
+  const tagWarnRed=status.cls==='status-idle-red';
+  const tagWarnOrange=status.cls==='status-idle-orange';
+  const tagWarnGray=status.cls==='status-idle';
+  const tagCls=tagToday?'shelf-tag-today':tagWarnRed?'shelf-tag-warn-red':tagWarnOrange?'shelf-tag-warn':'shelf-tag-recent';
   const isComplete=pct===100&&s.total>0;
   return `<div class="shelf-card ${typeClass}${isActive?' active-card':''}${isComplete?' shelf-card-complete':''}" onclick="selectCourse(${c.id})">
     <div class="shelf-card-stripe" style="background:${isComplete?'#2D7D52':stripeColor}"></div>
@@ -2455,7 +2513,9 @@ function renderOverview(mainArea){
     let tag,tagClass,dot;
     if(hasActivity){tag=todayMinsCourse+'min ✓';tagClass='dash-tag-done';dot='#2D7D52';}
     else if(daysSince===0){tag='今日已动';tagClass='dash-tag-active';dot='var(--amber)';}
-    else if(daysSince>=7){tag=daysSince+'天未动';tagClass='dash-tag-warn';dot='#C0392B';}
+    else if(daysSince>=21){tag=daysSince+'天未动';tagClass='dash-tag-warn-red';dot='#C0392B';}
+    else if(daysSince>=14){tag=daysSince+'天未动';tagClass='dash-tag-warn';dot='#D97706';}
+    else if(daysSince>=7){tag=daysSince+'天未动';tagClass='dash-tag-cool';dot='#9CA3AF';}
     else{tag=daysSince===999?'未开始':`${daysSince}天前`;tagClass='dash-tag-idle';dot='#bbb';}
     return`<div class="dash-course-row" onclick="selectCourse(${c.id})">
       <div class="dash-course-dot" style="background:${dot}"></div>
@@ -3351,8 +3411,8 @@ function openNowModal() {
     </div>`;
     openModal('nowModal'); return;
   }
-  const reasonMap = {timing:'⏱ 计时进行中',doing:'🔄 进行中',deadline:'⚡ Deadline最紧',next:'▶ 接下来',review:'🔁 待复习'};
-  const reasonColor = {timing:'#2A4080',doing:'#D4870A',deadline:'#C0392B',next:'#2D7D52',review:'#7331B5'};
+  const reasonMap = {last:'↩ 继续上次',timing:'⏱ 计时进行中',doing:'🔄 进行中',deadline:'⚡ Deadline最紧',next:'▶ 接下来',review:'🔁 待复习'};
+  const reasonColor = {last:'#5B6B8A',timing:'#2A4080',doing:'#D4870A',deadline:'#C0392B',next:'#2D7D52',review:'#7331B5'};
   const item = target.item;
   const lastMood = getLastMood(item);
   const moodAlert = lastMood==='blocked' ? `<div style="padding:10px 16px;background:#FFF8E8;font-size:12px;color:#9A6200;border-bottom:1px solid var(--border)">⚡ 上次在这里卡住了——要不要先定5分钟热身？</div>` : '';
@@ -3463,6 +3523,11 @@ function openPracticeLog(unitId, itemId) {
   document.getElementById('plm_date').value = today();
   document.getElementById('plm_reflection').value = '';
   document.getElementById('plm_artifacts').value = '';
+  // 每次打开折叠可选区域
+  const optFields = document.getElementById('plm_optional_fields');
+  const optArrow = document.getElementById('plm_optional_arrow');
+  if(optFields) optFields.style.display = 'none';
+  if(optArrow) optArrow.textContent = '▸';
 
   const isPose = (c.courseType || '') === 'pose';
   const titleLower = item.title.toLowerCase();
@@ -3782,22 +3847,13 @@ function toggleTimer(courseId, unitId, itemId) {
     // 结束计时 → 打开结束弹窗
     clearInterval(activeTimer.timerId);
     const elapsed = Math.ceil((Date.now() - activeTimer.startTime) / 60000);
+    // 先缓存数据，不立即弹窗
     temCourseId=courseId; temUnitId=unitId; temItemId=itemId; temSelectedMood=null;
-    document.getElementById('tem_title').textContent = '本次专注结束';
-    document.getElementById('tem_minutes').value = Math.max(1, elapsed);
-    document.getElementById('tem_progress').value = 'none';
-    document.getElementById('tem_note').value = '';
-    document.getElementById('tem_block_tip').style.display = 'none';
-    // 检查上次是否卡住
-    const c=courses.find(x=>x.id===courseId);
-    if(c){const u=c.units.find(x=>x.id===unitId);if(u){const item=u.items.find(x=>x.id===itemId);if(item){
-      const lastMood = getLastMood(item);
-      if(lastMood==='blocked') document.getElementById('tem_block_tip').style.display='';
-    }}}
-    // 重置情绪按钮
-    document.querySelectorAll('.mood-btn').forEach(b=>{b.style.borderColor='#ddd';b.style.transform='scale(1)';});
+    temElapsed = elapsed;
     activeTimer = null;
-    openModal('timerEndModal');
+    renderAll();
+    // Toast + 「记录」按钮，用户主动触发才开弹窗
+    showToastWithAction(`⏹ 专注结束 · ${elapsed} 分钟`, '记录', () => openTimerEndModal());
   } else {
     // 开始计时 → 打开目标设置弹窗
     if(activeTimer) { showToast('请先结束当前计时任务！'); return; }
@@ -5316,6 +5372,45 @@ function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/<
 function openModal(id){document.getElementById(id).classList.remove('hidden');}
 function closeModal(id){ document.getElementById(id).classList.add('hidden'); if(id === 'playerModal') closePlayer(); }
 let toastTimer;function showToast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2200);}
+let toastActionTimer, toastActionCallback;
+function showToastWithAction(msg, btnLabel, callback) {
+  const el = document.getElementById('toastAction');
+  document.getElementById('toastActionMsg').textContent = msg;
+  document.getElementById('toastActionBtn').textContent = btnLabel;
+  toastActionCallback = callback;
+  el.classList.add('show');
+  clearTimeout(toastActionTimer);
+  // 8秒后自动收起（比普通toast久，用户有时间反应）
+  toastActionTimer = setTimeout(() => el.classList.remove('show'), 8000);
+}
+function togglePlmOptional() {
+  const fields = document.getElementById('plm_optional_fields');
+  const arrow = document.getElementById('plm_optional_arrow');
+  const isHidden = fields.style.display === 'none';
+  fields.style.display = isHidden ? 'block' : 'none';
+  arrow.textContent = isHidden ? '▾' : '▸';
+}
+function handleToastAction() {
+  document.getElementById('toastAction').classList.remove('show');
+  clearTimeout(toastActionTimer);
+  if(toastActionCallback) toastActionCallback();
+  toastActionCallback = null;
+}
+function openTimerEndModal() {
+  const elapsed = temElapsed;
+  document.getElementById('tem_title').textContent = '本次专注结束';
+  document.getElementById('tem_minutes').value = Math.max(1, elapsed);
+  document.getElementById('tem_progress').value = 'none';
+  document.getElementById('tem_note').value = '';
+  document.getElementById('tem_block_tip').style.display = 'none';
+  const c=courses.find(x=>x.id===temCourseId);
+  if(c){const u=c.units.find(x=>x.id===temUnitId);if(u){const item=u.items.find(x=>x.id===temItemId);if(item){
+    const lastMood = getLastMood(item);
+    if(lastMood==='blocked') document.getElementById('tem_block_tip').style.display='';
+  }}}
+  document.querySelectorAll('.mood-btn').forEach(b=>{b.style.borderColor='#ddd';b.style.transform='scale(1)';});
+  openModal('timerEndModal');
+}
 document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)closeModal(o.id);}));
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay:not(.hidden)').forEach(el=>closeModal(el.id));});
 
